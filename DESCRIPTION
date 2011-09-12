@@ -1,0 +1,20 @@
+Package: R.utils
+Type: Package
+Title: A library for various utility functions
+Version: 0.1.0
+Date: 2011-09-09
+Author: Gerhard Schöfl <gschofl@yahoo.de>
+Maintainer: Gerhard Schöfl <gschofl@yahoo.de>
+Description: Functions that I find useful. Some code is
+    pinched from various places on the web.
+License: MIT
+LazyLoad: yes
+Imports:
+    iterators,
+    foreach,
+    devtools,
+    stringr
+Collate:
+    'general.R'
+    'repackage.R'
+    'utilities.R'

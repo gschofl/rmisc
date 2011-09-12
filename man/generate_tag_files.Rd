@@ -1,0 +1,21 @@
+\name{generate_tag_files}
+\alias{generate_tag_files}
+\title{generate tag files}
+\usage{
+  \code{generate_tag_files()}
+}
+\description{
+  generate tag files for use with the \emph{Vim-R-plugin}.
+  Depends on setting three \emph{options} in e.g.
+  \file{.Rprofile}: \itemize{ \item vim path to your
+  \file{~/.vim/} directory \item packages path to a
+  directory containing all the R source code, e.g.
+  \file{~/R/packages} \item devel path to your own
+  development directory, e.g. \file{~/E/Devel}.
+}
+\details{
+  generate_tag_files will look recursively for R code in
+  the specified directories and in the case of
+  \code{packages} also for C, Fortran, Java and Tcl code
+}
+
