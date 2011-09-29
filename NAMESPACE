@@ -1,5 +1,6 @@
 export(":=")
 export(generate_tag_files)
+export(init_project)
 export(install_bioc)
 export(install_packages)
 export(list_dirs)

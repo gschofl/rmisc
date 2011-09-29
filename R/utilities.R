@@ -1,3 +1,31 @@
+##' initialise a ProjectTemplate project
+##'
+##' use \code{init_project("path_to_project_root")} to generate
+##' tags for the project and to load the project
+##'
+##' @param project_root path to the root directory of the project
+##' @param src_dirs directories containing source files
+##'
+##' @export
+init_project <- function (project_root=".",
+                          src_dirs=c("diagnostics", 
+                                     "lib",
+                                     "munge",
+                                     "profiling",
+                                     "src",
+                                     "tests")) {
+  require('ProjectTemplate')
+  setwd(project_root)
+  if(!all(file.exists(file.path(getwd(), src_dirs))))
+    stop("Not a valid project directory")
+  src_path <- file.path(getwd(), src_dirs)
+  tag_path <- file.path(src_path, "TAGS")
+  rtags(path=src_path, recursive=TRUE, ofile="TAGS")
+  file.remove(tag_path[file.exists(tag_path)])
+  file.symlink(from=file.path(getwd(), "TAGS"), to=tag_path)
+  load.project()
+}
+
 #' generate tag files
 #'
 #' generate tag files for use with the \emph{Vim-R-plugin}.
@@ -174,7 +202,7 @@ list_files_rec <- function(path=".",
   # find directories
   dirs <- list_dirs(path, dir_pattern, full.names=TRUE)
   # exclude some directories from the selection
-  if(nchar(exclude_pattern) > 0) {
+  if(!is.null(exclude_pattern)) {
     dirs <- dirs[!grepl(exclude_pattern, dirs)]
   }
   # construct a list containing the full paths to files
