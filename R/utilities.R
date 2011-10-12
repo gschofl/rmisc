@@ -220,7 +220,7 @@ list_files_rec <- function(path=".",
 #' @param ... Arguments passed on to \code{\link{list.files}}
 #' @export
 list_dirs <- function(path, ...) {
-    list.files(path, ...)[file.info(list.files(path, ...))$isdir]
+    list.files(path, ...)[file.info(list.files(path, full.names=TRUE))$isdir]
 }
 
 # --R-- vim:ft=r:sw=2:sts=2:ts=4:tw=76:
