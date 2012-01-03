@@ -3,7 +3,7 @@
 \title{list files recursively}
 \usage{
   list_files_rec(path = ".", dir_pattern = NULL,
-  exclude_pattern = NULL, file_pattern = NULL)
+    exclude_pattern = NULL, file_pattern = NULL)
 }
 \arguments{
   \item{path}{character vector of path names}

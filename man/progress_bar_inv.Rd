@@ -1,6 +1,6 @@
 \name{progress_bar_inv}
 \alias{progress_bar_inv}
-\title{plot a progress bar backwords}
+\title{plot a progress bar backwards}
 \usage{
   progress_bar_inv(...)
 }
@@ -8,7 +8,7 @@
   \item{...}{Arguments passed on to \code{progress_bar}}
 }
 \description{
-  plot a progress bar backwords
+  plot a progress bar backwards
 }
 \seealso{
   wrapper for \code{\link{progress_bar}}

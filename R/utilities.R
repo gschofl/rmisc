@@ -14,7 +14,7 @@ init_project <- function (project_root=".",
                                      "profiling",
                                      "src",
                                      "tests")) {
-  require('ProjectTemplate')
+  stopifnot(require(ProjectTemplate))
   setwd(project_root)
   if(!all(file.exists(file.path(getwd(), src_dirs))))
     stop("Not a valid project directory")
@@ -26,21 +26,21 @@ init_project <- function (project_root=".",
   load.project()
 }
 
-#' generate tag files
-#'
-#' generate tag files for use with the \emph{Vim-R-plugin}.
-#' Depends on setting three \emph{options} in e.g. \file{.Rprofile}:
-#' \itemize{
-#'    \item \code{vim} path to your \file{~/.vim/} directory
-#'    \item \code{packages} path to a directory containing all the R source code,
-#'        e.g. \file{~/R/packages}
-#'    \item \code{devel} path to your own development directory, e.g.
-#'        \file{~/E/Devel}.
-#'
-#' generate_tag_files will look recursively for R code in the specified directories
-#' and in the case of \code{packages} also for C, Fortran, Java and Tcl code
-#' @usage \code{generate_tag_files()}
-#' @export
+##' generate tag files
+##'
+##' generate tag files for use with the \emph{Vim-R-plugin}.
+##' Depends on setting three \emph{options} in \file{.Rprofile}:
+##' \itemize{
+##'    \item \code{vim} path to your \file{~/.vim/} directory
+##'    \item \code{packages} path to a directory containing all the R source code,
+##'        e.g. \file{~/R/packages}
+##'    \item \code{devel} path to your own development directory, e.g.
+##'        \file{~/R/Devel}.
+##'
+##' generate_tag_files will look recursively for R code in the specified directories
+##' and in the case of \code{packages} also for C, Fortran, Java and Tcl code
+##' @usage \code{generate_tag_files()}
+##' @export
 generate_tag_files <- function() {
   stopifnot(require(stringr))
   print("Building Tags ...")
@@ -55,70 +55,58 @@ generate_tag_files <- function() {
                str_c(getOption("vim"), "RTAGS"))
   file.symlink(str_c(getOption("packages"), "RTAGS_DEVEL"),
                str_c(getOption("vim"), "RTAGS_DEVEL"))
-  system(paste("ctags --languages=C,Fortran,Java,Tcl -R -f RsrcTags",
+  system(paste("/usr/bin/ctags --languages=C,C++,Fortran,Java -R -f RsrcTags",
                getOption("packages")))
   file.symlink(str_c(getOption("packages"), "RsrcTags"),
                str_c(getOption("vim"), "RsrcTags"))
   setwd(curr_dir)                      # get us back there ...
 }
 
-#' customised \code{\link[utils]{install.packages}}
-#'
-#' Puts source code in a specified \emph{packages} directory and
-#' calls \code{\link{generate_tag_files}}
-#'
-#' @param pkgs character vector of package names
-#' @param ... Arguments to be passed on to \code{\link[utils]{install.packages}}
-#' @param Tags if \code{TRUE} call \code{\link{generate_tag_files}}
-#' @export
-install_packages <- function(pkgs, ..., Tags=TRUE) {
-  stopifnot(require(foreach))
+##' customised \code{\link[utils]{install.packages}}
+##'
+##' Puts source code in a specified \emph{packages} directory and
+##' calls \code{\link{generate_tag_files}}
+##'
+##' @param pkgs character vector of package names
+##' @param ... Arguments to be passed on to \code{\link[utils]{install.packages}}
+##' @param tags if \code{TRUE} call \code{\link{generate_tag_files}}
+##' @param bioc if \code{TRUE} install from Bioconductor
+##'
+##' @export
+install_packages <- function(pkgs, ..., tags=TRUE, bioc=FALSE) {
+  stopifnot(suppressPackageStartupMessages(require(foreach)))
+  if (isTRUE(bioc))  source("http://bioconductor.org/biocLite.R")
   curr_dir <- getwd()
   setwd(getOption("packages"))
-  if (Tags == TRUE) {
-    install.packages(pkgs, destdir=".", ...)
-    files <- list.files(".", full.names=TRUE)
-    tarballs <- files[grepl(".*tar\\.gz$", files)]
-    dirs <- files[file.info(files)$isdir]
-    newtars <- tarballs[!grepl(paste(basename(dirs), collapse="|"),
-                               basename(tarballs))]
-    if (length(newtars)) {
-      foreach(f=iter(newtars)) %do% untar(f)
-      generate_tag_files()
+  if (isTRUE(tags)) {
+    ## if the package is present in the packages directory delete
+    ## it and do a fresh install
+    rm.files <- list.files(".", full.names=TRUE)
+    rm.files <- rm.files[grepl(paste(pkgs, collapse="|"), rm.files)]
+    unlink(rm.files, recursive=TRUE)
+    ## install from CRAN or Bioconductor
+    if (isTRUE(bioc)) {
+      biocLite(pkgs=pkgs, destdir=".", ...)
+    } else {
+      install.packages(pkgs, destdir=".", ...)
     }
-  } else {
-    install.packages(pkgs, ...)
-  }
-  setwd(curr_dir)
-}
+    ## expand tarballs in destdir and generate tags
+    all_files <- list.files(".", full.names=TRUE)
+    tar_files <- all_files[grepl(".*tar\\.gz$", all_files)]
+    dirs <- all_files[file.info(all_files)$isdir]
+    expand_files <- tar_files[!grepl(paste(gsub("^\\./", "", dirs),
+                                           collapse="|"), tar_files)]
 
-#' Install packages from Bioconductor
-#'
-#' Puts source code in a specified \emph{packages} directory and
-#' calls \code{\link{generate_tag_files}}
-#'
-#' @param pkgs character vector of package names
-#' @param Tags if \code{TRUE} call \code{\link{generate_tag_files}}
-#' @seealso \code{\link{install_packages}}
-#' @export
-install_bioc <- function(pkg, Tags=TRUE) {
-  source("http://bioconductor.org/biocLite.R")
-  stopifnot(require(foreach))
-  curr_dir <- getwd()
-  setwd(getOption("packages"))
-  if (Tags == TRUE) {
-    biocLite(pkgs=pkg, lib="/usr/local/lib/R/site-library", destdir=".")
-    files <- list.files(".", full.names=TRUE)
-    tarballs <- files[grepl(".*tar\\.gz$", files)]
-    dirs <- files[file.info(files)$isdir]
-    newtars <- tarballs[!grepl(paste(basename(dirs), collapse="|"),
-                               basename(tarballs))]
-    if (length(newtars)) {
-      foreach(f=iter(newtars)) %do% untar(f)
+    if (length(expand_files)) {
+      foreach(f=iter(expand_files)) %do% untar(f)
       generate_tag_files()
     }
   } else {
-    biocLite(pkgs=pkg, lib="/usr/local/lib/R/site-library")
+    if (isTRUE(bioc)) {
+      biocLite(pkgs=pkgs, ...)
+    } else {
+      install.packages(pkgs, ...)
+    }
   }
   setwd(curr_dir)
 }
@@ -156,7 +144,7 @@ progress_bar <- function(i, n, width=4, height=0.4, inv=FALSE) {
   if(i == n) dev.off()
 }
 
-#' plot a progress bar backwords
+#' plot a progress bar backwards
 #'
 #' @param ... Arguments passed on to \code{progress_bar}
 #' @seealso wrapper for \code{\link{progress_bar}}

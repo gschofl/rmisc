@@ -35,7 +35,7 @@
 #'    is created.
 #'
 #'    If the package exists (complete with a \file{DESCRIPTION} file and a
-#'    \file{myPackage/R} subdirectory), source files from the package #'     
+#'    \file{myPackage/R} subdirectory), source files from the package
 #'    directory or the current working directory will be added to the package 
 #'    and the documentation will be updated.
 #'

@@ -1,6 +1,9 @@
 \name{:=}
 \alias{:=}
 \title{parallel assignment}
+\usage{
+  :=(lhs, rhs)
+}
 \arguments{
   \item{lhs}{left hand side of the operator}
 

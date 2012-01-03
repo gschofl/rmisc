@@ -2,10 +2,11 @@
 \alias{fetch_genomes}
 \title{Retrieve genomes from a remote database}
 \usage{
-  fetch_genomes(db = "NCBI", dest = ".", which_files =
-  "gbk$", which_dirs = "", keep_dirs = NULL, update_dirs =
-  TRUE, update_files = TRUE, start_from_scratch = FALSE,
-  SORT = FALSE, VERBOSE = FALSE)
+  fetch_genomes(db = "NCBI", dest = ".",
+    which_files = "gbk$", which_dirs = "",
+    keep_dirs = NULL, update_dirs = TRUE,
+    update_files = TRUE, start_from_scratch = FALSE,
+    SORT = FALSE, VERBOSE = FALSE)
 }
 \arguments{
   \item{db}{which remote database. Currently only NCBI}

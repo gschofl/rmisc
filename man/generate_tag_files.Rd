@@ -6,12 +6,12 @@
 }
 \description{
   generate tag files for use with the \emph{Vim-R-plugin}.
-  Depends on setting three \emph{options} in e.g.
+  Depends on setting three \emph{options} in
   \file{.Rprofile}: \itemize{ \item \code{vim} path to your
   \file{~/.vim/} directory \item \code{packages} path to a
   directory containing all the R source code, e.g.
   \file{~/R/packages} \item \code{devel} path to your own
-  development directory, e.g. \file{~/E/Devel}.
+  development directory, e.g.  \file{~/R/Devel}.
 }
 \details{
   generate_tag_files will look recursively for R code in

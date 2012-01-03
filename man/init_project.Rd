@@ -2,9 +2,8 @@
 \alias{init_project}
 \title{initialise a ProjectTemplate project}
 \usage{
-  init_project(project_root = ".", src_dirs =
-  c("diagnostics", "lib", "munge", "profiling", "src",
-  "tests"))
+  init_project(project_root = ".",
+    src_dirs = c("diagnostics", "lib", "munge", "profiling", "src", "tests"))
 }
 \arguments{
   \item{project_root}{path to the root directory of the

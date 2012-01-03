@@ -21,7 +21,7 @@
 ##' @export
 fetch_genomes <- function(db="NCBI",
                           dest=".", 
-                          which_files="gbk$", 
+                          which_files="gbk$",
                           which_dirs="",
                           keep_dirs=NULL,
                           update_dirs=TRUE,
@@ -84,7 +84,7 @@ fetch_genomes <- function(db="NCBI",
 
     # check for completed downloads to avoid repetition
     if(file.exists(file.path(dest, "completed.downloads"))) {
-      if (isTRUE(from_scratch)) {
+      if (isTRUE(start_from_scratch)) {
         unlink(file.path(dest, "completed.downloads"))
       } else {
         completed <- scan(file.path(dest, "completed.downloads"), "char")

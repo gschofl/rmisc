@@ -2,8 +2,9 @@
 \alias{repackage}
 \title{Create or update a package}
 \usage{
-  repackage(pkg = "myPackage", code_files = NULL, document
-  = TRUE, load = TRUE, install = FALSE, clean = FALSE)
+  repackage(pkg = "myPackage", code_files = NULL,
+    document = TRUE, load = TRUE, install = FALSE,
+    clean = FALSE)
 }
 \arguments{
   \item{pkg}{name of a package or path to a package.}
@@ -55,7 +56,7 @@
 
   If the package exists (complete with a \file{DESCRIPTION}
   file and a \file{myPackage/R} subdirectory), source files
-  from the package #' directory or the current working
+  from the package directory or the current working
   directory will be added to the package and the
   documentation will be updated.
 
