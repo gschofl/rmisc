@@ -69,46 +69,68 @@ generate_tag_files <- function() {
 ##'
 ##' @param pkgs character vector of package names
 ##' @param ... Arguments to be passed on to \code{\link[utils]{install.packages}}
+##' @param check_updates if \code{TRUE} run \code{\link[utils]{old.packages}}
 ##' @param tags if \code{TRUE} call \code{\link{generate_tag_files}}
-##' @param bioc if \code{TRUE} install from Bioconductor
+##' @param repos one of "CRAN", "bioc", "Omegahat", or "R-Forge".
+##' Defaults to "CRAN"
 ##'
 ##' @export
-install_packages <- function(pkgs, ..., tags=TRUE, bioc=FALSE) {
-  stopifnot(suppressPackageStartupMessages(require(foreach)))
-  if (isTRUE(bioc))  source("http://bioconductor.org/biocLite.R")
-  curr_dir <- getwd()
-  setwd(getOption("packages"))
-  if (isTRUE(tags)) {
-    ## if the package is present in the packages directory delete
-    ## it and do a fresh install
-    rm.files <- list.files(".", full.names=TRUE)
-    rm.files <- rm.files[grepl(paste(pkgs, collapse="|"), rm.files)]
-    unlink(rm.files, recursive=TRUE)
-    ## install from CRAN or Bioconductor
-    if (isTRUE(bioc)) {
-      biocLite(pkgs=pkgs, destdir=".", ...)
-    } else {
-      install.packages(pkgs, destdir=".", ...)
-    }
-    ## expand tarballs in destdir and generate tags
-    all_files <- list.files(".", full.names=TRUE)
-    tar_files <- all_files[grepl(".*tar\\.gz$", all_files)]
-    dirs <- all_files[file.info(all_files)$isdir]
-    expand_files <- tar_files[!grepl(paste(gsub("^\\./", "", dirs),
-                                           collapse="|"), tar_files)]
+install_packages <- function(pkgs, ..., 
+                             check_updates=FALSE,
+                             tags=TRUE,
+                             repos="CRAN") {
 
-    if (length(expand_files)) {
-      foreach(f=iter(expand_files)) %do% untar(f)
-      generate_tag_files()
-    }
+  stopifnot(suppressPackageStartupMessages(require(foreach)))
+  ops <- options("repos")
+  on.exit(options(ops))
+  setRepositories(ind=1:20)
+  all_repos <- getOption("repos")
+  select_repos <- c(bioc="bioc", all_repos[c("CRAN", "Omegahat", "R-Forge")])
+
+  if (is.na(select_repos[repos]))
+    stop("Selected Repository not available")
+
+  switch(repos,
+         bioc = source("http://bioconductor.org/biocLite.R"),
+         options(repos=select_repos[repos]))
+
+  if (check_updates) {
+     old.packages()
   } else {
-    if (isTRUE(bioc)) {
-      biocLite(pkgs=pkgs, ...)
+    curr_dir <- getwd()
+    setwd(getOption("packages"))
+    if (isTRUE(tags)) {
+      ## if the package is present in the packages directory delete
+      ## it and do a fresh install
+      rm_files <- list.files(".", full.names=TRUE)
+      rm_files <- rm_files[grepl(paste(pkgs, collapse="|"), rm_files)]
+      unlink(rm_files, recursive=TRUE)
+      ## install from CRAN or Bioconductor
+      if (repos == "bioc") {
+        biocLite(pkgs=pkgs, destdir=".", suppressUpdates=TRUE, ...)
+      } else {
+        install.packages(pkgs, destdir=".", ...)
+      }
+      ## expand tarballs in destdir and generate tags
+      all_files <- list.files(".", full.names=TRUE)
+      tar_files <- all_files[grepl(".*tar\\.gz$", all_files)]
+      dirs <- all_files[file.info(all_files)$isdir]
+      expand_files <- tar_files[!grepl(paste(gsub("^\\./", "", dirs),
+                                             collapse="|"), tar_files)]
+
+      if (length(expand_files)) {
+        foreach(f=iter(expand_files)) %do% untar(f)
+        generate_tag_files()
+      }
     } else {
-      install.packages(pkgs, ...)
+      if (repos == "bioc") {
+        biocLite(pkgs=pkgs, ...)
+      } else {
+        install.packages(pkgs, ...)
+      }
     }
-  }
-  setwd(curr_dir)
+    setwd(curr_dir)
+    }
 }
 
 #' plots a progress bar

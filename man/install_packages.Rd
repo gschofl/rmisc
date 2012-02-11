@@ -2,7 +2,8 @@
 \alias{install_packages}
 \title{customised \code{\link[utils]{install.packages}}}
 \usage{
-  install_packages(pkgs, ..., tags = TRUE, bioc = FALSE)
+  install_packages(pkgs, ..., check_updates = FALSE,
+    tags = TRUE, repos = "CRAN")
 }
 \arguments{
   \item{pkgs}{character vector of package names}
@@ -10,10 +11,14 @@
   \item{...}{Arguments to be passed on to
   \code{\link[utils]{install.packages}}}
 
+  \item{check_updates}{if \code{TRUE} run
+  \code{\link[utils]{old.packages}}}
+
   \item{tags}{if \code{TRUE} call
   \code{\link{generate_tag_files}}}
 
-  \item{bioc}{if \code{TRUE} install from Bioconductor}
+  \item{repos}{one of "CRAN", "bioc", "Omegahat", or
+  "R-Forge". Defaults to "CRAN"}
 }
 \description{
   Puts source code in a specified \emph{packages} directory
