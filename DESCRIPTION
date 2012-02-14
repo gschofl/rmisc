@@ -19,3 +19,4 @@ Collate:
     'repackage.R'
     'utilities.R'
     'fetch_genomes.R'
+    'strmatch.r'
