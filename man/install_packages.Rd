@@ -3,7 +3,7 @@
 \title{customised \code{\link[utils]{install.packages}}}
 \usage{
   install_packages(pkgs, ..., check_updates = FALSE,
-    tags = TRUE, repos = "CRAN")
+    tags = TRUE, repos = "bioc")
 }
 \arguments{
   \item{pkgs}{character vector of package names}

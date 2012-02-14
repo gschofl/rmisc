@@ -42,23 +42,22 @@ init_project <- function (project_root=".",
 ##' @usage \code{generate_tag_files()}
 ##' @export
 generate_tag_files <- function() {
-  stopifnot(require(stringr))
-  print("Building Tags ...")
-  unlink(c(str_c(getOption("vim"), "RTAGS"),
-           str_c(getOption("vim"), "RsrcTags"),
-           str_c(getOption("vim"), "RTAGS_DEVEL")))
+  message("Building Tags ...")
+  unlink(paste0(options()$vim, c("RTAGS","RsrcTags")))
   curr_dir <- getwd()                  # remember where we are
-  setwd(getOption("packages"))
-  rtags(path=getOption("packages"), recursive=TRUE, ofile="RTAGS")
-  rtags(path=getOption("devel"), recursive=TRUE, ofile="RTAGS_DEVEL")
-  file.symlink(str_c(getOption("packages"), "RTAGS"),
-               str_c(getOption("vim"), "RTAGS"))
-  file.symlink(str_c(getOption("packages"), "RTAGS_DEVEL"),
-               str_c(getOption("vim"), "RTAGS_DEVEL"))
-  system(paste("/usr/bin/ctags --languages=C,C++,Fortran,Java -R -f RsrcTags",
-               getOption("packages")))
-  file.symlink(str_c(getOption("packages"), "RsrcTags"),
-               str_c(getOption("vim"), "RsrcTags"))
+  setwd(options()$packages)
+
+  rtags(path=options()$devel, recursive=TRUE, ofile="RTAGS")
+  rtags(path=options()$packages, recursive=TRUE, ofile="RTAGS", append=TRUE)
+  rtags(path=options()$base, recursive=TRUE, ofile="RTAGS", append=TRUE)
+
+  system(paste("/usr/bin/ctags --languages=C,C++,Fortran -R -f RsrcTags", options()$devel))
+  system(paste("/usr/bin/ctags --languages=C,C++,Fortran -R -a -f RsrcTags", options()$packages))
+  system(paste("/usr/bin/ctags --languages=C,C++,Fortran -R -a -f RsrcTags", options()$base))
+
+  file.symlink(paste0(options()$packages, "RTAGS"), paste0(options()$vim, "RTAGS"))
+  file.symlink(paste0(options()$packages, "RsrcTags"), paste0(options()$vim, "RsrcTags"))
+
   setwd(curr_dir)                      # get us back there ...
 }
 
@@ -78,13 +77,13 @@ generate_tag_files <- function() {
 install_packages <- function(pkgs, ..., 
                              check_updates=FALSE,
                              tags=TRUE,
-                             repos="CRAN") {
+                             repos="bioc") {
 
   stopifnot(suppressPackageStartupMessages(require(foreach)))
   ops <- options("repos")
-  on.exit(options(ops))
   setRepositories(ind=1:20)
   all_repos <- getOption("repos")
+  options(ops)
   select_repos <- c(bioc="bioc", all_repos[c("CRAN", "Omegahat", "R-Forge")])
 
   if (is.na(select_repos[repos]))
