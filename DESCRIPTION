@@ -1,8 +1,8 @@
-Package: R.utils
+Package: rmisc
 Type: Package
-Title: A library for various utility functions
-Version: 0.1.0
-Date: 2011-09-09
+Title: Various utility functions
+Version: 0.2.0
+Date: 2012-03-12
 Author: Gerhard Schöfl <gschofl@yahoo.de>
 Maintainer: Gerhard Schöfl <gschofl@yahoo.de>
 Description: Functions that I find useful. Some code is
