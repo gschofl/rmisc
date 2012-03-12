@@ -60,14 +60,21 @@ strmatch <- function (pattern, str, capture=TRUE, perl=TRUE, global=TRUE, ignore
   match <- if (capture) {
     .capture.matcher <- function (str, m) {
       cap <- Map( function (str, start, len) {
-        Map( function (str, start, len) {
+        mapply( function (str, start, len) {
           substr(str, start, start + len - 1L) 
         }, str, start, len, USE.NAMES=FALSE)
       }, str, lapply(m, attr, "capture.start"),
                   lapply(m, attr, "capture.length"), USE.NAMES=FALSE)
 
-      cap <- Map( function (val, name) `names<-`(val, name),
-                  cap, lapply(m, attr, "capture.names"), USE.NAMES=FALSE)
+      cap_names <- lapply(m, attr, "capture.names")
+      if (all(nchar(cap_names) > 0)) {
+        if (!all(mapply(function (c, n) length(c) == length(n), cap, cap_names)))
+          warning("Mismatch between number of captures and capture names", call.=TRUE)
+        
+        cap <- mapply( function (val, name) `names<-`(val, name),
+                    cap, cap_names, USE.NAMES=FALSE)
+      }
+      
       cap
     }
 

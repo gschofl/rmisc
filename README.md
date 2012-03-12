@@ -1,0 +1,4 @@
+rmisc
+=====
+
+Miscellaneous utility functions.
