@@ -132,55 +132,26 @@ install_packages <- function(pkgs, ...,
     }
 }
 
-#' plots a progress bar
-#'
-#' put it in a \code{for(i in seq(n))} loop
-#'
-#' @param i variable
-#' @param n end point of loop
-#' @param width width of bar
-#' @param height height of bar
-#' @param inv if \code{TRUE} the progress bar runs backwards
-#' @export
-progress_bar <- function(i, n, width=4, height=0.4, inv=FALSE) {
-  stopifnot(require(grid))
-
-  W <- i/n
-  if (inv) {
-    X <- 1 - W/2
-    gp <- gpar(fill = "white", col = "white")
-  } else {
-    X <- W/2
-    gp <- gpar(fill = "gray60", col = "white")
-  }
-
-  curdev <- dev.cur()
-  if (!any(dev.list() == curdev)) {
-    X11(w = width,h = height)
-    if (inf) {
-      grid.rect(x=0.5, w=1, gp=gpar(fill="gray60", col="white"))
-    }
-  }
-  grid.rect(x = unit(X, "npc"), w = unit(W, "npc"), gp = gp)
-  if(i == n) dev.off()
-}
-
-#' plot a progress bar backwards
-#'
-#' @param ... Arguments passed on to \code{progress_bar}
-#' @seealso wrapper for \code{\link{progress_bar}}
-#' @export
-progress_bar_inv <- function(...) {
-  progress_bar(..., inv=TRUE)
-}
 
 #' Strips extensions from file names
 #'
 #' @param file character vector of file names to be stripped
 #' @export
-strip_extension <- function(file) {
-  sapply(file, function(x) strsplit(x, "\\.")[[1]][1])
+stripExtension <- function(file) {
+  base <- vapply(file, function(x) strsplit(x, "\\.")[[1L]][1L], FUN.VALUE=character(1))
+  names(base) <- NULL
+  base
 }
+
+
+##' create blank strings with a given number of characters
+##' @seealso Examples for \code{\link{regmatches}}
+##' @export
+blanks <- function(n) {
+  vapply(Map(rep.int, rep.int(" ", length(n)), n, USE.NAMES=FALSE),
+         paste, "", collapse="")
+}
+
 
 #' Extract a match from a string or list of strings
 #'
