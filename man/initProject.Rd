@@ -1,8 +1,8 @@
-\name{init_project}
-\alias{init_project}
+\name{initProject}
+\alias{initProject}
 \title{initialise a ProjectTemplate project}
 \usage{
-  init_project(project_root = ".",
+  initProject(project_root = ".",
     src_dirs = c("diagnostics", "lib", "munge", "profiling", "src", "tests"))
 }
 \arguments{

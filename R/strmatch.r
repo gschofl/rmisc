@@ -87,8 +87,6 @@ strmatch <- function (pattern, str, capture=TRUE, perl=TRUE, global=TRUE, ignore
   match
 }
 
-
-
 # --R-- vim:ft=r:sw=2:sts=2:ts=4:tw=76:
 #       vim:fdm=marker:fmr={{{,}}}:fdl=0
 

@@ -47,9 +47,11 @@
 #' @export
 repackage <- function(pkg="myPackage", code_files=NULL, document=TRUE,
                       load=TRUE, install=FALSE, clean=FALSE) {
-  require(stringr)
-  require(roxygen2)
-  require(devtools)
+  
+  stopifnot(require(stringr))
+  stopifnot(require(roxygen2))
+  stopifnot(require(devtools))
+  
   if (missing(pkg)) stop("Provide a path to the package")
   is_dir <- function(x) !is.na(isdir <- file.info(x)$isdir) & isdir
   is_path <- function(x) grepl(.Platform$file.sep, pkg, fixed=TRUE)

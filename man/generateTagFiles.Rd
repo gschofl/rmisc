@@ -1,5 +1,5 @@
-\name{generate_tag_files}
-\alias{generate_tag_files}
+\name{generateTagFiles}
+\alias{generateTagFiles}
 \title{generate tag files}
 \usage{
   \code{generate_tag_files()}

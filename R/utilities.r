@@ -7,14 +7,16 @@
 ##' @param src_dirs directories containing source files
 ##'
 ##' @export
-init_project <- function (project_root=".",
-                          src_dirs=c("diagnostics", 
-                                     "lib",
-                                     "munge",
-                                     "profiling",
-                                     "src",
-                                     "tests")) {
+initProject <- function (project_root=".",
+                         src_dirs=c("diagnostics", 
+                                    "lib",
+                                    "munge",
+                                    "profiling",
+                                    "src",
+                                    "tests")) {
+  
   stopifnot(require(ProjectTemplate))
+  
   setwd(project_root)
   if(!all(file.exists(file.path(getwd(), src_dirs))))
     stop("Not a valid project directory")
@@ -41,7 +43,7 @@ init_project <- function (project_root=".",
 ##' and in the case of \code{packages} also for C, Fortran, Java and Tcl code
 ##' @usage \code{generate_tag_files()}
 ##' @export
-generate_tag_files <- function() {
+generateTagFiles <- function() {
   message("Building Tags ...")
   unlink(paste0(options()$vim, c("RTAGS","RsrcTags")))
   curr_dir <- getwd()                  # remember where we are
@@ -74,23 +76,25 @@ generate_tag_files <- function() {
 ##' Defaults to "CRAN"
 ##'
 ##' @export
-install_packages <- function(pkgs, ..., 
-                             check_updates=FALSE,
-                             tags=TRUE,
-                             repos="bioc") {
+installPackages <- function(pkgs, ..., 
+                            check_updates=FALSE,
+                            tags=TRUE,
+                            repos="bioc") {
 
-  stopifnot(suppressPackageStartupMessages(require(foreach)))
+  stopifnot(require(foreach))
+  stopifnot(require(BiocInstaller))
+  
   ops <- options("repos")
   setRepositories(ind=1:20)
   all_repos <- getOption("repos")
-  options(ops)
+  on.exit(options(ops))
   select_repos <- c(bioc="bioc", all_repos[c("CRAN", "Omegahat", "R-Forge")])
 
   if (is.na(select_repos[repos]))
     stop("Selected Repository not available")
 
   switch(repos,
-         bioc = source("http://bioconductor.org/biocLite.R"),
+         bioc = options(repos=biocinstallRepos()),
          options(repos=select_repos[repos]))
 
   if (check_updates) {
@@ -119,7 +123,7 @@ install_packages <- function(pkgs, ...,
 
       if (length(expand_files)) {
         foreach(f=iter(expand_files)) %do% untar(f)
-        generate_tag_files()
+        generateTagFiles()
       }
     } else {
       if (repos == "bioc") {
@@ -152,21 +156,6 @@ blanks <- function(n) {
          paste, "", collapse="")
 }
 
-
-#' Extract a match from a string or list of strings
-#'
-#' @param string a character vector
-#' @param pattern a character string containing \link[=regex]{regular expressions}
-#' @param ... things to pass on to \code{\link{gregexpr}}
-#' @return returns a matrix of matches with multiple matches from each
-#'    string in a row
-#' @export
-string_extract <- function(string, pattern, ...) {
-  first <- gregexpr(pattern, string, ...)
-  last <- lapply(first, function(x) x + attr(x, 'match.length') - 1)
-  t(mapply(substring, string, first, last, USE.NAMES = FALSE))
-}
-
 #' list files recursively
 #'
 #' @param path character vector of path names
@@ -174,13 +163,15 @@ string_extract <- function(string, pattern, ...) {
 #' @param exclude_pattern optional regexp
 #' @param file_pattern optional regexp
 #' @export
-list_files_rec <- function(path=".",
-                           dir_pattern=NULL,
-                           exclude_pattern=NULL,
-                           file_pattern=NULL) {
+listFilesRec <- function(path=".",
+                         dir_pattern=NULL,
+                         exclude_pattern=NULL,
+                         file_pattern=NULL) {
+  
   stopifnot(require(foreach))
+  
   # find directories
-  dirs <- list_dirs(path, dir_pattern, full.names=TRUE)
+  dirs <- listDirs(path, dir_pattern, full.names=TRUE)
   # exclude some directories from the selection
   if(!is.null(exclude_pattern)) {
     dirs <- dirs[!grepl(exclude_pattern, dirs)]
@@ -191,7 +182,7 @@ list_files_rec <- function(path=".",
   }
   # name the resulting list with the dir names
   names(files) <- basename(dirs)
-  return(files)
+  files
 }
 
 #' list directories only
@@ -199,7 +190,7 @@ list_files_rec <- function(path=".",
 #' @param path a character vector of path names
 #' @param ... Arguments passed on to \code{\link{list.files}}
 #' @export
-list_dirs <- function(path, ...) {
+listDirs <- function(path, ...) {
     list.files(path, ...)[file.info(list.files(path, full.names=TRUE))$isdir]
 }
 

@@ -1,22 +1,24 @@
 Package: rmisc
 Type: Package
-Title: Various utility functions
+Title: Miscellaneous utility functions
 Version: 0.2.0
 Date: 2012-03-12
 Author: Gerhard Schöfl <gschofl@yahoo.de>
 Maintainer: Gerhard Schöfl <gschofl@yahoo.de>
-Description: Functions that I find useful. Some code is
-    pinched from various places on the web.
+Description: Some functions that I find useful.
 License: MIT
 LazyLoad: yes
 Imports:
-    iterators,
     foreach,
     devtools,
-    stringr
+    stringr,
+    RCurl,
+    ProjectTemplate,
+    BiocInstaller,
+    roxygen2
 Collate:
-    'general.R'
-    'repackage.R'
-    'utilities.R'
-    'fetch_genomes.R'
     'strmatch.r'
+    'fetch-genomes.r'
+    'linebreak.r'
+    'repackage.r'
+    'utilities.r'

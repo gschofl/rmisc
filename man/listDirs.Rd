@@ -1,8 +1,8 @@
-\name{list_dirs}
-\alias{list_dirs}
+\name{listDirs}
+\alias{listDirs}
 \title{list directories only}
 \usage{
-  list_dirs(path, ...)
+  listDirs(path, ...)
 }
 \arguments{
   \item{path}{a character vector of path names}
