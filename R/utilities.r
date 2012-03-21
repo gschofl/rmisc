@@ -194,5 +194,38 @@ listDirs <- function(path, ...) {
     list.files(path, ...)[file.info(list.files(path, full.names=TRUE))$isdir]
 }
 
+
+##' generate random tags for minisequencing
+##' 
+##' @param n number of tags to generate
+##' @param size length of tags
+##' @param GC_percent average GC content of tags
+##' @param max_rep maximum number of identical bases in a row
+##' 
+##' @export
+generateTags <- function (n=20, size=20, GC_percent=60, max_rep=4) {
+  
+  stopifnot(require(Biostrings))
+  
+  if (missing(n))
+    stop("Provide the number of tags you want to generate")
+  
+  bases <- c("A", "T", "G", "C")
+  probability <- c((100-GC_percent)/2, (100-GC_percent)/2, GC_percent/2, GC_percent/2)/100
+  
+  tags <- DNAStringSet()
+  for (i in seq_len(n)) {
+    base_vector <- rep(1,5)
+    while (any(rle(base_vector)$lengths > 4)) {
+      base_vector <- sample(bases, size=size, replace=TRUE, prob=probability)
+    }
+    tags[i] <- DNAStringSet(paste(base_vector, collapse=""))
+    names(tags[i]) <- paste0("tag", i)
+  }
+  tags
+  
+}
+
+
 # --R-- vim:ft=r:sw=2:sts=2:ts=4:tw=76:
 # --R-- vim:fdm=marker:fmr={{{,}}}:fdl=0:

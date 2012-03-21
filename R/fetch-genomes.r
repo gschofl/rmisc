@@ -19,18 +19,20 @@
 ##' @param VERBOSE
 ##'
 ##' @export
-fetch_genomes <- function(db="NCBI",
-                          dest=".", 
-                          which_files="gbk$",
-                          which_dirs="",
-                          keep_dirs=NULL,
-                          update_dirs=TRUE,
-                          update_files=TRUE,
-                          start_from_scratch=FALSE,
-                          SORT=FALSE,
-                          VERBOSE=FALSE) {
+fetchGenomes <- function(db="NCBI",
+                         dest=".", 
+                         which_files="gbk$",
+                         which_dirs="",
+                         keep_dirs=NULL,
+                         update_dirs=TRUE,
+                         update_files=TRUE,
+                         start_from_scratch=FALSE,
+                         SORT=FALSE,
+                         VERBOSE=FALSE) {
+  
   stopifnot(require(RCurl))
   stopifnot(require(stringr))
+  
   # get contents of remote directory 
   URL <- switch(db,
                 NCBI = "ftp://ftp.ncbi.nih.gov/genbank/genomes/Bacteria/"
@@ -40,15 +42,15 @@ fetch_genomes <- function(db="NCBI",
 
   # get contents of destination directory
   if (!file.exists(dest)) dir.create(dest)
-  dest_dirs <- list.files(dest, full.names=TRUE)[file.info(list.files(dest, full.names=TRUE))$isdir]
+  dest_dirs <- listDirs(dest, full.names=TRUE)
   dest_dirs <- dest_dirs[grepl(which_dirs, dest_dirs)]
 
   if (isTRUE(update_dirs)) {
   # remove obsolete local directories and fetch new ones
   # keep those directories specified in "keep_dirs"
     rm_dirs <- dest_dirs[!basename(dest_dirs) %in% src_dirs]
-    if(length(rm_dirs) != 0) {
-      if(!is.null(keep_dirs) && any(grepl(keep_dirs, rm_dirs))) {
+    if (length(rm_dirs) != 0) {
+      if (!is.null(keep_dirs) && any(grepl(keep_dirs, rm_dirs))) {
         rm_dirs <- rm_dirs[-grep(keep_dirs, rm_dirs)]
       }
       unlink(rm_dirs, recursive=TRUE)
@@ -59,17 +61,18 @@ fetch_genomes <- function(db="NCBI",
 
     opts <- curlOptions(ftp.use.epsv=FALSE, forbid.reuse=TRUE)
     curl <- getCurlHandle(.opts=opts)
-    for(d in new_dirs) {
+    
+    for (d in new_dirs) {
       # create the local directory
-      if(!file.exists(file.path(dest, d))) dir.create(file.path(dest, d))
+      if (!file.exists(file.path(dest, d))) dir.create(file.path(dest, d))
 
       # get the names of the files in the source directory
       file_names <- getURL(str_c(URL, d, "/"), dirlistonly=TRUE)
       file_names <- grep(which_files, str_c(URL, d, "/", strsplit(file_names, "\n")[[1]]), value=TRUE)
-      for(dn in file_names) {
+      for (dn in file_names) {
         target <- file.path(dest, d, basename(dn))
         contents <- getURL(dn, curl=curl, verbose=VERBOSE)
-        if(nchar(contents) > 0) cat(contents, file=target)
+        if (nchar(contents) > 0) cat(contents, file=target)
       }
     }
   }
@@ -83,7 +86,7 @@ fetch_genomes <- function(db="NCBI",
     }
 
     # check for completed downloads to avoid repetition
-    if(file.exists(file.path(dest, "completed.downloads"))) {
+    if (file.exists(file.path(dest, "completed.downloads"))) {
       if (isTRUE(start_from_scratch)) {
         unlink(file.path(dest, "completed.downloads"))
       } else {
@@ -96,12 +99,12 @@ fetch_genomes <- function(db="NCBI",
     opts <- curlOptions(timecondition=TRUE, ftp.use.epsv=FALSE,
                         forbid.reuse=TRUE, filetime=TRUE)
     curl <- getCurlHandle(.opts=opts)
-    for(d in upd_dirs) {
+    for (d in upd_dirs) {
       file_names <- getURL(str_c(URL, d, "/"), ftplistonly = TRUE)
       file_names <- grep(which_files, str_c(URL, d, "/", strsplit(file_names, "\n")[[1]]), value=TRUE)
       keep <- list.files(grep(d, dest_dirs, value=TRUE)) %in% basename(file_names)
       # delete those types of files that are not in the "which_files" list
-      if(any(!isTRUE(keep))) {
+      if (any(!isTRUE(keep))) {
         unlink(list.files(grep(d, dest_dirs, value=TRUE), full.names=TRUE)[!keep])
       }
 
@@ -110,7 +113,7 @@ fetch_genomes <- function(db="NCBI",
         TIME <- unclass(file.info(target)$ctime)
         time_value <- curlOptions(timevalue=TIME)
         contents <- getURL(dn, curl=curl, .opts=time_value, verbose=VERBOSE)
-        if(nchar(contents) > 0) cat(contents, file=target)
+        if (nchar(contents) > 0) cat(contents, file=target)
       }
       cat(str_c(d, "\n"), file=file.path(dest, "completed.downloads"), append=TRUE)
     }
