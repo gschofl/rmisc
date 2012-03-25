@@ -87,7 +87,7 @@ installPackages <- function(pkgs, ...,
   ops <- options("repos")
   setRepositories(ind=1:20)
   all_repos <- getOption("repos")
-  on.exit(options(ops))
+  options(ops)
   select_repos <- c(bioc="bioc", all_repos[c("CRAN", "Omegahat", "R-Forge")])
 
   if (is.na(select_repos[repos]))
@@ -134,6 +134,7 @@ installPackages <- function(pkgs, ...,
     }
     setwd(curr_dir)
     }
+  options(ops)
 }
 
 
