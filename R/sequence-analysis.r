@@ -90,7 +90,7 @@ viewMultAlign <- function(msa,
     RNA <- TRUE
   }
   
-  msa_mat <- as.matrix(msa)
+  msa_mat <- Biostrings::as.matrix(msa)
   msa_vec <- as.vector(msa_mat)
   
   ml <- list()
