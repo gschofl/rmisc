@@ -139,15 +139,15 @@ installPackages <- function(pkgs, ...,
 
 
 
-#' Strip file extensions
-#'
-#' @param file file name(s)
-#' @param sep specifies the seperator character (default ".").
-#' @param level numeric denoting how many extensions should be stripped.
-#' The default (0) strips all, 1 strips the last one, 2 strips the last two,
-#' and so on
-#' 
-#' @export
+##' Strip file extensions
+##'
+##' @param file file name(s)
+##' @param sep specifies the seperator character (default ".").
+##' @param level numeric denoting how many extensions should be stripped.
+##' The default (0) strips all, 1 strips the last one, 2 strips the last two,
+##' and so on.
+##' 
+##' @export
 stripExt <- stripExtension <- function (file, sep="\\.", level=0) {
   if (level == 0L) {
     # level 0 ditches everything that comes after a dot
@@ -178,6 +178,15 @@ stripExt <- stripExtension <- function (file, sep="\\.", level=0) {
   }
 }
 
+# testing
+# stripExt("test.ext")
+# stripExt("my.test.ext", level=1)
+# stripExt("my.test.ext", level=2)
+# stripExt("my.test.ext", level=3)
+# stripExt("myTest_ext", sep="_")
+# stripExt(c("mytest1.ext","mytest2.ext"))
+# replaceExt("meinFile.xls", "xlsx")
+
 
 ##' Replace file extensions
 ##' 
@@ -193,12 +202,20 @@ replaceExt <- replaceExtension <- function (file,
     sep=""
   # strip a leading "." from replacement
   if (grepl("^\\.", replacement)) {
-    replacement <- strsplit(replacement,  split="^\\.")[[1L]][2L]
+    replacement <- strsplit(replacement, split="^\\.")[[1L]][2L]
   }
   
-  return(paste(stripExt(file=file, level=level), replacement, sep=sep))
+  return(paste(stripExt(file=file, sep=sep, level=level),
+               replacement, sep=gsub("\\", "", sep, fixed=TRUE)))
 }
 
+# testing
+# replaceExt("test.ext", "new_ext")
+# replaceExt(c("test1.ext","test2.ext"), "new_ext")
+# replaceExt("my.test.ext", "new_ext", level=1)
+# replaceExt("my.test.ext", "new_ext", level=2)
+# replaceExt("my.test.ext", "new_ext", level=3)
+# replaceExt("myTest_ext", "new_ext", sep="_")
 
 ##' create blank strings with a given number of characters
 ##' @seealso Examples for \code{\link{regmatches}}
