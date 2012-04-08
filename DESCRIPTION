@@ -8,7 +8,11 @@ Maintainer: Gerhard Schöfl <gschofl@yahoo.de>
 Description: Some functions that I find useful.
 License: MIT
 Depends:
+<<<<<<< HEAD
     R (>= 2.15.0)
+=======
+    R (>= 15.0)
+>>>>>>> 1f51b3daef07a7ce6df037fca2128378e0bdf1c4
 Imports:
     foreach,
     devtools,
