@@ -76,13 +76,10 @@ generateTagFiles <- function() {
 ##' Defaults to "CRAN"
 ##'
 ##' @export
-installPackages <- function(pkgs, ..., 
+installPackages <- function(pkgs="annotate", ..., 
                             check_updates=FALSE,
                             tags=TRUE,
                             repos="bioc") {
-
-  stopifnot(require(foreach))
-  stopifnot(require(BiocInstaller))
   
   ops <- options("repos")
   setRepositories(ind=1:20)
@@ -110,7 +107,7 @@ installPackages <- function(pkgs, ...,
       unlink(rm_files, recursive=TRUE)
       ## install from CRAN or Bioconductor
       if (repos == "bioc") {
-        biocLite(pkgs=pkgs, destdir=".", suppressUpdates=TRUE, ...)
+        biocLite(pkgs=pkgs, destdir=".", ...)
       } else {
         install.packages(pkgs, destdir=".", ...)
       }
@@ -118,8 +115,7 @@ installPackages <- function(pkgs, ...,
       all_files <- list.files(".", full.names=TRUE)
       tar_files <- all_files[grepl(".*tar\\.gz$", all_files)]
       dirs <- all_files[file.info(all_files)$isdir]
-      expand_files <- tar_files[!grepl(paste(gsub("^\\./", "", dirs),
-                                             collapse="|"), tar_files)]
+      expand_files <- tar_files[!grepl(paste0(gsub("^\\./", "", dirs), "_", collapse="|"), tar_files)]
 
       if (length(expand_files)) {
         foreach(f=iter(expand_files)) %do% untar(f)

@@ -2,8 +2,8 @@
 \alias{installPackages}
 \title{customised \code{\link[utils]{install.packages}}}
 \usage{
-  installPackages(pkgs, ..., check_updates = FALSE,
-    tags = TRUE, repos = "bioc")
+  installPackages(pkgs = "annotate", ...,
+    check_updates = FALSE, tags = TRUE, repos = "bioc")
 }
 \arguments{
   \item{pkgs}{character vector of package names}
