@@ -1,15 +1,15 @@
 Package: rmisc
-Type: Package
-Title: Miscellaneous utility functions
 Version: 0.2.0
 Date: 2012-03-12
-Author: Gerhard Schöfl <gschofl@yahoo.de>
-Maintainer: Gerhard Schöfl <gschofl@yahoo.de>
+Type: Package
+Title: Miscellaneous utility functions
+Authors@R: person("Gerhard", "Schöfl", role=c("aut","cre"),
+    email="gschofl@yahoo.de")
 Description: Some functions that I find useful.
 License: MIT
+Encoding: latin1
 Depends:
-    R (>= 2.15.0)
-Imports:
+    R (>= 2.15.0),
     foreach,
     devtools,
     stringr,
