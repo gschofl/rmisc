@@ -28,7 +28,8 @@ fetchGenomes <- function(db="NCBI",
                          update_files=TRUE,
                          start_from_scratch=FALSE,
                          SORT=FALSE,
-                         VERBOSE=FALSE) {
+                         VERBOSE=FALSE)
+{
   
   stopifnot(require(RCurl))
   stopifnot(require(stringr))

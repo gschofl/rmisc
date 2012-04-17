@@ -1,3 +1,9 @@
+##' @importFrom stringr perl
+##' @importFrom stringr str_split_fixed
+##' @importFrom stringr str_extract_all
+##' @importFrom stringr str_split
+NULL
+
 ##' extract SNP positions from XStringSet objects
 ##' 
 ##' @param aln An XStringSet or MultipleAlignment object
@@ -24,17 +30,85 @@ getGaps <- function (aln) {
   gg
 }
 
-##' trim the NCBI specific FASTA headers to something readable
+##' Trim NCBI fasta definition lines
 ##' 
-##' @param x A string
+##' @param x A fasta definition line
 ##' 
 ##' @export
-shortenFastaHeaders <- function (x) {
-  x <- str_trim(str_split_fixed(x, pattern="\\|", n=5)[,5])
+shortenDeflines <- function (defline) {
+  x <- str_trim(str_split_fixed(defline, pattern="\\|", n=5)[,5])
   x <- str_trim(str_split_fixed(x, pattern=",", n=2)[,1])
   x <- str_split_fixed(x, pattern=" +", n=4)[,1:3]
   str_pad(paste(substr(x[,1], 1, 1), substr(x[,2], 1, 4), substr(x[,3], 1, 5),
                 sep="_"), width=12, side="right")
+}
+
+##' Parse NCBI fasta definition lines
+##' 
+##' @param defline List or character vector of NCBI fasta deflines.
+##' @param species Parse out species designations.
+##' 
+##' @export
+parseDeflines <- function (defline, species=FALSE) {
+  # first split into identifier and description at the first blank space
+  x <- str_split_fixed(unlist(defline), " ", 2)
+  id <- as.list(x[,1])
+  desc <- as.list(x[,2])
+  
+  if (species) {
+    x <- str_split_fixed(unlist(desc), " \\[|\\]", 3)
+    desc <- x[,1]
+    sp <- x[,2]
+  }
+  
+  ## parse identifier patterns
+  ## first we extract the database tags which always are 2 or 3 lowercase
+  ## letters followed by a pipe.
+  db_pattern <- perl("([[:lower:]]{2,3})(?=\\|)")
+  db_tag <- str_extract_all(unlist(id), db_pattern)
+  db_tag[vapply(db_tag, isEmpty, logical(1))] <- "identifier"
+  
+  ## next we split the identifier along the database tags
+  rmEmpty <- function (x) {
+    if (is.atomic(x)) x <- list(x)
+    Map(function (x) x[nzchar(x)], x=x)
+  }
+  
+  str_split_list <- function (string, pattern) {  
+    Map( function (string, pattern) {
+      rmEmpty(str_split(string, paste(pattern, collapse="|")))[[1L]]
+    }, string=string, pattern=pattern, USE.NAMES=FALSE) 
+  }
+  
+  
+  ids <- str_split_list(id, db_tag)
+  id_list <- list()
+  for (i in seq_along(ids)) {
+    id_list[[i]] <- structure(str_split_list(ids[[i]], "\\|"), names=db_tag[[i]])
+  }
+  
+  if (species) {
+    return(list(id=id_list, desc=desc, species=sp))
+  } else {
+    return(list(id=id_list, desc=desc))
+  }
+}
+
+##' deparse NCBI fasta definition lines
+##' 
+##' @param ids List of identifiers.
+##' @param descs List of description lines.
+##' 
+##' @export
+deparseDeflines <- function(ids, descs) {
+  
+  deflines <- list()
+  for (i in seq_along(ids)) {
+    deflines[[i]] <-
+      paste0(paste0(names(ids[[i]]), "|", ids[[i]], collapse="|"), "| ", descs[[i]])
+  }
+  
+  return(deflines)
 }
 
 ##' View sequence alignments in a web browser
@@ -205,3 +279,61 @@ viewMultAlign <- function(msa,
   #unlink(p)
   return(invisible(NULL))
 }
+
+##' display a html file in a browser
+##' 
+##' @param html file path or html encoded character string
+##' @param browser browser
+##' @param unlink remove temporary file
+##' 
+##' @export 
+displayHTML <- function (html, browser=getOption("browser"), unlink=TRUE)
+{
+  if (!file.exists(html)) { 
+    f_tmp <- tempfile(fileext=".html")
+    writeLines(html, f_tmp)
+  } else {
+    f_tmp <- html
+    unlink <- FALSE
+  }
+  
+  browseURL(url=f_tmp, browser=browser)
+  
+  if (unlink) {
+    Sys.sleep(2)
+    unlink(f_tmp)
+  }
+}
+
+##' generate random tags for minisequencing
+##' 
+##' @param n number of tags to generate
+##' @param size length of tags
+##' @param GC_percent average GC content of tags
+##' @param max_rep maximum number of identical bases in a row
+##' 
+##' @export
+generateTags <- function (n=20, size=20, GC_percent=60, max_rep=4)
+{
+  
+  stopifnot(require(Biostrings))
+  
+  if (missing(n))
+    stop("Provide the number of tags you want to generate")
+  
+  bases <- c("A", "T", "G", "C")
+  probability <- c((100-GC_percent)/2, (100-GC_percent)/2, GC_percent/2, GC_percent/2)/100
+  
+  tags <- DNAStringSet()
+  for (i in seq_len(n)) {
+    base_vector <- rep(1,5)
+    while (any(rle(base_vector)$lengths > 4)) {
+      base_vector <- sample(bases, size=size, replace=TRUE, prob=probability)
+    }
+    tags[i] <- DNAStringSet(paste(base_vector, collapse=""))
+    names(tags[i]) <- paste0("tag", i)
+  }
+  tags
+  
+}
+

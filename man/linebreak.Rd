@@ -3,7 +3,8 @@
 \title{Format paragraphs}
 \usage{
   linebreak(s, width = getOption("width") - 2, indent = 0,
-    offset = 0, split = " ", FORCE = FALSE)
+    offset = 0, split = " ", FORCE = FALSE,
+    FULL_FORCE = FALSE)
 }
 \arguments{
   \item{s}{a character vector or a list of character
@@ -23,8 +24,12 @@
   \item{split}{regular expression used for splitting.
   Defaults to a whitespace character.}
 
-  \item{FORCE}{if \code{TRUE} words are force split if the
-  available with is too small}
+  \item{FORCE}{Words are force split if the available width
+  is too small.}
+
+  \item{FULL_FORCE}{Lines are split exactly at the
+  specified width irrespective of whether there is
+  whitespace or not.}
 }
 \value{
   a character vector

@@ -13,7 +13,8 @@ initProject <- function (project_root=".",
                                     "munge",
                                     "profiling",
                                     "src",
-                                    "tests")) {
+                                    "tests"))
+{
   
   stopifnot(require(ProjectTemplate))
   
@@ -43,7 +44,8 @@ initProject <- function (project_root=".",
 ##' and in the case of \code{packages} also for C, Fortran, Java and Tcl code
 ##' @usage \code{generate_tag_files()}
 ##' @export
-generateTagFiles <- function() {
+generateTagFiles <- function()
+{
   message("Building Tags ...")
   unlink(paste0(options()$vim, c("RTAGS","RsrcTags")))
   curr_dir <- getwd()                  # remember where we are
@@ -79,7 +81,8 @@ generateTagFiles <- function() {
 installPackages <- function(pkgs="annotate", ..., 
                             check_updates=FALSE,
                             tags=TRUE,
-                            repos="bioc") {
+                            repos="bioc")
+{
   
   ops <- options("repos")
   setRepositories(ind=1:20)
@@ -133,8 +136,6 @@ installPackages <- function(pkgs="annotate", ...,
   options(ops)
 }
 
-
-
 ##' Strip file extensions
 ##'
 ##' @param file file name(s)
@@ -144,7 +145,8 @@ installPackages <- function(pkgs="annotate", ...,
 ##' and so on.
 ##' 
 ##' @export
-stripExt <- stripExtension <- function (file, sep="\\.", level=0) {
+stripExt <- stripExtension <- function (file, sep="\\.", level=0)
+{
   if (level == 0L) {
     # level 0 ditches everything that comes after a dot
     base <- vapply(file, function(x) {
@@ -193,7 +195,8 @@ stripExt <- stripExtension <- function (file, sep="\\.", level=0) {
 replaceExt <- replaceExtension <- function (file,
                                             replacement="",
                                             sep="\\.",
-                                            level=0) {
+                                            level=0)
+{
   if (nchar(replacement) == 0L)
     sep=""
   # strip a leading "." from replacement
@@ -231,7 +234,8 @@ blanks <- function(n) {
 listFilesRec <- function(path=".",
                          dir_pattern=NULL,
                          exclude_pattern=NULL,
-                         file_pattern=NULL) {
+                         file_pattern=NULL)
+{
   
   stopifnot(require(foreach))
   
@@ -257,38 +261,6 @@ listFilesRec <- function(path=".",
 #' @export
 listDirs <- function(path, ...) {
     list.files(path, ...)[file.info(list.files(path, full.names=TRUE))$isdir]
-}
-
-
-##' generate random tags for minisequencing
-##' 
-##' @param n number of tags to generate
-##' @param size length of tags
-##' @param GC_percent average GC content of tags
-##' @param max_rep maximum number of identical bases in a row
-##' 
-##' @export
-generateTags <- function (n=20, size=20, GC_percent=60, max_rep=4) {
-  
-  stopifnot(require(Biostrings))
-  
-  if (missing(n))
-    stop("Provide the number of tags you want to generate")
-  
-  bases <- c("A", "T", "G", "C")
-  probability <- c((100-GC_percent)/2, (100-GC_percent)/2, GC_percent/2, GC_percent/2)/100
-  
-  tags <- DNAStringSet()
-  for (i in seq_len(n)) {
-    base_vector <- rep(1,5)
-    while (any(rle(base_vector)$lengths > 4)) {
-      base_vector <- sample(bases, size=size, replace=TRUE, prob=probability)
-    }
-    tags[i] <- DNAStringSet(paste(base_vector, collapse=""))
-    names(tags[i]) <- paste0("tag", i)
-  }
-  tags
-  
 }
 
 
