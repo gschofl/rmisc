@@ -20,7 +20,7 @@
 ##' 
 ##' @importFrom RCurl curlOptions
 ##' @importFrom RCurl getCurlHandle
-##' @importFrom RCurl getUrl
+##' @importFrom RCurl getURL
 ##' @importFrom stringr str_c
 ##'
 ##' @export
