@@ -1,4 +1,4 @@
-##' @importFrom stringr str_pad
+##' @import stringr
 NULL
 
 ##' Wrap alignment

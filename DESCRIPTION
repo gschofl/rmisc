@@ -10,13 +10,18 @@ License: MIT
 Encoding: latin1
 Depends:
     R (>= 2.15.0),
+    stringr
+Imports:
+    BiocInstaller,
+    doParallel,
     foreach,
     devtools,
+    roxygen,
     stringr,
     RCurl,
+    XML,
     ProjectTemplate,
-    BiocInstaller,
-    roxygen2
+    Biostrings
 Collate:
     'strmatch.r'
     'fetch-genomes.r'

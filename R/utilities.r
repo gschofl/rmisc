@@ -1,3 +1,8 @@
+##' @importFrom doParallel registerDoParallel
+##' @importFrom foreach foreach
+##' @importFrom ProjectTemplate load.project
+NULL
+
 ##' initialise a ProjectTemplate project
 ##'
 ##' use \code{init_project("path_to_project_root")} to generate
@@ -15,8 +20,6 @@ initProject <- function (project_root=".",
                                     "src",
                                     "tests"))
 {
-  
-  stopifnot(require(ProjectTemplate))
   
   setwd(project_root)
   if(!all(file.exists(file.path(getwd(), src_dirs))))
@@ -84,6 +87,9 @@ installPackages <- function(pkgs="annotate", ...,
                             repos="bioc")
 {
   
+  if (tags)
+    registerDoParallel()
+  
   ops <- options("repos")
   setRepositories(ind=1:20)
   all_repos <- getOption("repos")
@@ -121,7 +127,7 @@ installPackages <- function(pkgs="annotate", ...,
       expand_files <- tar_files[!grepl(paste0(gsub("^\\./", "", dirs), "_", collapse="|"), tar_files)]
 
       if (length(expand_files)) {
-        foreach(f=iter(expand_files)) %do% untar(f)
+        foreach(f=iter(expand_files)) %dopar% untar(f)
         generateTagFiles()
       }
     } else {

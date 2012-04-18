@@ -17,6 +17,11 @@
 ##' @param start_from_scratch
 ##' @param SORT
 ##' @param VERBOSE
+##' 
+##' @importFrom RCurl curlOptions
+##' @importFrom RCurl getCurlHandle
+##' @importFrom RCurl getUrl
+##' @importFrom stringr str_c
 ##'
 ##' @export
 fetchGenomes <- function(db="NCBI",
@@ -30,9 +35,6 @@ fetchGenomes <- function(db="NCBI",
                          SORT=FALSE,
                          VERBOSE=FALSE)
 {
-  
-  stopifnot(require(RCurl))
-  stopifnot(require(stringr))
   
   # get contents of remote directory 
   URL <- switch(db,

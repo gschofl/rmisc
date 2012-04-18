@@ -1,3 +1,7 @@
+#' @import devtools
+#' @import roxygen
+NULL
+
 #' Create or update a package
 #'
 #' This function creates, documents, loads or installs a package
@@ -47,10 +51,6 @@
 #' @export
 repackage <- function(pkg="myPackage", code_files=NULL, document=TRUE,
                       load=TRUE, install=FALSE, clean=FALSE) {
-  
-  stopifnot(require(stringr))
-  stopifnot(require(roxygen2))
-  stopifnot(require(devtools))
   
   if (missing(pkg)) stop("Provide a path to the package")
   is_dir <- function(x) !is.na(isdir <- file.info(x)$isdir) & isdir

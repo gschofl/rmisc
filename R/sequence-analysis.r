@@ -1,9 +1,3 @@
-##' @importFrom stringr perl
-##' @importFrom stringr str_split_fixed
-##' @importFrom stringr str_extract_all
-##' @importFrom stringr str_split
-NULL
-
 ##' extract SNP positions from XStringSet objects
 ##' 
 ##' @param aln An XStringSet or MultipleAlignment object
