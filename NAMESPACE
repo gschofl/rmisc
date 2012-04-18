@@ -1,4 +1,6 @@
+export(Curry)
 export(Match)
+export(SysCall)
 export(blanks)
 export(deparseDeflines)
 export(displayHTML)

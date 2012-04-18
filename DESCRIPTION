@@ -25,3 +25,4 @@ Collate:
     'utilities.r'
     'sequence-analysis.r'
     'alignments-r.R'
+    'system.r'
