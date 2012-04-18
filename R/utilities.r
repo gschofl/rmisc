@@ -1,5 +1,6 @@
 ##' @importFrom doParallel registerDoParallel
 ##' @importFrom foreach foreach
+##' @importFrom foreach %dopar%
 ##' @importFrom ProjectTemplate load.project
 NULL
 
