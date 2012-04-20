@@ -1,6 +1,3 @@
-##' @import stringr
-NULL
-
 ##' Wrap alignment
 ##' 
 ##' @param seq1 First sequence.

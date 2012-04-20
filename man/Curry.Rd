@@ -13,7 +13,7 @@
   Pinched from
   \href{https://github.com/hadley/devtools/wiki/First-class-functions}{here}.
 }
-\examples{
-##
+\author{
+  Hadley Wickham <h.wickham@gmail.com>
 }
 

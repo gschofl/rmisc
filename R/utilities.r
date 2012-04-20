@@ -1,9 +1,3 @@
-##' @importFrom doParallel registerDoParallel
-##' @importFrom foreach foreach
-##' @importFrom foreach %dopar%
-##' @importFrom ProjectTemplate load.project
-NULL
-
 ##' initialise a ProjectTemplate project
 ##'
 ##' use \code{init_project("path_to_project_root")} to generate
@@ -86,6 +80,10 @@ generateTagFiles <- function()
 ##' @param repos one of "CRAN", "bioc", "Omegahat", or "R-Forge".
 ##' Defaults to "CRAN"
 ##'
+##' @importFrom iterators iter
+##' @importFrom foreach foreach
+##' @importFrom foreach %dopar%
+##' 
 ##' @export
 installPackages <- function(pkgs="annotate", ..., 
                             check_updates=FALSE,
@@ -117,7 +115,7 @@ installPackages <- function(pkgs="annotate", ...,
     if (isTRUE(tags)) {
       ## if the package is present in the packages directory delete
       ## it and do a fresh install
-      rm_files <- list.files(".", full.names=TRUE)
+      rm_files <- dir(".", full.names=TRUE)
       rm_files <- rm_files[grepl(paste(pkgs, collapse="|"), rm_files)]
       unlink(rm_files, recursive=TRUE)
       ## install from CRAN or Bioconductor
@@ -127,7 +125,7 @@ installPackages <- function(pkgs="annotate", ...,
         install.packages(pkgs, destdir=".", ...)
       }
       ## expand tarballs in destdir and generate tags
-      all_files <- list.files(".", full.names=TRUE)
+      all_files <- dir(".", full.names=TRUE)
       tar_files <- all_files[grepl(".*tar\\.gz$", all_files)]
       dirs <- all_files[file.info(all_files)$isdir]
       expand_files <- tar_files[!grepl(paste0(gsub("^\\./", "", dirs), "_", collapse="|"), tar_files)]
@@ -247,10 +245,7 @@ listFilesRec <- function(path=".",
                          dir_pattern=NULL,
                          exclude_pattern=NULL,
                          file_pattern=NULL)
-{
-  
-  stopifnot(require(foreach))
-  
+{  
   # find directories
   dirs <- listDirs(path, dir_pattern, full.names=TRUE)
   # exclude some directories from the selection

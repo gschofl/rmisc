@@ -12,16 +12,18 @@ Depends:
     R (>= 2.15.0),
     stringr
 Imports:
+    ape,
     BiocInstaller,
+    Biostrings,
+    devtools,
     doParallel,
     foreach,
-    devtools,
-    roxygen,
-    stringr,
+    hwriter,
+    iterators,
     RCurl,
-    XML,
     ProjectTemplate,
-    Biostrings
+    roxygen2,
+    XML
 Collate:
     'strmatch.r'
     'fetch-genomes.r'
@@ -31,3 +33,4 @@ Collate:
     'sequence-analysis.r'
     'alignments-r.R'
     'system.r'
+    'aaa.r'

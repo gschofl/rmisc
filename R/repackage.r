@@ -1,7 +1,3 @@
-#' @import devtools
-#' @import roxygen
-NULL
-
 #' Create or update a package
 #'
 #' This function creates, documents, loads or installs a package

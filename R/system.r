@@ -72,9 +72,8 @@ SysCall <- function (exec,
 ##' @param FUN Function to curry.
 ##' @param ... Arguments
 ##' 
+##' @author Hadley Wickham <h.wickham@@gmail.com>
 ##' @export
-##' @examples
-##' ##
 Curry <- function (FUN, ...)
 {
   args <- match.call(expand.dots=FALSE)$...
@@ -99,3 +98,18 @@ Curry <- function (FUN, ...)
   environment(f) <- env
   f
 }
+
+#' @keywords internal
+merge.list <- function (x, y, ...) 
+{
+  if (length(x) == 0) 
+    return(y)
+  if (length(y) == 0) 
+    return(x)
+  i = match(names(y), names(x))
+  i = is.na(i)
+  if (any(i)) 
+    x[names(y)[which(i)]] = y[which(i)]
+  x
+}
+

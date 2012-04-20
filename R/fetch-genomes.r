@@ -17,11 +17,6 @@
 ##' @param start_from_scratch
 ##' @param SORT
 ##' @param VERBOSE
-##' 
-##' @importFrom RCurl curlOptions
-##' @importFrom RCurl getCurlHandle
-##' @importFrom RCurl getURL
-##' @importFrom stringr str_c
 ##'
 ##' @export
 fetchGenomes <- function(db="NCBI",

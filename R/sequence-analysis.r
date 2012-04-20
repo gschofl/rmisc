@@ -121,8 +121,7 @@ viewMultAlign <- function(msa,
                           width=80,
                           browser="google-chrome")
 {
-  stopifnot(require(hwriter))
-  stopifnot(require(Biostrings))
+
   AA <- FALSE
   DNA <- FALSE
   RNA <- FALSE
@@ -309,8 +308,6 @@ displayHTML <- function (html, browser=getOption("browser"), unlink=TRUE)
 ##' @export
 generateTags <- function (n=20, size=20, GC_percent=60, max_rep=4)
 {
-  
-  stopifnot(require(Biostrings))
   
   if (missing(n))
     stop("Provide the number of tags you want to generate")
