@@ -47,25 +47,78 @@ initProject <- function (project_root=".",
 ##' @usage generate_tag_files()
 ##' 
 ##' @export
-generateTagFiles <- function()
+generateTagFiles <- function(target_dirs=NULL,
+                             rtags="RTAGS",
+                             ctags="RsrcTags",
+                             tag_file_path=getOption("packages"),
+                             verbose=FALSE)
 {
   message("Building Tags ...")
-  unlink(paste0(options()$vim, c("RTAGS","RsrcTags")))
-  curr_dir <- getwd()                  # remember where we are
-  setwd(options()$packages)
-
-  rtags(path=options()$devel, recursive=TRUE, ofile="RTAGS")
-  rtags(path=options()$packages, recursive=TRUE, ofile="RTAGS", append=TRUE)
-  rtags(path=options()$base, recursive=TRUE, ofile="RTAGS", append=TRUE)
-
-  system(paste("/usr/bin/ctags --languages=C,C++,Fortran -R -f RsrcTags", options()$devel))
-  system(paste("/usr/bin/ctags --languages=C,C++,Fortran -R -a -f RsrcTags", options()$packages))
-  system(paste("/usr/bin/ctags --languages=C,C++,Fortran -R -a -f RsrcTags", options()$base))
-
-  file.symlink(paste0(options()$packages, "RTAGS"), paste0(options()$vim, "RTAGS"))
-  file.symlink(paste0(options()$packages, "RsrcTags"), paste0(options()$vim, "RsrcTags"))
-
-  setwd(curr_dir)                      # get us back there ...
+  
+  removeTags <- function (target_dirs, tag_file) {
+    
+    if (file.exists(tag_file)) {
+      conr <- file(tag_file, open="r")
+    } else {
+      return(invisible(NULL))
+    }
+    
+    tag_lines <- readLines(conr)
+    close(conr)
+    target_pattern <- paste(target_dirs, collapse="|")
+    start_idx <- grep(target_pattern, tag_lines)
+    if (length(start_idx) > 0) {
+      f.idx <- grep("\\f", tag_lines)
+      if (length(f.idx) == 0L) {
+        end_idx <- start_idx
+      } else {
+        end_idx <- vapply(start_idx, function (i)
+          f.idx[which(f.idx > i)[1]], integer(1))
+      }
+      end_idx[is.na(end_idx)] <- start_idx[is.na(end_idx)]
+      idx <- Map(seq, start_idx, end_idx)
+      tag_lines <- tag_lines[-unlist(idx)]
+      conw <- file(tag_file, open="w")
+      writeLines(tag_lines, conw)
+      close(conw)
+    }
+    invisible(TRUE)
+  }
+  
+  tag_files <- file.path(tag_file_path, c(rtags, ctags))
+  
+  if (is.null(target_dirs)) {
+    unlink(tag_files)
+    target_dirs <- c(getOption("devel"),getOption("packages"),getOption("base"))
+    shall_append <- c(FALSE, TRUE, TRUE)
+    styles <- list(c("U","U","G"), c("U","U","U","G"), c("U","U","U","G"))
+    for (i in seq_along(target_dirs)) {
+      
+      rtags(target_dirs[i], recursive=TRUE, ofile=tag_files[1], 
+            append=shall_append[i], verbose=verbose)
+      
+      SysCall("ctags", opts=list(R=TRUE, a=shall_append[i], f=tag_files[2]),
+              params=list(languages="C,C++,Fortran"), style=styles[[i]],
+              args=target_dirs[i], show_cmd=FALSE)
+    }
+  } else {
+    for (tag_file in tag_files) {
+      removeTags(target_dirs, tag_file)
+    }
+    for (target in target_dirs) {
+      rtags(target, recursive=TRUE, ofile=tag_files[1], append=TRUE,
+            verbose=verbose)
+      SysCall("ctags", opts=list(R=TRUE, a=TRUE, f=tag_files[2]),
+              params=list(languages="C,C++,Fortran"),
+              style=c("U","U","U","G"), args=target, show_cmd=FALSE)
+    } 
+  }
+  
+  unlink(file.path(getOption("vim"), rtags))
+  file.symlink(tag_files[1], file.path(getOption("vim"), rtags))
+  unlink(file.path(getOption("vim"), ctags))
+  file.symlink(tag_files[1], file.path(getOption("vim"), ctags))
+  invisible(TRUE)
 }
 
 ##' customised \code{\link[utils]{install.packages}}
@@ -80,72 +133,80 @@ generateTagFiles <- function()
 ##' @param repos one of "CRAN", "bioc", "Omegahat", or "R-Forge".
 ##' Defaults to "CRAN"
 ##'
-##' @importFrom iterators iter
-##' @importFrom foreach foreach
-##' @importFrom foreach %dopar%
 ##' 
 ##' @export
-installPackages <- function(pkgs="annotate", ..., 
-                            check_updates=FALSE,
-                            tags=TRUE,
-                            repos="bioc")
+installPackages <- function(pkgs="",
+                            repos=c("bioc", "CRAN", "Omegahat", "R-Forge", "github"),
+                            username="gschofl",
+                            branch="master",
+                            ...,
+                            tags=TRUE)                         
 {
   
-  if (tags)
-    registerDoParallel()
+  repos <- match.arg(repos)
   
-  ops <- options("repos")
-  setRepositories(ind=1:20)
-  all_repos <- getOption("repos")
-  options(ops)
-  select_repos <- c(bioc="bioc", all_repos[c("CRAN", "Omegahat", "R-Forge")])
-
-  if (is.na(select_repos[repos]))
-    stop("Selected Repository not available")
-
-  switch(repos,
-         bioc = options(repos=biocinstallRepos()),
-         options(repos=select_repos[repos]))
-
-  if (check_updates) {
-     old.packages()
-  } else {
-    curr_dir <- getwd()
-    setwd(getOption("packages"))
-    if (isTRUE(tags)) {
-      ## if the package is present in the packages directory delete
-      ## it and do a fresh install
-      rm_files <- dir(".", full.names=TRUE)
-      rm_files <- rm_files[grepl(paste(pkgs, collapse="|"), rm_files)]
-      unlink(rm_files, recursive=TRUE)
-      ## install from CRAN or Bioconductor
-      if (repos == "bioc") {
-        biocLite(pkgs=pkgs, destdir=".", ...)
-      } else {
-        install.packages(pkgs, destdir=".", ...)
-      }
-      ## expand tarballs in destdir and generate tags
-      all_files <- dir(".", full.names=TRUE)
-      tar_files <- all_files[grepl(".*tar\\.gz$", all_files)]
-      dirs <- all_files[file.info(all_files)$isdir]
-      expand_files <- tar_files[!grepl(paste0(gsub("^\\./", "", dirs), "_", collapse="|"), tar_files)]
-
-      if (length(expand_files)) {
-        foreach(f=iter(expand_files)) %dopar% untar(f)
-        generateTagFiles()
-      }
+  if (repos != "github") {
+    ops <- options("repos")
+    setRepositories(ind=1:20)
+    all_repos <- getOption("repos")
+    options(ops)
+    select_repos <- c(bioc="bioc", all_repos[c("CRAN", "Omegahat", "R-Forge")])
+    
+    if (is.na(select_repos[repos]))
+      stop("Selected Repository not available")
+    
+    switch(repos,
+           bioc = options(repos=biocinstallRepos()),
+           options(repos=select_repos[repos]))
+  }
+  
+  pkg_dir <- path.expand(getOption("packages"))
+  if (isTRUE(tags)) {
+    ## if the package is present in the packages directory delete
+    ## it and do a fresh install
+    rm_files <- dir(pkg_dir, full.names=TRUE)
+    rm_files <- rm_files[grepl(paste(pkgs, collapse="|"), rm_files)]
+    unlink(rm_files, recursive=TRUE)
+    ## install from CRAN or Bioconductor
+    if (repos == "bioc") {
+      biocLite(pkgs=pkgs, destdir=pkg_dir, ...)
+    } else if (repos == "github") {
+      installGithub(repo=pkgs, username=username, branch=branch, ...)
     } else {
-      if (repos == "bioc") {
-        biocLite(pkgs=pkgs, ...)
-      } else {
-        install.packages(pkgs, ...)
-      }
+      install.packages(pkgs, destdir=pkg_dir, ...)
     }
-    setwd(curr_dir)
+    ## expand tarballs in destdir and generate tags
+    all_files <- dir(pkg_dir, full.names=TRUE)
+    tar_files <- all_files[grepl(".*tar\\.gz$", all_files)]
+    dirs <- all_files[file.info(all_files)$isdir]
+    if (length(dirs) == 0L) dirs <- "XXX"
+    expand_files <- tar_files[!grepl(paste0(gsub("^\\./", "", dirs), "_", collapse="|"), tar_files)]
+
+    if (length(expand_files)) {
+      foreach(f=iter(expand_files)) %do% 
+        untar(f, exdir=pkg_dir, verbose=TRUE)
     }
+    
+    target_dirs <- if (repos == "github") {
+      c(path.expand(file.path(pkg_dir, pkgs)), stripExt(expand_files, "_"))
+    } else {
+      path.expand(stripExt(expand_files, "_"))
+    }
+
+    generateTagFiles(target_dirs, verbose=TRUE)
+    
+  } else {
+    if (repos == "bioc") {
+      biocLite(pkgs=pkgs, ...)
+    } else if (repos == "github") {
+      installGithub(repo=pkgs, username=username, branch=branch, ...)
+    } else {
+      install.packages(pkgs, ...)
+    }
+  }
   options(ops)
 }
-
+                            
 ##' Strip file extensions
 ##'
 ##' @param file file name(s)
@@ -270,6 +331,55 @@ listDirs <- function(path, ...) {
     list.files(path, ...)[file.info(list.files(path, full.names=TRUE))$isdir]
 }
 
+##' @author Hadley Wickham <h.wickham@@gmail.com>
+##' @keywords internal
+installGithub <- function (repo = "rmisc", username = "gschofl", branch = "master", ...) 
+{
+  message("Installing github repo ",
+          paste(repo, branch, sep = "/", collapse = ", "), " from ", 
+          paste(username, collapse = ", "))
+  
+  name <- paste(username, "-", repo, sep = "")
+  url <- paste("https://github.com/", username, "/", repo, 
+               "/zipball/", branch, sep = "")
+  installUrl(url, name = paste(repo, ".zip", sep = ""), ...)
+}
+
+##' @author Hadley Wickham <h.wickham@@gmail.com>
+##' @keywords internal
+installUrl <- function (url, name = NULL, ...) 
+{
+  if (is.null(name)) {
+    name <- rep(list(NULL), length(url))
+  }
+  invisible(mapply(installUrlSingle, url, name, ...))
+}
+
+##' @author Hadley Wickham <h.wickham@@gmail.com>
+##' @keywords internal
+installUrlSingle <- function (url, name = NULL, ...) 
+{
+  if (is.null(name)) {
+    name <- basename(url)
+  }
+  message("Installing ", name, " from ", dirname(url))
+  bundle <- file.path(getOption("packages"), name)
+  content <- RCurl::getBinaryURL(url, .opts = list(followlocation = TRUE, 
+                                            ssl.verifypeer = FALSE))
+  writeBin(content, bundle)
+  outdir <- basename(as.character(unzip(bundle, list = TRUE)$Name[1]))
+  exdir <- stripExt(bundle)
+  unzip(bundle, overwrite=TRUE, exdir=exdir)
+  pkg_path <- file.path(exdir, outdir)
+  if (!file.exists(file.path(pkg_path, "DESCRIPTION"))) {
+    stop("Does not appear to be an R package", call. = FALSE)
+  }
+  config_path <- file.path(pkg_path, "configure")
+  if (file.exists(config_path)) {
+    Sys.chmod(config_path, "777")
+  }
+  devtools::install(pkg_path, ...)
+}
 
 # --R-- vim:ft=r:sw=2:sts=2:ts=4:tw=76:
 # --R-- vim:fdm=marker:fmr={{{,}}}:fdl=0:

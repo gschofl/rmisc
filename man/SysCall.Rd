@@ -2,29 +2,34 @@
 \alias{SysCall}
 \title{Wrapper for system commands}
 \usage{
-  SysCall(exec, ..., args = list(), stdin = NULL,
-    stdout = NULL, redirection = TRUE,
-    style = c("unix", "gnu"), show_cmd = FALSE,
+  SysCall(exec, ..., opts = list(), args = list(),
+    params = list(), stdin = NULL, stdout = NULL,
+    stderr = NULL, style = "U", show_cmd = FALSE,
     intern = FALSE, input = NULL)
 }
 \arguments{
   \item{exec}{The system command to be invoked.}
 
-  \item{...}{Arguments to the system command as name-value
-  or name=\code{TRUE} pairs}
+  \item{...}{Options passed on to the system command as
+  name-value or name=\code{TRUE} pairs.}
 
-  \item{args}{Alternatively a named list of arguments}
+  \item{opts}{Alternatively a named list of options.}
 
-  \item{stdin}{Where input should be fetched. A file or
-  \code{NULL}.}
+  \item{args}{Arguments passed on to the system command.}
 
-  \item{stdout}{Where output should be sent. A file or
-  \code{NULL}.}
+  \item{params}{'Parameters'. Options taking the form
+  '-(-)option=value'.}
 
-  \item{redirection}{Use redirection.}
+  \item{stdin}{Input redirection. A file or \code{NULL}.}
 
-  \item{style}{Unix-style \sQuote{\code{--}} or Gnu-style
-  \sQuote{\code{-}} arguments.}
+  \item{stdout}{Output redirection. A file or \code{NULL}.}
+
+  \item{stderr}{Error redirection. A file or \code{NULL}.}
+
+  \item{style}{\sQuote{\code{U}} for Unix-style
+  \sQuote{\code{--}} or \sQuote{\code{G}} for Gnu-style
+  \sQuote{\code{-}} arguments. Recyled over \code{...},
+  \code{opts}, \code{args}, and \code{params}.}
 
   \item{show_cmd}{Have a look what the final command looks
   like. Good for debugging.}

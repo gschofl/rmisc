@@ -10,6 +10,7 @@
 ##' @importFrom RCurl curlOptions
 ##' @importFrom RCurl getCurlHandle
 ##' @importFrom RCurl getURL
+##' @importFrom RCurl getBinaryURL
 ##' 
 ##' @importFrom ProjectTemplate load.project
 ##' 

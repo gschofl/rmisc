@@ -1,14 +1,17 @@
 ##' Wrapper for system commands
 ##' 
 ##' @param exec The system command to be invoked.
-##' @param ... Arguments to the system command as name-value or 
-##' name=\code{TRUE} pairs
-##' @param args Alternatively a named list of arguments
-##' @param stdin Where input should be fetched. A file or \code{NULL}.
-##' @param stdout Where output should be sent. A file or \code{NULL}.
-##' @param redirection Use redirection.
-##' @param style Unix-style \sQuote{\code{--}} or Gnu-style 
-##' \sQuote{\code{-}} arguments.
+##' @param ... Options passed on to the system command as name-value or 
+##' name=\code{TRUE} pairs.
+##' @param opts Alternatively a named list of options.
+##' @param args Arguments passed on to the system command.
+##' @param params 'Parameters'. Options taking the form '-(-)option=value'.
+##' @param stdin Input redirection. A file or \code{NULL}.
+##' @param stdout Output redirection. A file or \code{NULL}.
+##' @param stderr Error redirection. A file or \code{NULL}.
+##' @param style \sQuote{\code{U}} for Unix-style \sQuote{\code{--}} or
+##' \sQuote{\code{G}} for Gnu-style \sQuote{\code{-}} arguments.
+##' Recyled over \code{...}, \code{opts}, \code{args}, and \code{params}.
 ##' @param show_cmd Have a look what the final command looks like. Good for
 ##' debugging.
 ##' @param intern Passed on to \code{\link{system}}'s \code{intern} argument.
@@ -19,47 +22,54 @@
 ##' ##
 SysCall <- function (exec,
                      ...,
+                     opts = list(),
                      args = list(),
+                     params = list(),
                      stdin = NULL,
                      stdout = NULL,
-                     redirection = TRUE,
-                     style = c("unix", "gnu"),
+                     stderr = NULL,
+                     style = "U",
                      show_cmd = FALSE,
                      intern = FALSE,
                      input = NULL)
 {  
   isFALSE <- function (x) identical(FALSE, x)
   
-  args <- merge(list(...), args)
-  style <- match.arg(style)
+  opts <- merge(list(...), opts)
   
-  if (is.null(stdin)) {
-    stdin <- ""
-  }
-  else if (!is.null(stdin) && redirection) {
-    stdin <- paste("<", stdin)
-  }
+  stdin <- if (is.null(stdin)) "" else paste("<", stdin)
+  stdout <- if (is.null(stdout)) "" else paste(">", stdout)
+  stderr <- if (is.null(stderr)) "" else paste("2>", stderr)
   
-  if (is.null(stdout)) {
-    stdout <- ""
-  }
-  else {
-    stdout <- paste(">", stdout)
-  }
+  opts[vapply(opts, isTRUE, logical(1))] <- ""
+  opts[vapply(opts, isFALSE, logical(1))] <- NULL
+  opts[vapply(opts, is.null, logical(1))] <- NULL
   
-  args[vapply(args, isTRUE, logical(1))] <- ""
-  args[vapply(args, isFALSE, logical(1))] <- NULL
-  args[vapply(args, is.null, logical(1))] <- NULL
-  args <- switch(style,
-                 unix=paste(str_trim(sprintf("-%s %s", names(args), args)),
-                            collapse=" "),
-                 gnu=paste(str_trim(sprintf("--%s %s", names(args), args)),
-                           collapse=" ")
-                 )
+  is_param <- c(rep(FALSE, length(opts)), rep(TRUE, length(params)))
+  opts_and_params <- merge(opts, params)
+    
+  if (length(style) > 1L && length(style) != length(opts_and_params))
+    stop("The length of the style argument does not match the number of options")
+  
+  if (length(style) == 1L)
+    style <- rep(style, length(opts_and_params))
+  
+  p1 <- "-"
+  p2 <- ifelse(style == "U", "", "-")
+  p3 <- names(opts_and_params)
+  p4 <- ifelse(is_param, "=", " ")
+  p5 <- opts_and_params
+  
+  opts_and_params <- 
+    paste(str_trim(sprintf("%s%s%s%s%s", p1, p2, p3, p4, p5)), collapse=" ")
+
+  args <- 
+    paste(str_trim(sprintf("%s", args)), collapse=" ")
+  
   if (show_cmd)
-    print(str_trim(paste(exec, args, stdin, stdout)))
+    print(str_trim(paste(exec, opts_and_params, args, stdin, stdout, stderr)))
   else
-    return(system(str_trim(paste(exec, args, stdin, stdout)),
+    return(system(str_trim(paste(exec, opts_and_params, args, stdin, stdout, stderr)),
                   intern = intern, input = input))
 }
 
