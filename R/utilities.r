@@ -162,11 +162,15 @@ installPackages <- function(pkgs="",
   
   pkg_dir <- path.expand(getOption("packages"))
   if (isTRUE(tags)) {
-    ## if the package is present in the packages directory delete
-    ## it and do a fresh install
-    rm_files <- dir(pkg_dir, full.names=TRUE)
-    rm_files <- rm_files[grepl(paste(pkgs, collapse="|"), rm_files)]
-    unlink(rm_files, recursive=TRUE)
+
+    if (all(nzchar(pkgs))) {
+      ## if the package is present in the packages directory delete
+      ## it and do a fresh install
+      rm_files <- dir(pkg_dir, full.names=TRUE)
+      rm_files <- rm_files[grepl(paste(pkgs, collapse="|"), rm_files)]
+      unlink(rm_files, recursive=TRUE)
+    }
+    
     ## install from CRAN or Bioconductor
     if (repos == "bioc") {
       biocLite(pkgs=pkgs, destdir=pkg_dir, ...)
