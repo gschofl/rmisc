@@ -3,7 +3,7 @@
 \title{customised \code{\link[utils]{install.packages}}}
 \usage{
   installPackages(pkgs = "",
-    repos = c("bioc", "CRAN", "Omegahat", "R-Forge", "github"),
+    repos = c("bioc", "CRAN", "Omegahat", "R-Forge", "github", "bitbucket"),
     username = "gschofl", branch = "master", ...,
     tags = TRUE)
 }
@@ -19,8 +19,8 @@
   \item{tags}{if \code{TRUE} call
   \code{\link{generate_tag_files}}}
 
-  \item{repos}{one of "CRAN", "bioc", "Omegahat", or
-  "R-Forge". Defaults to "CRAN"}
+  \item{repos}{one of "CRAN", "bioc", "Omegahat",
+  "R-Forge", "github", or "bitbucket". Defaults to "CRAN"}
 }
 \description{
   Puts source code in a specified \emph{packages} directory

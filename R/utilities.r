@@ -130,13 +130,13 @@ generateTagFiles <- function(target_dirs=NULL,
 ##' @param ... Arguments to be passed on to \code{\link[utils]{install.packages}}
 ##' @param check_updates if \code{TRUE} run \code{\link[utils]{old.packages}}
 ##' @param tags if \code{TRUE} call \code{\link{generate_tag_files}}
-##' @param repos one of "CRAN", "bioc", "Omegahat", or "R-Forge".
-##' Defaults to "CRAN"
+##' @param repos one of "CRAN", "bioc", "Omegahat", "R-Forge", "github", or
+##' "bitbucket". Defaults to "CRAN"
 ##'
 ##' 
 ##' @export
 installPackages <- function(pkgs="",
-                            repos=c("bioc", "CRAN", "Omegahat", "R-Forge", "github"),
+                            repos=c("bioc", "CRAN", "Omegahat", "R-Forge", "github", "bitbucket"),
                             username="gschofl",
                             branch="master",
                             ...,
@@ -145,7 +145,7 @@ installPackages <- function(pkgs="",
   
   repos <- match.arg(repos)
   
-  if (repos != "github") {
+  if (!repos %in% c("github","bitbucket")) {
     ops <- options("repos")
     setRepositories(ind=1:20)
     all_repos <- getOption("repos")
@@ -174,8 +174,8 @@ installPackages <- function(pkgs="",
     ## install from CRAN or Bioconductor
     if (repos == "bioc") {
       biocLite(pkgs=pkgs, destdir=pkg_dir, ...)
-    } else if (repos == "github") {
-      installGithub(repo=pkgs, username=username, branch=branch, ...)
+    } else if (repos %in% c("github","bitbucket")) {
+      installFromHost(repo=pkgs, username=username, branch=branch, host=repos, ...)
     } else {
       install.packages(pkgs, destdir=pkg_dir, ...)
     }
@@ -335,19 +335,35 @@ listDirs <- function(path, ...) {
     list.files(path, ...)[file.info(list.files(path, full.names=TRUE))$isdir]
 }
 
-##' @author Hadley Wickham <h.wickham@@gmail.com>
+
 ##' @keywords internal
-installGithub <- function (repo = "rmisc", username = "gschofl", branch = "master", ...) 
+installFromHost <- function (repo = "rmisc",
+                             username = "gschofl",
+                             branch = "master",
+                             host = c("github","bitbucket"),
+                             ...) 
 {
-  message("Installing github repo ",
+  host <- match.arg(host)
+  
+  message(paste("Installing", host,  "repo "),
           paste(repo, branch, sep = "/", collapse = ", "), " from ", 
           paste(username, collapse = ", "))
   
-  name <- paste(username, "-", repo, sep = "")
-  url <- paste("https://github.com/", username, "/", repo, 
-               "/zipball/", branch, sep = "")
-  installUrl(url, name = paste(repo, ".zip", sep = ""), ...)
+  url <- switch(host,
+                github=paste0("https://github.com/", username, "/", repo, 
+                              "/zipball/", branch),
+                bitbucket=paste0("https://bitbucket.org/", username, "/", repo, 
+                                 "/get/", branch, ".zip")
+  )
+  
+  name <- switch(host,
+                 github=paste0(repo, ".zip"),
+                 bitbucket=paste0(branch, ".zip")
+                 )
+  
+  installUrl(url, name, ...)
 }
+
 
 ##' @author Hadley Wickham <h.wickham@@gmail.com>
 ##' @keywords internal
@@ -371,8 +387,16 @@ installUrlSingle <- function (url, name = NULL, ...)
   content <- RCurl::getBinaryURL(url, .opts = list(followlocation = TRUE, 
                                             ssl.verifypeer = FALSE))
   writeBin(content, bundle)
-  outdir <- basename(as.character(unzip(bundle, list = TRUE)$Name[1]))
-  exdir <- stripExt(bundle)
+  outdir <- if (grepl("bitbucket", url)) {
+    dirname(as.character(unzip(bundle, list = TRUE)$Name[1]))
+  } else {
+    basename(as.character(unzip(bundle, list = TRUE)$Name[1]))
+  }
+  exdir <- if (grepl("bitbucket", url)) {
+    file.path(dirname(bundle), str_split_fixed(outdir, "-", 3)[,2])
+  } else {
+    stripExt(bundle)
+  }
   unzip(bundle, overwrite=TRUE, exdir=exdir)
   pkg_path <- file.path(exdir, outdir)
   if (!file.exists(file.path(pkg_path, "DESCRIPTION"))) {
