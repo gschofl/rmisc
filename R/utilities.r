@@ -409,5 +409,49 @@ installUrlSingle <- function (url, name = NULL, ...)
   devtools::install(pkg_path, ...)
 }
 
+##' Purge rows containing NAs from a data frame
+##' 
+##' returns the supplied colums without rows containing NAs as a data frames
+##' 
+##' @param df data frame
+##' @param cols column names
+##' 
+##' @return data frame
+##' 
+##' @export
+purgeNA <- function (df, cols) {
+  if (length(cols) <= 1) {
+    stop("Brauche mindestens zwei Spaltennamen um einen Datenrahmen zu bauen")
+  }
+  if(!all(cols %in% names(df))) {
+    stop("Einen oder mehrere der Spaltennamen gibt es nicht im Datenrahmen")
+  }
+  df <- df[, names(df) %in%cols]
+  df <- df[!Reduce("|", lapply(df, is.na)), ]
+  return(df)
+}
+
+##' benchmark a function
+##' 
+##' @param f function call
+##' @param rep replicate runs
+##' 
+##' @export
+benchmark <- function(f, rep) {
+  mean(replicate(rep, system.time(eval(substitute(f))))["elapsed",])
+}
+
+
+##' chain functions
+##' 
+##' @param x object
+##' @param f function
+##' 
+##' @export
+`%@%` <- function(x, f) {
+  eval.parent(as.call(append(as.list(substitute(f)), list(x), 1)))
+}
+
+
 # --R-- vim:ft=r:sw=2:sts=2:ts=4:tw=76:
 # --R-- vim:fdm=marker:fmr={{{,}}}:fdl=0:
