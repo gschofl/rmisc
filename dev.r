@@ -1,4 +1,5 @@
 
+require(digest)
 require(devtools)
 require(roxygen2)
 rmisc <- as.package("~/R/Devel/rmisc")
