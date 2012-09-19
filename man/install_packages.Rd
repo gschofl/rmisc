@@ -1,8 +1,8 @@
-\name{installPackages}
-\alias{installPackages}
-\title{customised \code{\link[utils]{install.packages}}}
+\name{install_packages}
+\alias{install_packages}
+\title{Customised \code{\link[utils]{install.packages}}}
 \usage{
-  installPackages(pkgs = "",
+  install_packages(pkgs = "",
     repos = c("bioc", "CRAN", "Omegahat", "R-Forge", "github", "bitbucket"),
     username = "gschofl", branch = "master", ...,
     tags = TRUE)

@@ -1,3 +1,5 @@
+.Rbuildignore
 .Rproj.user
 .Rhistory
 .RData
+dev.r

@@ -1,8 +1,8 @@
-\name{replaceExt}
-\alias{replaceExt}
+\name{replace_ext}
+\alias{replace_ext}
 \title{Replace file extensions}
 \usage{
-  replaceExt(file, replacement = "", sep = "\\.",
+  replace_ext(file, replacement = "", sep = "\\.",
     level = 0)
 }
 \arguments{

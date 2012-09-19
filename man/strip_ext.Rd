@@ -1,8 +1,8 @@
-\name{stripExt}
-\alias{stripExt}
+\name{strip_ext}
+\alias{strip_ext}
 \title{Strip file extensions}
 \usage{
-  stripExt(file, sep = "\\.", level = 0)
+  strip_ext(file, sep = "\\.", level = 0)
 }
 \arguments{
   \item{file}{file name(s)}

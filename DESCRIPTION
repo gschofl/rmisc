@@ -1,36 +1,31 @@
 Package: rmisc
-Version: 0.2.0
+Version: 0.2.1
 Date: 2012-03-12
 Type: Package
 Title: Miscellaneous utility functions
 Authors@R: person("Gerhard", "Schöfl", role=c("aut","cre"),
     email="gschofl@yahoo.de")
-Description: Some functions that I find useful.
+Description: A collection of small utility functions that recur
+    in other packages
 License: MIT
 Encoding: latin1
 Depends:
     R (>= 2.15.0),
-    stringr
 Imports:
-    ape,
-    BiocInstaller,
-    Biostrings,
+    stringr,
     devtools,
-    doParallel,
-    foreach,
-    hwriter,
-    iterators,
     RCurl,
-    ProjectTemplate,
-    roxygen2,
-    XML
+    foreach,
+    iterators,
+    BiocInstaller
 Collate:
     'strmatch.r'
-    'fetch-genomes.r'
     'linebreak.r'
-    'repackage.r'
-    'utilities.r'
-    'sequence-analysis.r'
-    'alignments-r.R'
     'system.r'
     'aaa.r'
+    'Curry.R'
+    'flatten.R'
+    'strip-extension.R'
+    'tests.R'
+    'utils.R'
+    'install-packages.R'

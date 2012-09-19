@@ -1,17 +1,17 @@
-##' Perform a global regular expression match
-##' 
-##' Returns the match, a capture group, or an empty string if the
-##' match fails
-##' 
-##' @param pattern a character string containing a regular expression.
-##' @param str a character vector where matches are sought.
-##' @param i (optional) number or name of capture group.
-##' @param perl if \code{TRUE} perl-compatible regexps are used
-##' @return a list containing the matches the matches of the specifies
-##' capture group(s)
-##' @export
-##' @examples
-##' ##
+#' Perform a global regular expression match
+#' 
+#' Returns the match, a capture group, or an empty string if the
+#' match fails
+#' 
+#' @param pattern a character string containing a regular expression.
+#' @param str a character vector where matches are sought.
+#' @param i (optional) number or name of capture group.
+#' @param perl if \code{TRUE} perl-compatible regexps are used
+#' @return a list containing the matches the matches of the specifies
+#' capture group(s)
+#' @export
+#' @examples
+#' ##
 Match  <-  function (pattern, str, i=NULL, perl=TRUE) {
   if (is.null(i)) {
     strmatch(pattern, str, perl=perl, capture=FALSE)
@@ -86,7 +86,4 @@ strmatch <- function (pattern, str, capture=TRUE, perl=TRUE, global=TRUE, ignore
   }
   match
 }
-
-# --R-- vim:ft=r:sw=2:sts=2:ts=4:tw=76:
-#       vim:fdm=marker:fmr={{{,}}}:fdl=0
 
