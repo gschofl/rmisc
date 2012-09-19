@@ -2,7 +2,7 @@
 \alias{strsplitN}
 \title{Split up a string in pieces and return the nth piece.}
 \usage{
-  strsplitN(x, split, n = 3, from = c("start", "end"), ...)
+  strsplitN(x, split, n, from = c("start", "end"), ...)
 }
 \arguments{
   \item{x}{character vector to be split.}

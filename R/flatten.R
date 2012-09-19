@@ -16,10 +16,8 @@
 #' of the resulting flattened list should be pasted.
 #' @param ... Further args.
 #' @return A named \code{list} that features the desired degree of flattening.
-#' @keywords internal
 #' @author Janko Thyson \email{janko.thyson.rstuff@@googlemail.com}
-#' @examples
-#'  ##
+#' @export
 flatten <- function (x, start_after=NULL, stop_at=NULL, delim_path=".",
                      do_warn=TRUE, ... ) {
   
