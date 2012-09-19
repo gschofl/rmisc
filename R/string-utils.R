@@ -84,15 +84,17 @@ pad <- function (x, n = 10, where = 'left', pad = ' ') {
 #' @return A character vector
 #' 
 #' @export
-strsplitN <- function (x, split, n = 3, from = c("start", "end"), ...) {
+strsplitN <- function (x, split, n, from = c("start", "end"), ...) {
   stopifnot(is.vector(x))
   from <- match.arg(from)
   if (from == "end") {
     n <- vapply(strsplit(x, split, ...), length, numeric(1)) - n + 1
     n[n < 0] <- 0
   } else {
-    n <- c(rep(n, length(x) %/% length(n)), n[seq_len(length(x) %% length(n))])
+    lx <- length(x)
+    ln <- length(n)
+    n <- c(rep(n, lx%/%ln), n[seq_len(lx%%ln)])
   }
-  unlist(Map(function(x, n) x[n], x=strsplit(x, split, ...), n=n))
+  mapply("[", strsplit(x, split, ...), n, USE.NAMES=FALSE)
 }
 
