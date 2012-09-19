@@ -192,8 +192,7 @@ installFromHost <- function (repo = "rmisc",
 
 #' @author Hadley Wickham <h.wickham@@gmail.com>
 #' @keywords internal
-installUrl <- function (url, name = NULL, ...) 
-{
+installUrl <- function (url, name = NULL, ...){
   if (is.null(name)) {
     name <- rep(list(NULL), length(url))
   }
@@ -208,8 +207,7 @@ installUrl <- function (url, name = NULL, ...)
 #' @importFrom RCurl getBinaryURL
 #' @importFrom devtools install
 #' @keywords internal
-installUrlSingle <- function (url, name = NULL, ...) 
-{
+installUrlSingle <- function (url, name = NULL, ...) {
   if (is.null(name)) {
     name <- basename(url)
   }

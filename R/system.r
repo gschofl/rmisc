@@ -37,16 +37,14 @@ SysCall <- function (exec, ..., args = list(), stdin = NULL, stdout = NULL,
   args[vapply(args, isFALSE, logical(1))] <- NULL
   args[vapply(args, is.null, logical(1))] <- NULL
   args <- switch(style,
-                 unix=paste(str_trim(sprintf("-%s %s", names(args), args)),
-                            collapse=" "),
-                 gnu=paste(str_trim(sprintf("--%s %s", names(args), args)),
-                           collapse=" "))
+                 unix=paste0(trim(sprintf("-%s %s", names(args), args)), collapse=" "),
+                 gnu=paste0(trim(sprintf("--%s %s", names(args), args)), collapse=" "))
   
   if (show_cmd) {
-    print(str_trim(paste(exec, args, stdin, stdout)))
+    print(trim(paste(exec, args, stdin, stdout)))
   } else {
-    return( system(str_trim(paste(exec, args, stdin, stdout)),
-                   intern = intern, input = input) )
+    return(system(trim(paste(exec, args, stdin, stdout)),
+                  intern = intern, input = input) )
   }
 }
 

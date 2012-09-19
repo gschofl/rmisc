@@ -1,0 +1,18 @@
+\name{wrap}
+\alias{wrap}
+\title{Wrap elements}
+\usage{
+  wrap(x, wrap = "\"")
+}
+\arguments{
+  \item{x}{A vector.}
+
+  \item{wrap}{A string to wrap around vector elements}
+}
+\value{
+  a vector with wrapped strings
+}
+\description{
+  Wrap elements
+}
+

@@ -25,8 +25,7 @@ blanks <- function(n) {
 merge_list <- function (x, y, ...) {
   if (length(x) == 0) return(y)
   if (length(y) == 0) return(x) 
-  i = match(names(y), names(x))
-  i = is.na(i)
+  i <- is.na(match(names(y), names(x)))
   if (any(i)) {
     x[names(y)[which(i)]] = y[which(i)]
   }
@@ -67,13 +66,15 @@ modify_list <- function (a, b, mode=c("replace",  "merge")) {
 # taken from roxygen3 by Hadley Wickham
 #' @export
 compact <- function (x) {
-   Filter(Negate(is.null), x)
+  null <- vapply(x, is.null, logical(1))
+  x[!null]
 }
 
 
 #' @export
 compactNA <- function (x) {
-   Filter(Negate(is.na), x)
+   na <- vapply(x, is.na, logical(1))
+   x[!na]
 }
 
 
@@ -94,7 +95,7 @@ purgeNA <- function (df, cols) {
   if(!all(cols %in% names(df))) {
     stop("Einen oder mehrere der Spaltennamen gibt es nicht im Datenrahmen")
   }
-  df <- df[, names(df) %in%cols]
+  df <- df[, names(df) %in% cols]
   df <- df[!Reduce("|", lapply(df, is.na)), ]
   return(df)
 }

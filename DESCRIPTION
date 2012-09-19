@@ -29,3 +29,4 @@ Collate:
     'tests.R'
     'utils.R'
     'install-packages.R'
+    'string-utils.R'

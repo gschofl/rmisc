@@ -38,7 +38,7 @@ linebreak <- function (s, width = getOption("width") - 2,
     # convert newlines, tabs, spaces to " "
     # find first position where 'split' applies
     if (!FULL_FORCE) {
-      s <- gsub("\\s+", " ", gsub("^\\s+|\\s+$", "", s), perl=TRUE)
+      s <- gsub("\\s+", " ", trim(s), perl=TRUE)
     }
     fws <- regexpr(split, s, perl=TRUE)
     if (offset + indent + nchar(s) > width) {
