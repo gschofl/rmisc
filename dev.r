@@ -1,5 +1,6 @@
-require(digest)
+
 require(devtools)
+require(roxygen2)
 rmisc <- as.package("~/R/Devel/rmisc")
 
 document(rmisc, clean=TRUE, reload=TRUE)

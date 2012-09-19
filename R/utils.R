@@ -9,18 +9,6 @@
 }
 
 
-#' create blank strings with a given number of characters
-#' 
-#' @param n A numeric vector
-#' 
-#' @seealso Examples for \code{\link{regmatches}}
-#' @export
-blanks <- function(n) {
-  vapply(Map(rep.int, rep.int(" ", length(n)), n, USE.NAMES=FALSE),
-         paste0, collapse="", character(1))
-}
-
-
 #' @export
 merge_list <- function (x, y, ...) {
   if (length(x) == 0) return(y)

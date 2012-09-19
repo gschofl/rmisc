@@ -1,14 +1,17 @@
 \name{blanks}
 \alias{blanks}
-\title{create blank strings with a given number of characters}
+\title{Dreate blank strings with a given number of characters}
 \usage{
   blanks(n)
 }
 \arguments{
-  \item{n}{A numeric vector}
+  \item{n}{A numeric vector (number of times to duplicate)}
+}
+\value{
+  A character vector
 }
 \description{
-  create blank strings with a given number of characters
+  Dreate blank strings with a given number of characters
 }
 \seealso{
   Examples for \code{\link{regmatches}}
