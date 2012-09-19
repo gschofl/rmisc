@@ -2,14 +2,12 @@
 \alias{trim}
 \title{Trim elements}
 \usage{
-  trim(x, trim = "\\s+", fixed = FALSE)
+  trim(x, trim = "\\s+")
 }
 \arguments{
   \item{x}{A vector.}
 
-  \item{trim}{A pattern to trim from vector elemts}
-
-  \item{fixed}{treat \code{trim} as a fixed string}
+  \item{trim}{A pattern to trim from vector elements}
 }
 \value{
   A vector with trimmed strings

@@ -13,14 +13,13 @@ wrap <- function (x, wrap = '"') {
 #' Trim elements
 #' 
 #' @param x A vector.
-#' @param trim A pattern to trim from vector elemts
-#' @param fixed treat \code{trim} as a fixed string
+#' @param trim A pattern to trim from vector elements
 #' @return A vector with trimmed strings
 #'
 #'@export
-trim <- function (x, trim = '\\s+', fixed = FALSE) {
+trim <- function (x, trim = '\\s+') {
   stopifnot(is.vector(x))
-  gsub(paste0("^", trim, "|", trim, "$"), '', x, fixed=fixed)
+  gsub(paste0("^", trim, "|", trim, "$"), '', x)
 }
 
 
