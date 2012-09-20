@@ -2,14 +2,18 @@
 \alias{benchmark}
 \title{benchmark a function}
 \usage{
-  benchmark(f, rep)
+  benchmark(FUN, n)
 }
 \arguments{
-  \item{f}{function call}
+  \item{FUN}{A function call}
 
-  \item{rep}{replicate runs}
+  \item{n}{Number of replicate runs}
+}
+\value{
+  An object of class \code{\link{proc_time}}
 }
 \description{
-  benchmark a function
+  Call \code{\link{system.time}} n times and average over
+  the replicate runs.
 }
 

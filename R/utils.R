@@ -91,11 +91,15 @@ purgeNA <- function (df, cols) {
 
 #' benchmark a function
 #' 
-#' @param f function call
-#' @param rep replicate runs
+#' Call \code{\link{system.time}} n times and average
+#' over the replicate runs.
 #' 
+#' @param FUN A function call
+#' @param n Number of replicate runs
+#' @return An object of class \code{\link{proc_time}}
 #' @export
-benchmark <- function(f, rep) {
-  mean(replicate(rep, system.time(eval(substitute(f))))["elapsed",])
+benchmark <- function(FUN, n) {
+  r <- replicate(n, system.time(eval(substitute(FUN))))
+  structure(rowMeans(r), class = "proc_time")
 }
 
