@@ -10,6 +10,12 @@
 
 
 #' @export
+"%||%" <- function (a, b) {
+  if (is.null(a) || is_empty(a)) b else a
+}
+
+
+#' @export
 merge_list <- function (x, y, ...) {
   if (length(x) == 0) return(y)
   if (length(y) == 0) return(x) 
