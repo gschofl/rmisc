@@ -4,7 +4,7 @@
 \usage{
   SysCall(exec, ..., args = list(), stdin = NULL,
     stdout = NULL, redirection = TRUE,
-    style = c("unix", "gnu"), show_cmd = FALSE,
+    style = c("unix", "gnu"), sep = " ", show_cmd = FALSE,
     intern = FALSE, input = NULL)
 }
 \arguments{
@@ -23,6 +23,8 @@
   \item{redirection}{Redirection.}
 
   \item{style}{One of \sQuote{unix} or \sQuote{gnu}.}
+
+  \item{sep}{Seperator of option and option argument.}
 
   \item{show_cmd}{Have a look what the final command looks
   like.}

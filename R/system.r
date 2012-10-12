@@ -49,3 +49,22 @@ SysCall <- function (exec, ..., args = list(), stdin = NULL, stdout = NULL,
   }
 }
 
+
+#' Test if a UNIX system command is available
+#' 
+#' @param command Command to test
+#' 
+#' @export
+hasCommand <- function (command) {
+  
+  status <- suppressWarnings(system(paste0("which ", command), intern=TRUE))
+  
+  if (not.null(attr(status, "status")))
+    FALSE
+  else
+    TRUE
+}
+
+
+
+
