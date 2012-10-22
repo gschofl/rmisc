@@ -1,0 +1,21 @@
+\name{split_path}
+\alias{split_path}
+\title{Split a file path and return the nth piece(s)}
+\usage{
+  split_path(path, n = 1, from = "end", ...)
+}
+\arguments{
+  \item{path}{Vector of file paths.}
+
+  \item{n}{Which part(s) to return.}
+
+  \item{from}{One of \sQuote{start} or \sQuote{end}. From
+  which direction do we count the parts.}
+
+  \item{...}{Arguments passed on to
+  \code{\link{strsplitN}}.}
+}
+\description{
+  Split a file path and return the nth piece(s)
+}
+

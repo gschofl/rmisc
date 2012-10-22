@@ -77,24 +77,44 @@ pad <- function (x, n = 10, where = 'left', pad = ' ') {
 #' 
 #' @param x character vector to be split.
 #' @param split regular expression used for splitting.
-#' @param n piece to be returned after the split. Can be a vector.
+#' @param n Vector of elements to be returned.
 #' @param from One of \sQuote{start} or \sQuote{end}. From which direction do
 #' we count the pieces.
+#' @param collapse
 #' @param ... Arguments passed on to \code{\link{strsplit}}.
 #' @return A character vector
 #' 
 #' @export
-strsplitN <- function (x, split, n, from = c("start", "end"), ...) {
+strsplitN <- function (x, split, n, from = "start", collapse = split, ...) {
   stopifnot(is.vector(x))
-  from <- match.arg(from)
+  from <- match.arg(from, c("start", "end"))
+  xs <- strsplit(x, split)
+  end <- vapply(xs, length, integer(1))
+  
   if (from == "end") {
-    n <- vapply(strsplit(x, split, ...), length, numeric(1)) - n + 1
-    n[n < 0] <- 0
+    end <- end + 1L
+    n <- lapply(end, `-`, n)
+    n <- Map(`[<-`, x=n, i=lapply(n, `<`, 0), value=0L)
   } else {
-    lx <- length(x)
-    ln <- length(n)
-    n <- c(rep(n, lx%/%ln), n[seq_len(lx%%ln)])
-  }
-  mapply("[", strsplit(x, split, ...), n, USE.NAMES=FALSE)
+    n <- lapply(rep(0, length(xs)), `+`, n)
+    n <- Map(`[<-`, x=n, i=Map(`>`, n, end), value=end)
+  }  
+  n <- lapply(n, function(n) sort(unique(n)))
+  mapply(function(x, n) paste0(x[n], collapse = collapse), x = xs, n = n)
+}
+
+
+#' Split a file path and return the nth piece(s)
+#'
+#' @param path Vector of file paths.
+#' @param n Which part(s) to return.
+#' @param from One of \sQuote{start} or \sQuote{end}. From which direction do
+#' we count the parts.
+#' @param ... Arguments passed on to \code{\link{strsplitN}}.
+#'
+#' @export
+split_path <- function (path, n = 1, from = "end", ...) {
+  from <- match.arg(from, c("start", "end"))
+  strsplitN(x=path, split=.Platform$file.sep, n=n, from=from, ...)
 }
 
