@@ -1,20 +1,3 @@
-#' Chain functions
-#' 
-#' @param x object
-#' @param f function
-#' 
-#' @export
-"%@%" <- function(x, f) {
-  eval.parent(as.call(append(as.list(substitute(f)), list(x), 1)))
-}
-
-
-#' @export
-"%||%" <- function (a, b) {
-  if (is.null(a) || is_empty(a)) b else a
-}
-
-
 #' @export
 merge_list <- function (x, y, ...) {
   if (length(x) == 0) return(y)
@@ -38,7 +21,7 @@ merge_dups <- function (x) {
 }
 
 
-# taken from lattice by Deepayan Sarkar
+## pinched from the lattice package.
 #' @export
 modify_list <- function (a, b, mode=c("replace",  "merge")) {
   stopifnot(is.list(a), is.list(b))
@@ -57,7 +40,12 @@ modify_list <- function (a, b, mode=c("replace",  "merge")) {
 }
 
 
-# taken from roxygen3 by Hadley Wickham
+## pinched from the roxygen3 package.
+#' Compact a list.
+#' 
+#' Remove all NULL entries from a list.
+#' 
+#' @param x A list.
 #' @export
 compact <- function (x) {
   null <- vapply(x, is.null, logical(1))
@@ -65,10 +53,28 @@ compact <- function (x) {
 }
 
 
+#' Compact a vector.
+#' 
+#' Remove all NA entries from a vector.
+#' 
+#' @param x A lector.
 #' @export
 compactNA <- function (x) {
    na <- vapply(x, is.na, logical(1))
    x[!na]
+}
+
+## pinched from the plyr package.
+#' Calculate the number of unique values.
+#' 
+#' @param x vector
+#' @export
+nunique <- function(x) {
+  if (is.factor(x)) {
+    length(levels(x))
+  } else {
+    length(unique(x))
+  }
 }
 
 

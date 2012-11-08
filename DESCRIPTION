@@ -1,5 +1,5 @@
 Package: rmisc
-Version: 0.2.1
+Version: 0.2-2
 Date: 2012-03-12
 Type: Package
 Title: Miscellaneous utility functions
@@ -19,10 +19,6 @@ Imports:
     iterators,
     BiocInstaller
 Collate:
-    'strmatch.r'
-    'linebreak.r'
-    'system.r'
-    'aaa.r'
     'Curry.R'
     'flatten.R'
     'strip-extension.R'
@@ -30,3 +26,8 @@ Collate:
     'utils.R'
     'install-packages.R'
     'string-utils.R'
+    'aaa.R'
+    'linebreak.R'
+    'ops.R'
+    'strmatch.R'
+    'system.R'
