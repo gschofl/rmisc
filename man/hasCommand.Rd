@@ -1,13 +1,13 @@
 \name{hasCommand}
 \alias{hasCommand}
-\title{Test if a UNIX system command is available}
+\title{Test if UNIX system commands are available}
 \usage{
-  hasCommand(command)
+  hasCommand(cmd)
 }
 \arguments{
-  \item{command}{Command to test}
+  \item{cmd}{A vector of commands to test}
 }
 \description{
-  Test if a UNIX system command is available
+  Test if UNIX system commands are available
 }
 

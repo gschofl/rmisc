@@ -50,20 +50,17 @@ SysCall <- function (exec, ..., args = list(), stdin = NULL, stdout = NULL,
 }
 
 
-#' Test if a UNIX system command is available
+#' Test if UNIX system commands are available
 #' 
-#' @param command Command to test
+#' @param cmd A vector of commands to test
 #' 
 #' @export
-hasCommand <- function (command) {
-  
-  status <- suppressWarnings(system(paste0("which ", command), intern=TRUE))
-  
-  if (not.null(attr(status, "status")))
-    FALSE
-  else
-    TRUE
+hasCommand <- function (cmd) {
+  exec <- paste("which", paste(cmd, collapse=" "))
+  w <- suppressWarnings(system(exec, intern=TRUE))
+  cmd %in% basename(w)
 }
+
 
 
 
