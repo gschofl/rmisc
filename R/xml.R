@@ -22,7 +22,7 @@ xattr <- function(xdoc, path, name, alt = NA_character_, as = 'character') {
 
 
 set_type <- function(x, as) {
-  match.fun(paste0('as.', as))
+  f <- match.fun(paste0('as.', as))
   f(x)
 }
 
