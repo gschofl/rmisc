@@ -2,8 +2,10 @@
 #' 
 #' @param x An object
 #' @export
-is_empty <- function (x) {
-  length(x) == 0L || !nzchar(x)
+is_empty <- function (x) {#
+  if (length(x) == 0)
+    return(TRUE)
+  !nzchar(x)
 }
 
 

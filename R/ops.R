@@ -7,7 +7,7 @@
 
 #' @export
 "%||%" <- function (a, b) {
-  if (is_empty(a)) b else a
+  ifelse(is_empty(a), b, a)
 }
  
 
@@ -34,8 +34,4 @@
   }
   return(invisible(NULL))
 }
-
-
-
-
 

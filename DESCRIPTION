@@ -10,24 +10,19 @@ Description: A collection of small utility functions that recur
 License: MIT
 Encoding: latin1
 Depends:
-    R (>= 2.15.0),
+    R (>= 2.15.0)
 Imports:
-    stringr,
-    devtools,
-    RCurl,
-    foreach,
-    iterators,
-    BiocInstaller
+    XML
 Collate:
     'Curry.R'
     'flatten.R'
     'strip-extension.R'
     'tests.R'
     'utils.R'
-    'install-packages.R'
     'string-utils.R'
     'aaa.R'
     'linebreak.R'
     'ops.R'
     'strmatch.R'
     'system.R'
+    'xml.R'
