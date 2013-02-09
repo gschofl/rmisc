@@ -9,7 +9,16 @@
 "%||%" <- function (a, b) {
   ifelse(is_empty(a), b, a)
 }
- 
+
+
+## Compose functions
+#' @export
+"%.%" <- compose <- function(f, g) {
+  f <- match.fun(f)
+  g <- match.fun(g)
+  function(...) f(g(...))
+}
+
 
 # Pinched from http://code.google.com/p/miscell/source/browse/rvalues/rvalues.r
 #' @export

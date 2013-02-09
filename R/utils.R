@@ -12,7 +12,7 @@ merge_list <- function (x, y, ...) {
 
 #' @export
 merge_dups <- function (x) {
-  if (is_empty(x))
+  if (all_empty(x))
     return(NULL)
   x_names <- names(x)
   a <- x[!duplicated(x_names)]

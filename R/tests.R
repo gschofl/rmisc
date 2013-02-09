@@ -1,3 +1,6 @@
+#' @include ops.R
+NULL
+
 #' Is empty?
 #' 
 #' @param x An object
@@ -15,6 +18,22 @@ is_empty <- function (x) {#
 #' @param x An object
 #' @export
 not_empty <- Negate(is_empty)
+
+
+#' All empty?
+#' 
+#' @usage all_empty(x)
+#' @param x An object
+#' @export
+all_empty <- compose(all, is_empty)
+
+
+#' Any empty?
+#' 
+#' @usage any_empty(x)
+#' @param x An object
+#' @export
+any_empty <- compose(any, is_empty)
 
 
 #' Is FALSE?
