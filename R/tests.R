@@ -92,3 +92,14 @@ is_null <- function(x) {
 }
 
 
+#' Not NULL?
+#' 
+#' Like \code{\link{not.null}} but tests also for
+#' \code{NULL} entries in lists
+#' 
+#' @usage x not_null(x)
+#' @param x An R object
+#' 
+#' @export
+not_null <- Negate(is_null)
+
