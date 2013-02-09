@@ -2,10 +2,10 @@
 \alias{compactNA}
 \title{Compact a vector.}
 \usage{
-  compactNA(x)
+  compactNA(...)
 }
 \arguments{
-  \item{x}{A lector.}
+  \item{x}{A vector.}
 }
 \description{
   Remove all NA entries from a vector.

@@ -41,15 +41,17 @@ modify_list <- function (a, b, mode=c("replace",  "merge")) {
 
 
 ## pinched from the roxygen3 package.
-#' Compact a list.
+#' Compact a vector
 #' 
 #' Remove all NULL entries from a list.
 #' 
 #' @param x A list.
+#' @param filter a function to filter entries. (default \code{is.null})
 #' @export
-compact <- function (x) {
-  null <- vapply(x, is.null, logical(1))
-  x[!null]
+compact <- function (x, filter = is.null) {
+  filter <- match.fun(filter)
+  rm <- vapply(x, filter, logical(1))
+  x[!rm]
 }
 
 
@@ -57,12 +59,19 @@ compact <- function (x) {
 #' 
 #' Remove all NA entries from a vector.
 #' 
-#' @param x A lector.
+#' @param x A vector.
 #' @export
-compactNA <- function (x) {
-   na <- vapply(x, is.na, logical(1))
-   x[!na]
-}
+compactNA <- Curry("compact", filter = is.na)
+
+
+#' Compact a vector.
+#' 
+#' Remove all empty entries from a vector.
+#' 
+#' @param x A vector.
+#' @export
+compactAll <- Curry("compact", filter = is_empty)
+
 
 ## pinched from the plyr package.
 #' Calculate the number of unique values.
@@ -76,7 +85,6 @@ nunique <- function(x) {
     length(unique(x))
   }
 }
-
 
 #' Purge rows containing NAs from a data frame
 #' 
