@@ -43,7 +43,7 @@ dup <- function (x, n) {
 #' @return A character vector
 #' @seealso Examples for \code{\link{regmatches}}
 #' @export
-blanks <- Curry(FUN = dup, x = " ")
+blanks <- Curry("dup", x = " ")
 
 
 #' Pad a string
@@ -99,7 +99,7 @@ strsplitN <- function (x, split, n, from = "start", collapse = split, ...) {
     n <- lapply(rep(0, length(xs)), `+`, n)
     n <- Map(`[<-`, x=n, i=Map(`>`, n, end), value=end)
   }  
-  n <- lapply(n, function(n) sort(unique(n)))
+  n <- lapply(n, compose("sort", "unique"))
   mapply(function(x, n) paste0(x[n], collapse = collapse), x = xs, n = n)
 }
 

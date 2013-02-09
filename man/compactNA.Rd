@@ -1,6 +1,6 @@
 \name{compactNA}
 \alias{compactNA}
-\title{Compact a vector.}
+\title{Filter NA entries from a list.}
 \usage{
   compactNA(...)
 }
@@ -8,6 +8,6 @@
   \item{x}{A vector.}
 }
 \description{
-  Remove all NA entries from a vector.
+  Filter NA entries from a list.
 }
 

@@ -1,14 +1,16 @@
 #' @include ops.R
 NULL
 
+
 #' Is empty?
 #' 
-#' @param x An object
+#' @param x A vector.
 #' @export
-is_empty <- function (x) {#
-  if (length(x) == 0)
+is_empty <- function (x) {
+  if (is.null(x) || length(x) == 0)
     return(TRUE)
-  !nzchar(x)
+  else
+    vapply(x, function(x) length(x)==0, logical(1), USE.NAMES=FALSE) | !nzchar(x)
 }
 
 
@@ -50,9 +52,8 @@ isFALSE <- function (x) {
 #' Not in?
 #' 
 #' @usage x %ni% table
-#' @param x A vector
-#' @param tanble A vector
-#' 
+#' @param x A vector.
+#' @param table A vector.
 #' @export
 "%ni%" <- Negate(`%in%`)
 
@@ -61,7 +62,6 @@ isFALSE <- function (x) {
 #' 
 #' @usage x not.na(x)
 #' @param x An R object
-#' 
 #' @export
 not.na <- Negate(is.na)
 
@@ -74,5 +74,21 @@ not.na <- Negate(is.na)
 #' @export
 not.null <- Negate(is.null)
 
+
+#' Is NULL?
+#' 
+#' Like \code{\link{is.null}} but tests also for
+#' \code{NULL} entries in lists
+#' 
+#' @param x An R object
+#' @export
+is_null <- function(x) {
+  if (is.null(x))
+    return(TRUE)
+  else if (length(x) == 0)
+    return(FALSE)
+  else 
+    vapply(x, is.null, logical(1), USE.NAMES=FALSE)
+}
 
 

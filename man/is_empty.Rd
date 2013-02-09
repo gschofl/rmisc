@@ -5,7 +5,7 @@
   is_empty(x)
 }
 \arguments{
-  \item{x}{An object}
+  \item{x}{A vector.}
 }
 \description{
   Is empty?

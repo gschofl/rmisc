@@ -1,6 +1,6 @@
 \name{compactAll}
 \alias{compactAll}
-\title{Compact a vector.}
+\title{Filter empty entries from a list.}
 \usage{
   compactAll(...)
 }
@@ -8,6 +8,6 @@
   \item{x}{A vector.}
 }
 \description{
-  Remove all empty entries from a vector.
+  Filter empty entries from a list.
 }
 

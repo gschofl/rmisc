@@ -6,9 +6,18 @@
 
 
 #' @export
-"%||%" <- function (a, b) {
-  ifelse(is_empty(a), b, a)
+"%||%" <- function (a, b, filter="is_empty") {
+  filter <- match.fun(filter)
+  ifelse(filter(a), b, a)
 }
+
+
+#' @export
+"%|null|%" <- Curry("%||%", filter="is_null")
+
+
+#' @export
+"%|na|%" <- Curry("%||%", filter="is.na")
 
 
 ## Compose functions

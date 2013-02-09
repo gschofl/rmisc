@@ -1,16 +1,16 @@
 \name{compact}
 \alias{compact}
-\title{Compact a vector}
+\title{Filter entries from a list.}
 \usage{
-  compact(x, filter = is.null)
+  compact(x, filter = "is.null")
 }
 \arguments{
   \item{x}{A list.}
 
-  \item{filter}{a function to filter entries. (default
+  \item{filter}{A function to filter entries. (default
   \code{is.null})}
 }
 \description{
-  Remove all NULL entries from a list.
+  Filter entries from a list.
 }
 

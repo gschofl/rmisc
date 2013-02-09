@@ -39,38 +39,30 @@ modify_list <- function (a, b, mode=c("replace",  "merge")) {
   a
 }
 
-
-## pinched from the roxygen3 package.
-#' Compact a vector
-#' 
-#' Remove all NULL entries from a list.
+ 
+#' Filter entries from a list.
 #' 
 #' @param x A list.
-#' @param filter a function to filter entries. (default \code{is.null})
+#' @param filter A function to filter entries. (default \code{is.null})
 #' @export
-compact <- function (x, filter = is.null) {
+compact <- function (x, filter = "is.null") {
   filter <- match.fun(filter)
-  rm <- vapply(x, filter, logical(1))
-  x[!rm]
+  x[!vapply(x, filter, logical(1), USE.NAMES=FALSE)]
 }
 
 
-#' Compact a vector.
-#' 
-#' Remove all NA entries from a vector.
+#' Filter NA entries from a list.
 #' 
 #' @param x A vector.
 #' @export
-compactNA <- Curry("compact", filter = is.na)
+compactNA <- Curry("compact", filter = "is.na")
 
 
-#' Compact a vector.
-#' 
-#' Remove all empty entries from a vector.
+#' Filter empty entries from a list.
 #' 
 #' @param x A vector.
 #' @export
-compactAll <- Curry("compact", filter = is_empty)
+compactAll <- Curry("compact", filter = "is_empty")
 
 
 ## pinched from the plyr package.

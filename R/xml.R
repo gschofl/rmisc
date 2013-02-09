@@ -20,14 +20,10 @@ xattr <- function(xdoc, path, name, alt = NA_character_, as = 'character') {
   set_type(a, as)
 }
 
+
 set_type <- function(x, as) {
-  switch(as,
-         character=as.character(x),
-         numeric=as.numeric(x),
-         integer=as.integer(x),
-         double=as.double(x),
-         logical=as.logical(x),
-         complex=as.complex(x),
-         x)
+  match.fun(paste0('as.', as))
+  f(x)
 }
+
 
