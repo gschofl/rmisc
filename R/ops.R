@@ -6,14 +6,14 @@
 
 
 #' @export
-"%||%" <- function (a, b, filter="is_empty") {
+"%||%" <- function (a, b, filter="all_empty") {
   filter <- match.fun(filter)
-  ifelse(filter(a), b, a)
+  if (filter(a)) b else a
 }
 
 
 #' @export
-"%|null|%" <- Curry("%||%", filter="is_null")
+"%|null|%" <- Curry("%||%", filter="is.null")
 
 
 #' @export
