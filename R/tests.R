@@ -48,6 +48,8 @@ all_empty <- compose(all, is_empty)
 #' @export
 not.na <- Negate(is.na)
 
+#' @export
+not.null <- Negate(is.null)
 
 #' Is FALSE?
 #' 
