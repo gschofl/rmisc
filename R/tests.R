@@ -45,6 +45,10 @@ is_empty <- function (x) {
 all_empty <- compose(all, is_empty)
 
 
+#' @export
+not.na <- Negate(is.na)
+
+
 #' Is FALSE?
 #' 
 #' @usage isFALSE(x) 
