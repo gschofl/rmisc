@@ -12,6 +12,9 @@ Encoding: latin1
 Depends:
     R (>= 2.15.0)
 Imports:
+    assertthat,
+    RSQLite,
+    stringr,
     XML
 Collate:
     'Curry.R'
@@ -26,3 +29,4 @@ Collate:
     'strmatch.R'
     'system.R'
     'xml.R'
+    'sqlite.R'

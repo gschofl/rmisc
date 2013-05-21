@@ -24,7 +24,7 @@ SysCall <- function (exec, ..., args = list(), stdin = NULL, stdout = NULL,
   
   if (is.null(stdin)) {
     stdin <- ""
-  } else if (not.null(stdin) && redirection) {
+  } else if (!is.null(stdin) && redirection) {
     stdin <- paste("<", stdin)
   }
   

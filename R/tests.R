@@ -1,5 +1,28 @@
 #' @include ops.R
+#' @importFrom assertthat on_failure
+#' @importFrom assertthat "on_failure<-"
+#' @importFrom RSQLite dbGetInfo
 NULL
+
+#' Check if a database has specified tables
+#'
+#' @param con a connection object
+#' @param tables a character vector of table names
+#' @export
+has_tables <- function(con, tbl) {
+  assert_that(is(con, "SQLiteConnection"))
+  all(tbl %in% dbListTables(con))
+}
+on_failure(has_tables) <- function(call, env) {
+  tbl <- paste0(eval(call$tbl, env), collapse = ", ")
+  dbName <- dbGetInfo(eval(call$con, env))$dbname
+  paste0("Missing table(s) ", tbl, " in database ", sQuote(dbName))
+}
+
+
+#' @export
+#' @rdname has_tables
+"%has_tables%" <- has_tables
 
 
 #' Is empty?

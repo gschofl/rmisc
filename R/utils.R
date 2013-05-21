@@ -24,7 +24,8 @@ merge_dups <- function (x) {
 ## pinched from the lattice package.
 #' @export
 modify_list <- function (a, b, mode=c("replace",  "merge")) {
-  stopifnot(is.list(a), is.list(b))
+  assert_that(is.list(a))
+  assert_that(is.list(b))
   mode <- match.arg(mode)
   a_names <- names(a)
   for (v in names(b)) {

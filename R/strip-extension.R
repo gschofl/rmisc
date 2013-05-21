@@ -12,9 +12,8 @@ strip_ext <- stripExt <- function (file, sep="\\.", level=0) {
     # level 0 ditches everything that comes after a dot
     base <- vapply(file, function(x) {
       strsplit(x, sep)[[1L]][1L]
-    }, FUN.VALUE = character(1))
-    names(base) <- NULL
-    return(base)
+    }, FUN.VALUE = character(1), USE.NAMES = FALSE)
+    return( base )
     
   } else if (level > 0L) {
     # level 1 removes the very last extension: file.xyz.abc > file.xyz
@@ -29,7 +28,7 @@ strip_ext <- stripExt <- function (file, sep="\\.", level=0) {
       paste(strsplit(x, sep)[[1L]][seq(1, level)],
             collapse=gsub("\\", "", sep, fixed=TRUE))
     }, file, count, SIMPLIFY=TRUE, USE.NAMES=FALSE)
-    return(base)
+    return( base )
     
   } else {
     stop(sprintf("Level %s is invalid. Must be 0, 1, 2, ...", sQuote(level)))

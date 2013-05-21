@@ -22,10 +22,9 @@ flatten <- function (x, start_after=NULL, stop_at=NULL, delim_path=".",
                      do_warn=TRUE, ... ) {
   
   # VALIDATE
-  if (!is.list(x)) {
-    stop("'src' must be a list.")
-  }
-  if (not.null(start_after) && not.null(stop_at)) {
+  assert_that(is.list(x))
+  
+  if (!is.null(start_after) && !is.null(stop_at)) {
     if (start_after == 1 && stop_at == 1)
       stop(sprintf("Invalid specification:\nstart_after: %s\nstop_at: %s\n",
                    start_after, stop_at))

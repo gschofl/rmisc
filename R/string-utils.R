@@ -6,8 +6,8 @@
 #'
 #' @export
 wrap <- function (x, wrap = '"') {
-    stopifnot(is.vector(x))
-    sprintf('%s%s%s', wrap, x, wrap)
+  assert_that(is.vector(x))
+  sprintf('%s%s%s', wrap, x, wrap)
 }
 
 #' Trim elements
@@ -18,7 +18,7 @@ wrap <- function (x, wrap = '"') {
 #'
 #'@export
 trim <- function (x, trim = '\\s+') {
-  stopifnot(is.vector(x))
+  assert_that(is.vector(x))
   gsub(paste0("^", trim, "|", trim, "$"), '', x)
 }
 
@@ -30,7 +30,7 @@ trim <- function (x, trim = '\\s+') {
 #' @return A character string
 #' @export
 dup <- function (x, n) {
-  stopifnot(length(x) == 1L)
+  assert_that(length(x) == 1L)
     vapply(Map(rep.int, rep.int(x, length(n)), n, USE.NAMES=FALSE),
          paste0, collapse="", character(1))
 }
@@ -60,9 +60,9 @@ blanks <- Curry("dup", x = " ")
 #' @export
 pad <- function (x, n = 10, where = 'left', pad = ' ') {
   x <- as.character(x)
-  stopifnot(length(n) == 1)
-  stopifnot(length(where) == 1)
-  stopifnot(length(pad) == 1)
+  assert_that(length(n) == 1)
+  assert_that(length(where) == 1)
+  assert_that(length(pad) == 1)
   where <- match.arg(where, c("left", "right", "both"))
   needed <- pmax(0, n - nchar(x))
   left <- switch(where, left = needed, right = 0, both = floor(needed/2))
@@ -86,9 +86,9 @@ pad <- function (x, n = 10, where = 'left', pad = ' ') {
 #' 
 #' @export
 strsplitN <- function (x, split, n, from = "start", collapse = split, ...) {
-  stopifnot(is.vector(x))
+  assert_that(is.vector(x))
   from <- match.arg(from, c("start", "end"))
-  xs <- strsplit(x, split)
+  xs <- strsplit(x, split, ...)
   end <- vapply(xs, length, integer(1))
   
   if (from == "end") {
