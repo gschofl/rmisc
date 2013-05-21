@@ -37,28 +37,12 @@ is_empty <- function (x) {
 }
 
 
-#' Not empty?
-#' 
-#' @usage not_empty(x)
-#' @param x An object
-#' @export
-not_empty <- Negate(is_empty)
-
-
 #' All empty?
 #' 
 #' @usage all_empty(x)
 #' @param x An object
 #' @export
 all_empty <- compose(all, is_empty)
-
-
-#' Any empty?
-#' 
-#' @usage any_empty(x)
-#' @param x An object
-#' @export
-any_empty <- compose(any, is_empty)
 
 
 #' Is FALSE?
@@ -81,23 +65,6 @@ isFALSE <- function (x) {
 "%ni%" <- Negate(`%in%`)
 
 
-#' Not NA?
-#' 
-#' @usage x not.na(x)
-#' @param x An R object
-#' @export
-not.na <- Negate(is.na)
-
-
-#' Not NULL?
-#' 
-#' @usage x not.na(x)
-#' @param x An R object
-#' 
-#' @export
-not.null <- Negate(is.null)
-
-
 #' Is NULL?
 #' 
 #' Like \code{\link{is.null}} but tests also for
@@ -117,7 +84,7 @@ is_null <- function(x) {
 
 #' Not NULL?
 #' 
-#' Like \code{\link{not.null}} but tests also for
+#' Like \code{\link{!is.null}} but tests also for
 #' \code{NULL} entries in lists
 #' 
 #' @usage x not_null(x)

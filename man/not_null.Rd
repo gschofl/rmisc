@@ -8,7 +8,7 @@
   \item{x}{An R object}
 }
 \description{
-  Like \code{\link{not.null}} but tests also for
+  Like \code{\link{!is.null}} but tests also for
   \code{NULL} entries in lists
 }
 
