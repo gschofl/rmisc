@@ -30,7 +30,7 @@ db_create <- function(dbName, dbSchema = "")
   
   con <- dbConnect(SQLite(), dbname = dbName)
   
-  sql <- rmisc::compact(rmisc::trim(strsplit(dbSchema, ";\n")[[1L]]), rmisc::is_empty)
+  sql <- compact(trim(strsplit(dbSchema, ";\n")[[1L]]), are_empty)
   if (!all_empty(sql)) {
     tryCatch(lapply(sql, dbGetQuery, conn = con),
              error = function (e) {

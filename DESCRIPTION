@@ -21,7 +21,6 @@ Collate:
     'flatten.R'
     'strip-extension.R'
     'ops.R'
-    'tests.R'
     'utils.R'
     'string-utils.R'
     'aaa.R'
@@ -30,3 +29,4 @@ Collate:
     'system.R'
     'xml.R'
     'sqlite.R'
+    'assertions.R'

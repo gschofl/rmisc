@@ -1,0 +1,16 @@
+\name{are_null}
+\alias{are_null}
+\title{Which elements in a list are NULL?}
+\usage{
+  are_null(x)
+}
+\arguments{
+  \item{x}{object to test}
+}
+\description{
+  Which elements in a list are NULL?
+}
+\examples{
+are_null(list(1,NULL,3))
+}
+

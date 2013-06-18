@@ -30,8 +30,10 @@ trim <- function (x, trim = '\\s+') {
 #' @return A character string
 #' @export
 dup <- function (x, n) {
-  assert_that(length(x) == 1L)
-    vapply(Map(rep.int, rep.int(x, length(n)), n, USE.NAMES=FALSE),
+  assert_that(is.string(x))
+  if (any(n < 0))
+    n[n < 0] <- 0
+  vapply(Map(rep.int, rep.int(x, length(n)), n, USE.NAMES=FALSE),
          paste0, collapse="", character(1))
 }
 
@@ -60,9 +62,7 @@ blanks <- Curry("dup", x = " ")
 #' @export
 pad <- function (x, n = 10, where = 'left', pad = ' ') {
   x <- as.character(x)
-  assert_that(length(n) == 1)
-  assert_that(length(where) == 1)
-  assert_that(length(pad) == 1)
+  assert_that(is.scalar(n), is.scalar(where), is.scalar(pad))
   where <- match.arg(where, c("left", "right", "both"))
   needed <- pmax(0, n - nchar(x))
   left <- switch(where, left = needed, right = 0, both = floor(needed/2))

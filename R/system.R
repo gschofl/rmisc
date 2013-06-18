@@ -18,25 +18,21 @@
 SysCall <- function (exec, ..., args = list(), stdin = NULL, stdout = NULL,
                      redirection = TRUE, style = c("unix", "gnu"), sep = " ",
                      show_cmd = FALSE, intern = FALSE, input = NULL) {  
-  
+  assert_that(has_command(exec))
   args <- merge_list(list(...), args)
   style <- match.arg(style)
-  
   if (is.null(stdin)) {
     stdin <- ""
   } else if (!is.null(stdin) && redirection) {
     stdin <- paste("<", stdin)
   }
-  
   if (is.null(stdout)) {
     stdout <- ""
   } else {
     stdout <- paste(">", stdout)
   }
-  
-  args[vapply(args, isTRUE, logical(1))] <- ""
-  args[vapply(args, isFALSE, logical(1))] <- NULL
-  args[vapply(args, is.null, logical(1))] <- NULL
+  args[are_true(args)] <- ""
+  args[are_false(args) | are_null(args)] <- NULL
   args <- switch(style,
                  unix=paste0(trim(sprintf("-%s%s%s", names(args), sep, args)), collapse=" "),
                  gnu=paste0(trim(sprintf("--%s%s%s", names(args), sep, args)), collapse=" "))
@@ -48,20 +44,4 @@ SysCall <- function (exec, ..., args = list(), stdin = NULL, stdout = NULL,
                   intern = intern, input = input) )
   }
 }
-
-
-#' Test if UNIX system commands are available
-#' 
-#' @param cmd A vector of commands to test
-#' 
-#' @export
-hasCommand <- function (cmd) {
-  exec <- paste("which", paste(cmd, collapse=" "))
-  w <- suppressWarnings(system(exec, intern=TRUE))
-  cmd %in% basename(w)
-}
-
-
-
-
 

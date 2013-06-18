@@ -6,9 +6,16 @@
 
 
 #' @export
-"%||%" <- function (a, b, filter="all_empty") {
+"%||%" <- function (a, b, filter="is.empty") {
   filter <- match.fun(filter)
   if (filter(a)) b else a
+}
+
+## Vectorized version of %||%
+#' @export
+"%|%" <- function (a, b, filter="are_empty") {
+  filter <- match.fun(filter)
+  ifelse(filter(a), b, a)
 }
 
 
@@ -22,11 +29,15 @@
 
 ## Compose functions
 #' @export
-"%.%" <- compose <- function(f, g) {
+compose <- function(f, g) {
   f <- match.fun(f)
   g <- match.fun(g)
   function(...) f(g(...))
 }
+
+
+#' @export
+"%.%" <- compose
 
 
 # Pinched from http://code.google.com/p/miscell/source/browse/rvalues/rvalues.r

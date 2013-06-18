@@ -1,7 +1,7 @@
 \name{has_tables}
 \alias{\%has_tables\%}
 \alias{has_tables}
-\title{Check if a database has specified tables}
+\title{Check if a SQLite database has specified tables}
 \usage{
   has_tables(con, tbl)
 
@@ -13,6 +13,6 @@
   \item{tables}{a character vector of table names}
 }
 \description{
-  Check if a database has specified tables
+  Check if a SQLite database has specified tables
 }
 

@@ -1,0 +1,16 @@
+\name{are_true}
+\alias{are_true}
+\title{Which elements in a list are TRUE?}
+\usage{
+  are_true(x)
+}
+\arguments{
+  \item{x}{object to test}
+}
+\description{
+  Which elements in a list are TRUE?
+}
+\examples{
+are_true(list(FALSE,TRUE,TRUE))
+}
+
