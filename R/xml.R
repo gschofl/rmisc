@@ -10,7 +10,7 @@ xvalue <- function(doc, path, alt = NA_character_, as = 'character',
 {
   fun <- compose(fun, xmlValue)
   v <- unlist(xpathApply(doc, path, fun, ...)) %||% alt
-  set_type(v, as)
+  set_mode(v, as)
 }
 
 
@@ -20,7 +20,7 @@ xname <- function(doc, path, alt = NA_character_, as = 'character',
 {
   fun <- compose(fun, xmlName)
   n <- unlist(xpathApply(doc, path, fun, ...)) %||% alt
-  set_type(n, as)
+  set_mode(n, as)
 }
 
 
@@ -30,7 +30,7 @@ xattr <- function(doc, path, name, alt = NA_character_, as = 'character',
 {
   fun <- compose(fun, xmlGetAttr)
   a <- unlist(xpathApply(doc, path, fun, name=name, ...)) %||% alt
-  set_type(a, as)
+  set_mode(a, as)
 }
 
 
@@ -47,14 +47,9 @@ xset <- function(doc, path, ...) {
 }
 
 
-set_type <- function(x, as)
-{
+set_mode <- function(x, as) {
   f <- match.fun(paste0('as.', as))
-  if (!is.null(x)) {
-    f(x)
-  } else {
-    x
-  }
+  if (!is.null(x)) f(x) else x
 }
 
 

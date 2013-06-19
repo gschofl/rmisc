@@ -77,14 +77,14 @@ flatten <- function (x, start_after=NULL, stop_at=NULL, delim_path=".",
       envir$counter_history <- c(envir$counter_history, list(envir$counter))
       
       # EXIT IF DEGREE EXCEEDS CUTOFF
-      if (not.null(envir$stop_at)) {
+      if (!is.null(envir$stop_at)) {
         if (length(envir$counter) > envir$stop_at) { 
           nms <- get("nms", envir=envir)
           out.1 <- list(x)
           names(out.1) <- paste(nms, collapse=envir$delim_path)
 
           # DECISION ON FLATTENING
-          if (not.null(envir$start_after)) {
+          if (!is.null(envir$start_after)) {
             .startAfterInner(envir=envir, nms=nms, out.1=out.1)
             return(NULL)
           } else {
@@ -115,7 +115,7 @@ flatten <- function (x, start_after=NULL, stop_at=NULL, delim_path=".",
       names(out.1) <- paste(nms, collapse=envir$delim_path)
 
       # DECISION ON FLATTENING
-      if (not.null(envir$start_after))
+      if (!is.null(envir$start_after))
         .startAfterInner(envir=envir, nms=nms, out.1=out.1)
       else
         .updateOutInner(envir=envir, out.1=out.1)
@@ -138,7 +138,7 @@ flatten <- function (x, start_after=NULL, stop_at=NULL, delim_path=".",
   envir$src               <- x
   envir$start_after       <- start_after
   
-  if (not.null(stop_at)) {
+  if (!is.null(stop_at)) {
     stop_at_0 <- stop_at
     if (stop_at == 1) {
       return(src)
@@ -154,14 +154,14 @@ flatten <- function (x, start_after=NULL, stop_at=NULL, delim_path=".",
   if (envir$do_warn) {
     max_length <- max(sapply(envir$counter_history, length))
 
-    if (not.null(start_after)) {            
+    if (!is.null(start_after)) {            
       if (start_after > max_length) {                        
         warning(paste0("Argument 'start_after=", start_after, 
                        "' exceeds maximum degree of sublayer nestedness (=", 
                        max_length, ")."))
       }
     }
-    if (not.null(stop_at)) {
+    if (!is.null(stop_at)) {
       if (stop_at_0 > max_length){
         warning(paste0("Argument 'stop_at=", stop_at_0, 
                        "' exceeds maximum degree of sublayer nestedness (=", 

@@ -56,14 +56,14 @@ compact <- function (x, filter = "is.null") {
 #' 
 #' @param x A vector.
 #' @export
-compactNA <- Curry("compact", filter = "is.na")
+compactNA <- Curry(compact, filter = "is.na")
 
 
 #' Filter empty entries from a list.
 #' 
 #' @param x A vector.
 #' @export
-compactAll <- Curry("compact", filter = "is_empty")
+compactAll <- Curry(compact, filter = "is_empty")
 
 
 ## pinched from the plyr package.

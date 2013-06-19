@@ -1,3 +1,6 @@
+#' @include Curry.R
+NULL
+
 ## Chain functions
 #' @export
 "%@%" <- function(x, f) {
@@ -20,24 +23,41 @@
 
 
 #' @export
-"%|null|%" <- Curry("%||%", filter="is.null")
+"%|null|%" <- Curry(`%||%`, filter="is.null")
 
 
 #' @export
-"%|na|%" <- Curry("%||%", filter="is.na")
+"%|na|%" <- Curry(`%||%`, filter="is.na")
 
 
-## Compose functions
+#' Compose  functions
+#'
+#' @param ... multiple functions to compose
+#' @param f,g two functions to compose (infix notaion)
 #' @export
-compose <- function(f, g) {
+compose <- function (...) {
+  funs <- lapply(list(...), match.fun)
+  n <- length(funs)
+  last <- funs[[n]]
+  rest <- funs[-n]
+  
+  function(...) {
+    out <- last(...)
+    for (f in funs) {
+      out <- f(out)
+    }
+    out
+  }
+}
+
+
+#' @rdname compose
+#' @export
+"%.%" <- function(f, g) {
   f <- match.fun(f)
   g <- match.fun(g)
   function(...) f(g(...))
 }
-
-
-#' @export
-"%.%" <- compose
 
 
 # Pinched from http://code.google.com/p/miscell/source/browse/rvalues/rvalues.r

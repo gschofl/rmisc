@@ -45,7 +45,7 @@ dup <- function (x, n) {
 #' @return A character vector
 #' @seealso Examples for \code{\link{regmatches}}
 #' @export
-blanks <- Curry("dup", x = " ")
+blanks <- Curry(dup, x = " ")
 
 
 #' Pad a string

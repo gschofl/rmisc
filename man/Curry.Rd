@@ -1,19 +1,19 @@
 \name{Curry}
 \alias{Curry}
-\title{Curry a function}
+\title{Partial function application}
 \usage{
-  Curry(FUN, ...)
+  Curry(FUN, ..., .env = parent.frame())
 }
 \arguments{
   \item{FUN}{Function to curry.}
 
-  \item{...}{Arguments}
+  \item{...}{Arguments that should be applied to
+  \code{FUN}}
+
+  \item{.env}{the environment of the created function.
+  Defaults to \code{\link{parent.frame}}.}
 }
 \description{
-  Pinched from
-  \href{https://github.com/hadley/devtools/wiki/First-class-functions}{here}.
-}
-\author{
-  Hadley Wickham <h.wickham@gmail.com>
+  Partial function application
 }
 

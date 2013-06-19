@@ -1,34 +1,18 @@
-#' Curry a function
-#' 
-#' Pinched from 
-#' \href{https://github.com/hadley/devtools/wiki/First-class-functions}{here}.
+#' Partial function application 
 #' 
 #' @param FUN Function to curry.
-#' @param ... Arguments
-#' 
-#' @author Hadley Wickham <h.wickham@@gmail.com>
+#' @param ... Arguments that should be applied to \code{FUN}
+#' @param .env the environment of the created function. Defaults to
+#'   \code{\link{parent.frame}}.
 #' @export
-Curry <- function (FUN, ...) {
-  args <- match.call(expand.dots=FALSE)$...
-  args$... <- as.name("...")
+Curry <- function(FUN, ..., .env = parent.frame()) {
+  assert_that(is.function(FUN))
+  Fcall <- substitute(FUN(...))
+  if (!is.primitive(FUN))
+   Fcall <- match.call(FUN, Fcall)
+  Fcall[[length(Fcall) + 1]] <- quote(...)
+  args <- list("..." = quote(expr = ))
   
-  env <- new.env(parent=parent.frame())
-  
-  if (is.name(FUN)) {
-    fname <- FUN
-  } else if (is.character(FUN)) {
-    fname <- as.name(FUN)
-  } else if (is.function(FUN)) {
-    fname <- as.name("FUN")
-    env$FUN <- FUN
-  } else {
-    stop("FUN not function or name of function")
-  }
-  
-  curry_call <- as.call(c(list(fname), args))
-  
-  f <- eval(call("function", as.pairlist(alist(... = )), curry_call))
-  environment(f) <- env
-  f
+  eval(call("function", as.pairlist(args), Fcall), .env)
 }
 
