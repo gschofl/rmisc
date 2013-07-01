@@ -1,18 +1,19 @@
 Package: rmisc
-Version: 0.2-2
+Version: 0.2.3
 Date: 2012-03-12
 Type: Package
 Title: Miscellaneous utility functions
 Authors@R: person("Gerhard", "Schöfl", role=c("aut","cre"),
     email="gschofl@yahoo.de")
-Description: A collection of small utility functions that recur
-    in other packages
+Description: A collection of small utilities that recur
+    across my packages
 License: MIT
 Encoding: latin1
 Depends:
     R (>= 2.15.0)
 Imports:
     assertthat,
+    BiocInstaller,
     RSQLite,
     stringr,
     XML
@@ -30,3 +31,4 @@ Collate:
     'xml.R'
     'sqlite.R'
     'assertions.R'
+    'install.R'

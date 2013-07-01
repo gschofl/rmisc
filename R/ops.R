@@ -36,14 +36,14 @@ NULL
 #' @param f,g two functions to compose (infix notaion)
 #' @export
 compose <- function (...) {
-  funs <- lapply(list(...), match.fun)
+  funs <- lapply(compact(list(...)), match.fun)
   n <- length(funs)
   last <- funs[[n]]
   rest <- funs[-n]
   
   function(...) {
     out <- last(...)
-    for (f in funs) {
+    for (f in rest) {
       out <- f(out)
     }
     out

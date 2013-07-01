@@ -3,12 +3,14 @@
 \alias{compose}
 \title{Compose  functions}
 \usage{
-  compose(f, g)
+  compose(...)
 
   %.%(f, g)
 }
 \arguments{
-  \item{f,g}{two functions to compose}
+  \item{...}{multiple functions to compose}
+
+  \item{f,g}{two functions to compose (infix notaion)}
 }
 \description{
   Compose functions

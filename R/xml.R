@@ -6,7 +6,7 @@ NULL
 
 #' @export
 xvalue <- function(doc, path, alt = NA_character_, as = 'character',
-                   fun = function (x) x, ...)
+                   fun = NULL, ...)
 {
   fun <- compose(fun, xmlValue)
   v <- unlist(xpathApply(doc, path, fun, ...)) %||% alt
@@ -16,7 +16,7 @@ xvalue <- function(doc, path, alt = NA_character_, as = 'character',
 
 #' @export
 xname <- function(doc, path, alt = NA_character_, as = 'character',
-                  fun = function (x) x, ...)
+                  fun = NULL, ...)
 {
   fun <- compose(fun, xmlName)
   n <- unlist(xpathApply(doc, path, fun, ...)) %||% alt
@@ -26,7 +26,7 @@ xname <- function(doc, path, alt = NA_character_, as = 'character',
 
 #' @export
 xattr <- function(doc, path, name, alt = NA_character_, as = 'character',
-                  fun = function (x) x, ...)
+                  fun = NULL, ...)
 {
   fun <- compose(fun, xmlGetAttr)
   a <- unlist(xpathApply(doc, path, fun, name=name, ...)) %||% alt
