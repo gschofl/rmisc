@@ -1,5 +1,5 @@
 Package: rmisc
-Version: 0.2.3
+Version: 0.2.4
 Date: 2012-03-12
 Type: Package
 Title: Miscellaneous utility functions
@@ -14,6 +14,7 @@ Depends:
 Imports:
     assertthat,
     BiocInstaller,
+    IRanges,
     RSQLite,
     stringr,
     XML
@@ -32,3 +33,4 @@ Collate:
     'sqlite.R'
     'assertions.R'
     'install.R'
+    'Collection.R'
