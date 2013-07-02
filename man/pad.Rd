@@ -15,9 +15,6 @@
 }
 \value{
   A character vector
-
-  Slightly modified from Hadley Wickham's
-  \code{\link[stringr]{str_pad}} function
 }
 \description{
   Pad a string

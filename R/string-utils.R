@@ -56,9 +56,6 @@ blanks <- Curry(dup, x = " ")
 #' @param pad Padding character
 #' @return A character vector
 #'
-#' Slightly modified from Hadley Wickham's \code{\link[stringr]{str_pad}}
-#' function
-#'   
 #' @export
 pad <- function (x, n = 10, where = 'left', pad = ' ') {
   x <- as.character(x)

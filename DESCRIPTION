@@ -1,5 +1,5 @@
 Package: rmisc
-Version: 0.2.4
+Version: 0.2.5
 Date: 2012-03-12
 Type: Package
 Title: Miscellaneous utility functions
@@ -16,7 +16,6 @@ Imports:
     BiocInstaller,
     IRanges,
     RSQLite,
-    stringr,
     XML
 Collate:
     'Curry.R'
@@ -25,7 +24,6 @@ Collate:
     'ops.R'
     'utils.R'
     'string-utils.R'
-    'aaa.R'
     'linebreak.R'
     'strmatch.R'
     'system.R'
