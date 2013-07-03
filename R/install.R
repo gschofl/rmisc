@@ -69,7 +69,7 @@ update_github <- function () {
     which <- tolower(strsplit(gsub('\\s+', '', readline(msg)), '')[[1]])
     if (!paste(which, collapse='') %in% c("a","all","q","quit")) {
       if (!any(is.na(idx <- suppressWarnings(as.numeric(which))))
-          && max(idx) < length(pkgs)
+          && max(idx) <= length(pkgs)
           && min(idx) > 0) {
         pkgs <- pkgs[idx]
         break
@@ -86,6 +86,7 @@ update_github <- function () {
   }
   
   if (!all_empty(pkgs))
+    #cat(pkgs, sep=", ")
     install_github(pkgs, 'gschofl')
 }
 
