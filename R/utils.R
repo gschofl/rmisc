@@ -66,16 +66,18 @@ compactNA <- Curry(compact, filter = "is.na")
 compactAll <- Curry(compact, filter = "is_empty")
 
 
-## pinched from the plyr package.
-#' Calculate the number of unique values.
+#' Number of unique elements in a vector.
+#' 
+#' A wrapper around \code{length(unique(x))}
 #' 
 #' @param x vector
+#' @param ... passed to \code{\link{unique}}
 #' @export
-nunique <- function(x) {
+nunique <- function(x, ...) {
   if (is.factor(x)) {
     length(levels(x))
   } else {
-    length(unique(x))
+    length(unique(x, ...))
   }
 }
 

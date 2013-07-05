@@ -1,13 +1,15 @@
 \name{nunique}
 \alias{nunique}
-\title{Calculate the number of unique values.}
+\title{Number of unique elements in a vector.}
 \usage{
-  nunique(x)
+  nunique(x, ...)
 }
 \arguments{
   \item{x}{vector}
+
+  \item{...}{passed to \code{\link{unique}}}
 }
 \description{
-  Calculate the number of unique values.
+  A wrapper around \code{length(unique(x))}
 }
 

@@ -1,0 +1,22 @@
+\name{exists_re}
+\alias{exists_re}
+\title{Check if a pattern occurs in a character vector}
+\usage{
+  exists_re(x, re, ...)
+}
+\arguments{
+  \item{x}{Character vector.}
+
+  \item{re}{Regular expression pattern passed to
+  \code{grep}.}
+
+  \item{...}{Additional arguments passed to
+  \code{\link{grep}}.}
+}
+\description{
+  Check if a pattern occurs in a character vector
+}
+\examples{
+exists_re(c("foo", "bar", "baz"), "^b")
+}
+

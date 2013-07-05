@@ -1,20 +1,20 @@
 #' Strip file extensions
 #'
-#' @param file file name(s)
+#' Strips the extension (or an arbitrary tag) from a file name. 
+#' 
+#' @param file The file name(s).
 #' @param sep specifies the seperator character (default ".").
-#' @param level numeric denoting how many extensions should be stripped.
+#' @param level How many extensions should be stripped.
 #' The default (0) strips all, 1 strips the last one, 2 strips the last two,
 #' and so on.
 #' 
 #' @export
 strip_ext <- stripExt <- function (file, sep="\\.", level=0) {
+  assert_that(!missing(file), is.character(file))
   if (level == 0L) {
     # level 0 ditches everything that comes after a dot
-    base <- vapply(file, function(x) {
-      strsplit(x, sep)[[1L]][1L]
-    }, FUN.VALUE = character(1), USE.NAMES = FALSE)
-    return( base )
-    
+    vapply(file, function(x) usp(x, sep)[1L], character(1),
+           USE.NAMES = FALSE)
   } else if (level > 0L) {
     # level 1 removes the very last extension: file.xyz.abc > file.xyz
     # level 2: file.xyz.abc > file

@@ -125,3 +125,32 @@ split_path <- function (path, n = 1, from = "end", ...) {
   strsplitN(x=path, split=.Platform$file.sep, n=n, from=from, ...)
 }
 
+
+#' Check if a pattern occurs in a character vector
+#' 
+#' @param x Character vector.
+#' @param re Regular expression pattern passed to \code{grep}.
+#' @param ... Additional arguments passed to \code{\link{grep}}.
+#' @export
+#' @examples
+#' exists_re(c("foo", "bar", "baz"), "^b")
+exists_re <- function(x, re, ...) {
+  if (length(x) == 1)
+    grepl(re, x, ...)
+  else
+    vapply(x, grepl, pattern = re, ..., FUN.VALUE=logical(1), USE.NAMES=FALSE)
+}
+
+
+#' Count how often a pattern occurs in a character vector.
+#' 
+#' @param x Character vector.
+#' @param re Regular expression pattern passed to \code{gregexpr}.
+#' @param ... Additional arguments passed to \code{\link{gregexpr}}.
+#' @export
+#' count_re(c("foo", "bar", "baz"), "^b")
+count_re <- function(x, re, ...) {
+  vapply(gregexpr(re, x, ...), function (x) sum(x > 0L), numeric(1L),
+  USE.NAMES=FALSE)
+}
+
