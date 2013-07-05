@@ -166,11 +166,14 @@ are_false <- function(x) {
 }
 
 
-#' Not in?
+#' Reverse Value Matching
 #' 
-#' @usage x %ni% table
-#' @param x A vector.
-#' @param table A vector.
+#' Complement of \code{\link{\%in\%}}.
+#' 
+#' @usage x \%ni\% y
+#' @param x A vector
+#' @param y A vector
+#' @rdname ni
 #' @export
 "%ni%" <- Negate(`%in%`)
 

@@ -1,0 +1,15 @@
+\name{\%ni\%}
+\alias{\%ni\%}
+\title{Reverse Value Matching}
+\usage{
+  x \%ni\% y
+}
+\arguments{
+  \item{x}{A vector}
+
+  \item{y}{A vector}
+}
+\description{
+  Complement of \code{\link{\%in\%}}.
+}
+

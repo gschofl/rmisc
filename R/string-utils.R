@@ -70,6 +70,16 @@ pad <- function (x, n = 10, where = 'left', pad = ' ') {
 }
 
 
+#' unlist(strsplit(x, split, ...))
+#' 
+#' @usage usp(x, split, )
+#' @param x Character vector to be split.
+#' @param split The regexp to split on.
+#' @param fixed Arguments passed on to \code{\link{strsplit}}.
+#' @export
+usp <- compose("unlist", "strsplit")
+
+
 #' Split up a string in pieces and return the nth piece.
 #' 
 #' @param x character vector to be split.
