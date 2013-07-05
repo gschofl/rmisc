@@ -1,3 +1,32 @@
+#' Package installer
+#' 
+#' Wrapper around \code{\link{biocLite}}. In addition to the standard
+#' functionality provided \code{biocLite}, this function also download and
+#' untars the source files to \code{destdir}.
+#' 
+#' @param pkgs Packages
+#' @param destdir Where to put the source code.
+#' @param update call \code{\link{update_packages}}.
+#' @param ... Further arguments passed on to \code{\link{biocLite}}.
+#' 
+#' @export
+install_packages <- function (pkgs, destdir = '~/R/Packages',
+                              update = FALSE, ...) {
+  assert_that(!missing(pkgs), is.character(pkgs))
+  BiocInstaller::biocLite(pkgs, suppressUpdates=TRUE, destdir=destdir, ...)
+  
+  if (update) {
+    update_packages(destdir=destdir)
+  }
+  else {
+    destdir <- normalizePath(destdir)
+    cwd <- setwd(destdir)
+    extract_packages(destdir)
+    setwd(cwd)
+  }
+}
+
+
 #' Package updater
 #' 
 #' Check for outdated packages, save the source to \code{destdir},

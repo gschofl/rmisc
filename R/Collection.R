@@ -7,31 +7,54 @@ setOldClass('list')
 #' @name Collection-class
 #' @rdname Collection-class
 #' @exportClass Collection
-setClass('Collection',
-         contains = 'list',
-         representation(
-           elementType = 'character',
-           shared = 'environment'),
-         prototype(
-           elementType = NA_character_,
-           shared = new.env(parent=emptyenv())))
+new_Collection <- setClass('Collection',
+                           contains = 'list',
+                           slots = c(elementType = 'character',
+                                     shared = 'environment'),
+                           prototype = prototype(elementType = NA_character_,
+                                                 shared = new.env(parent=emptyenv())))
+
 
 #' @export
 setMethod("elementType", "Collection", function (x) x@elementType)
 
+
 #' @export
 setMethod("as.list", "Collection", function (x) x@.Data)
 
+
 #' @export
 #' @docType methods
-setGeneric('shared', function(x, ...) standardGeneric('shared'))
-setMethod("shared", "Collection", function(x, value = NULL) {
-  if (is.null(value))
-    x@shared
-  else
-    tryCatch(get(value, envir=x@shared, inherits=FALSE),
-             error = function (e) NULL)
+setGeneric('shared', function(x, i, ...) standardGeneric('shared'))
+
+## `shared` without arguments returns the shared environment itself
+setMethod("shared", c(x="Collection", i="missing"), function(x) x@shared)
+
+## extract objects from the shared environment. The extracted object is
+## NOT copied.
+setMethod("shared", c(x="Collection", i="ANY"), function(x, i) {
+  tryCatch(get(i, x@shared, inherits=FALSE), error = function (e) NULL)
 })
+
+
+#' @export
+#' @docType methods
+setGeneric('shared<-', function(x, i, value, ...) standardGeneric('shared<-'))
+
+setReplaceMethod("shared", c(x="Collection", i="ANY", value="ANY"),
+                 function (x, i, value, ...) {
+                   assert_that(length(i) == 1L)
+                   assign(i, value, x@shared)
+                   x
+                 })
+
+## Remove an object from a shared environment by setting it NULL
+setReplaceMethod("shared", c(x="Collection", i="ANY", value="NULL"),
+                 function (x, i, value, ...) {
+                   assert_that(length(i) == 1L, nzchar(i))
+                   rm(list=as.character(i), pos=x@shared)
+                   x
+                 })
 
 #' @export
 setMethod("[", "Collection", function(x, i, j, ..., drop) {
