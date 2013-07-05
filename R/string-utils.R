@@ -148,6 +148,7 @@ exists_re <- function(x, re, ...) {
 #' @param re Regular expression pattern passed to \code{gregexpr}.
 #' @param ... Additional arguments passed to \code{\link{gregexpr}}.
 #' @export
+#' @examples
 #' count_re(c("foo", "bar", "baz"), "^b")
 count_re <- function(x, re, ...) {
   vapply(gregexpr(re, x, ...), function (x) sum(x > 0L), numeric(1L),

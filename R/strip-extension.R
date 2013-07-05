@@ -19,17 +19,13 @@ strip_ext <- stripExt <- function (file, sep="\\.", level=0) {
     # level 1 removes the very last extension: file.xyz.abc > file.xyz
     # level 2: file.xyz.abc > file
     # and so on
-    count <- vapply(file, function (x) {
-      length(gregexpr(pattern=sep, text=x)[[1L]])
-    }, FUN.VALUE = integer(1)) + 1 - level
-    count <- ifelse(count < 1,  1, count)
-    
-    base <- mapply( function(x, level) {
-      paste(strsplit(x, sep)[[1L]][seq(1, level)],
-            collapse=gsub("\\", "", sep, fixed=TRUE))
-    }, file, count, SIMPLIFY=TRUE, USE.NAMES=FALSE)
-    return( base )
-    
+    count <- count_re(file, sep) + 1L - level
+    # to always grab at least the first element after the split
+    # reset zero counts to 1
+    count <- ifelse(count < 1, 1, count)
+    unlist(Map(function(x, lvl) {
+      paste0(usp(x, sep)[ seq_len(lvl) ], collapse = gsub('\\', '', sep, fixed=TRUE))
+    }, x=file, lvl=count, USE.NAMES=FALSE))
   } else {
     stop(sprintf("Level %s is invalid. Must be 0, 1, 2, ...", sQuote(level)))
   }
@@ -47,10 +43,9 @@ replace_ext <- replaceExt <- function (file, replacement="", sep="\\.", level=0)
     sep=""
   # strip a leading "." from replacement
   if (grepl("^\\.", replacement)) {
-    replacement <- strsplit(replacement, split="^\\.")[[1L]][2L]
+    replacement <- usp(replacement, split="^\\.")[2L]
   }
-  
-  return(paste(strip_ext(file=file, sep=sep, level=level),
-               replacement, sep=gsub("\\", "", sep, fixed=TRUE)))
+  paste0(strip_ext(file=file, sep=sep, level=level),
+         replacement, sep=gsub("\\", "", sep, fixed=TRUE))
 }
 

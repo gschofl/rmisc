@@ -16,4 +16,7 @@
 \description{
   Count how often a pattern occurs in a character vector.
 }
+\examples{
+count_re(c("foo", "bar", "baz"), "^b")
+}
 
