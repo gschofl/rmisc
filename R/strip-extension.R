@@ -45,7 +45,7 @@ replace_ext <- replaceExt <- function (file, replacement="", sep="\\.", level=0)
   if (grepl("^\\.", replacement)) {
     replacement <- usp(replacement, split="^\\.")[2L]
   }
-  paste0(strip_ext(file=file, sep=sep, level=level),
-         replacement, sep=gsub("\\", "", sep, fixed=TRUE))
+  paste(strip_ext(file=file, sep=sep, level=level), replacement,
+        sep=gsub("\\", "", sep, fixed=TRUE))  
 }
 
