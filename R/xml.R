@@ -1,7 +1,4 @@
-#' @importFrom XML xpathApply
-#' @importFrom XML xmlValue
-#' @importFrom XML xmlName
-#' @importFrom XML xmlGetAttr
+#' @importFrom XML xpathApply xmlValue xmlName xmlGetAttr
 NULL
 
 #' @export

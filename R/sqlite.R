@@ -1,18 +1,7 @@
-#' @importFrom assertthat assert_that
-#' @importFrom assertthat is.string
-#' @importFrom assertthat is.readable
-#' @importFrom assertthat not_empty
-#' @importFrom assertthat noNA
-#' @importFrom RSQLite SQLite
-#' @importFrom RSQLite dbConnect
-#' @importFrom RSQLite dbGetQuery
-#' @importFrom RSQLite dbDisconnect
-#' @importFrom RSQLite dbListTables
-#' @importFrom RSQLite dbBeginTransaction
-#' @importFrom RSQLite dbSendPreparedQuery
-#' @importFrom RSQLite dbCommit
+#' @importFrom assertthat assert_that is.string is.readable not_empty noNA
+#' @importFrom RSQLite SQLite dbConnect dbGetQuery dbDisconnect dbCommit
+#' @importFrom RSQLite dbListTables dbBeginTransaction dbSendPreparedQuery
 NULL
-
 
 #' Create an SQLite database.
 #' 

@@ -1,6 +1,5 @@
 #' @include ops.R
-#' @importFrom assertthat on_failure
-#' @importFrom assertthat "on_failure<-"
+#' @importFrom assertthat on_failure "on_failure<-"
 #' @importFrom RSQLite dbGetInfo
 NULL
 

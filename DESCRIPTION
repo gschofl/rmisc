@@ -1,5 +1,5 @@
 Package: rmisc
-Version: 0.2.6
+Version: 0.2.7
 Date: 2012-03-12
 Type: Package
 Title: Miscellaneous utility functions
@@ -10,11 +10,14 @@ Description: A collection of small utilities that recur
 License: MIT
 Encoding: latin1
 Depends:
-    R (>= 2.15.0)
+    R (>= 2.15.0),
+    Rcpp (>= 0.10.1)
+LinkingTo: Rcpp
 Imports:
     assertthat,
     BiocInstaller,
     IRanges,
+    RCurl,
     RSQLite,
     XML
 Collate:
@@ -32,3 +35,4 @@ Collate:
     'assertions.R'
     'install.R'
     'Collection.R'
+    'timestamp.R'
