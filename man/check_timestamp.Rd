@@ -12,8 +12,9 @@
   \item{.message}{A message}
 }
 \value{
-  \code{FALSE} if the local file is more recent than the
-  remote source, else \code{TRUE}
+  \code{TRUE} if the remote source is more recent than the
+  local file, or if the local file does not exist, else
+  \code{FALSE}
 }
 \description{
   Compare local and remote timestamp
