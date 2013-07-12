@@ -44,7 +44,11 @@ update_packages <- function (destdir = '~/R/Packages') {
   tryCatch(biocValid(), error = function (e) {
     if (grepl("package\\(s\\) out of date", e$message)) {
       message('Updating ', strsplitN(e$message, ' ', 1:2))
-      biocLite(destdir='.')
+      if (interactive())
+        ask <- TRUE
+      else
+        ask <- FALSE
+      biocLite(destdir='.', ask=ask)
       extract_packages(destdir)
     }
     else {
