@@ -1,0 +1,24 @@
+\name{load.all}
+\alias{load.all}
+\title{Load saved datasets}
+\usage{
+  load.all(cache = "./cache", envir = .GlobalEnv,
+    verbose = FALSE)
+}
+\arguments{
+  \item{cache}{Path to directory containing RData-files.}
+
+  \item{envir}{the environment where the data should be
+  loaded.}
+
+  \item{verbose}{print item names during loading.}
+}
+\value{
+  A character vector of the names of objects created.
+}
+\description{
+  Reload \code{RData} datasets. Wrapper for
+  \code{\link[base]{load}} that attempts to load all
+  datasets found in a directory.
+}
+

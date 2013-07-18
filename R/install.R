@@ -149,3 +149,30 @@ require.all <- function(...) {
   return(invisible(success))
 }
 
+#' Load saved datasets
+#' 
+#' Reload \code{RData} datasets. Wrapper for \code{\link[base]{load}}
+#' that attempts to load all datasets found in a directory.
+#' 
+#' @param cache Path to directory containing RData-files.
+#' @param envir the environment where the data should be loaded.
+#' @param verbose print item names during loading.
+#' @return A character vector of the names of objects created.
+#' @export
+load.all <- function (cache = "./cache", envir=.GlobalEnv, verbose=FALSE) {
+  rdata <- dir(cache, pattern="rda(ta)?$", full.names=TRUE, ignore.case=TRUE)
+  if (all_empty(rdata)) {
+    return(invisible())
+  }
+  rcon <- lapply(normalizePath(rdata), compose(gzcon, gzfile))
+  on.exit(lapply(rcon, close))
+  success <- lapply(rcon, function (con) {
+    tryCatch(load(con, envir=envir, verbose=verbose), error = function (e) e )
+  })
+  if (any(idx <- vapply(success, is, "error", FUN.VALUE=logical(1)))) {
+    warning("Failed to load:\n", paste(rdata[idx], collapse = "\n"), call. = FALSE)
+    success <- success[!idx]
+  }
+  return(unlist(success))
+}
+
