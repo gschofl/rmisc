@@ -124,4 +124,28 @@ update_github <- function () {
 }
 
 
+#' Require one or more packages
+#' 
+#' A simple wrapper for \code{\link[base]{require}} that allows
+#' loading multiple packages. Issues a warning if a package
+#' cannot be loaded.
+#' 
+#' @param ... Package names (as strings).
+#' @seealso
+#' \code{\link[base]{require}}
+#' @export
+require.all <- function(...) {
+  pkgs <- as.character(list(...))
+  if (all_empty(pkgs)) {
+    return(invisible())
+  }
+  success <- suppressMessages( suppressWarnings(
+    unlist(lapply(pkgs, require, character.only=TRUE))
+  ))
+  if (!all(success)) {
+    warning("Failed to load package(s):\n", paste(pkgs[!success], collapse=", "),
+            call.=FALSE)
+  }
+  return(invisible(success))
+}
 
