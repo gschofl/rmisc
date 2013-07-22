@@ -8,4 +8,6 @@ inst/
 playground/
 test/
 scratch.r
+*.so
+*.o
 

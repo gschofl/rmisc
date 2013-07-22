@@ -1,17 +1,17 @@
 Package: rmisc
-Version: 0.2.8
+Version: 0.2.9
 Date: 2012-03-12
 Type: Package
 Title: Miscellaneous utility functions
 Authors@R: person("Gerhard", "Schöfl", role=c("aut","cre"),
     email="gschofl@yahoo.de")
-Description: A collection of small utilities that recur
-    across my packages
+Description: A collection conveniance functions and routines used
+    for other packages.
 License: MIT
 Encoding: latin1
 Depends:
     R (>= 2.15.0),
-    Rcpp (>= 0.10.1)
+    Rcpp (>= 0.10.3)
 LinkingTo: Rcpp
 Imports:
     assertthat,
@@ -36,3 +36,4 @@ Collate:
     'install.R'
     'Collection.R'
     'timestamp.R'
+    'RcppExports.R'
