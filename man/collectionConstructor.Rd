@@ -1,6 +1,6 @@
 \name{collectionConstructor}
 \alias{collectionConstructor}
-\title{Create a constructor function for classes extending \code{list}}
+\title{Create a constructor function for a Collection class.}
 \usage{
   collectionConstructor(Class)
 }
@@ -8,7 +8,6 @@
   \item{Class}{Name of the collection class.}
 }
 \description{
-  Create a constructor function for classes extending
-  \code{list}
+  Create a constructor function for a Collection class.
 }
 

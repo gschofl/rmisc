@@ -5,6 +5,13 @@
   new_Collection(...)
 }
 \description{
-  Collection-class
+  A vector of S4 objects with a shared environment to
+  contain metadata.
+}
+\seealso{
+  \code{\link{makeCollectionClass}},
+  \code{\link{collectionConstructor}},
+  \code{\link{collectionValidator}},
+  \code{\link{collectionShower}}.
 }
 
