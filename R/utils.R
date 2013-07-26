@@ -129,17 +129,13 @@ purgeNA <- function (df, cols) {
 }
 
 
-#' Benchmark a function
-#' 
-#' Call \code{\link{system.time}} n times and average
-#' over the replicate runs.
-#' 
-#' @param FUN A function call
-#' @param n Number of replicate runs
-#' @return An object of class \code{\link{proc_time}}
 #' @export
-benchmark <- function(FUN, n = 1) {
-  r <- replicate(n, system.time(eval(substitute(FUN))))
-  structure(rowMeans(r), class = "proc_time")
+do_debug <- function(fun) { 
+  fun <- deparse(substitute(fun))
+  tmpfile <- tempfile()
+  dump(fun, file = tmpfile) 
+  source(tmpfile) 
+  do.call('debugonce', args = list(fun), envir = globalenv()) 
+  invisible(NULL) 
 }
 

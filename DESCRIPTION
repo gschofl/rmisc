@@ -1,5 +1,5 @@
 Package: rmisc
-Version: 0.2.9
+Version: 0.2.10
 Date: 2012-03-12
 Type: Package
 Title: Miscellaneous utility functions
@@ -37,3 +37,4 @@ Collate:
     'Collection.R'
     'timestamp.R'
     'RcppExports.R'
+    'cache.R'
