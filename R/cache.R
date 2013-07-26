@@ -18,17 +18,14 @@ new_cache <- function () {
   cache <- NULL
   
   set_val <- function (key, value) {
-    key <- substitute(key)
     assert_that(is.string(key))
     assign(key, value, cache)
   }
   get_val <- function (key) {
-    key <- substitute(key)
     assert_that(is.string(key))
     get(key, cache, inherits = FALSE)
   }
   key_exists <- function (key) {
-    key <- substitute(key)
     assert_that(is.string(key))
     exists(key, cache, inherits = FALSE)
   }
@@ -53,6 +50,7 @@ new_cache <- function () {
   )
 }
 
+#' @S3method print cache
 print.cache <- function (object) {
   lo <- length(object$ls())
   showme <- sprintf("A datacache containing %s object%s.",
