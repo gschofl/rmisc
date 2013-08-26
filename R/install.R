@@ -176,3 +176,60 @@ load.all <- function (cache = "./cache", envir=.GlobalEnv, verbose=FALSE) {
   return(unlist(success))
 }
 
+
+#' Open an RStudio project from R
+#' 
+#' Quickly open a package (ar any  directory in the search path) as an RStudio
+#' project. The search paths are defined by the custom options \code{packages},
+#'  \code{projects}, and \code{devel}, which I have preset in \code{.Rprofile}.
+#'  
+#'  @param pkg The name of a package (or project directory) given as a Symbol.
+#'  @param path One of 'all', 'packages', 'projects', or 'devel'.
+#'  
+#'  @return Opens RStudio.
+#'  @seealso Inspired by \href{http://stackoverflow.com/questions/18426726/system-open-rstudio-close-connection}{this} question on stackoverflow
+#'  @export  
+open_Rproj <- function (pkg, path = 'all') {
+  
+  open_project <- function(rproj) {
+    rstudio <- Sys.which("rstudio")
+    if (rstudio == "") {
+      stop("RStudio is not installed in PATH", call.=TRUE)
+    }
+    action <- paste(rstudio, rproj)
+    system(action, wait=FALSE, ignore.stderr=TRUE)
+  }
+  
+  Rproj.template <- c("Version: 1.0", "", "RestoreWorkspace: Default",
+                      "SaveWorkspace: Default",  "AlwaysSaveHistory: Default",
+                      "", "EnableCodeIndexing: Yes",  "UseSpacesForTab: Yes",
+                      "NumSpacesForTab: 2", "Encoding: UTF-8",  "",
+                      "RnwWeave: knitr", "LaTeX: pdfLaTeX")
+  
+  pkg <- deparse(substitute(pkg))
+  path <- match.arg(path, c('all', 'packages', 'projects', 'devel'))
+  if (path == 'all') {
+    path <- normalizePath(c(getOption("packages"), getOption("projects"), getOption("devel")))
+  } else {
+    path <- normalizePath(getOption(path))
+  }
+  
+  pkg_path <- grep(pkg, dir(path, full.names=TRUE, ignore.case=TRUE), value=TRUE)
+  
+  if (length(pkg_path) > 1) {
+    warning("Found ", length(pkg_path), " packages of  name ", sQuote(pkg), ".\n",
+            "Will open the first: ", sQuote(pkg_path[1]), call.=FALSE, immediate.=TRUE)
+    pkg_path <- pkg_path[1]
+  } else if (length(pkg_path) < 1) {
+    stop("Package ", sQuote(pkg), " not found.", call.=FALSE)
+  }
+  
+  rproj_loc <- dir(pkg_path, pattern="*.Rproj", full.names=TRUE)
+  if (length(rproj_loc) < 1) {
+    rproj_loc <- file.path(pkg_path, paste0(pkg, '.Rproj'))
+    cat(paste(Rproj.template, collapse = "\n"), file = rproj_loc)  
+  }
+  
+  open_project(rproj_loc)
+}
+
