@@ -9,6 +9,9 @@ library(devtools)
 install_github("rmisc", "gschofl")
 ```
 
+Note that this packages makes use of the C++11 standard. For it to compile `Sys.setenv("PKG_CXXFLAGS"="-std=c++11")` must be set before attempting instalation.
+
+
 ## Tools
 
 Available function include:
