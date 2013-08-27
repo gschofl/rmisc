@@ -13,4 +13,13 @@
 \description{
   Filter entries from a list.
 }
+\examples{
+l <- list(a=1, b=NULL, c=NA)
+compact(l)
+## $a
+## [1] 1
+##
+## $c
+## [1] NA
+}
 

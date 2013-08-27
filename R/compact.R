@@ -1,4 +1,4 @@
-#' @include functional.R
+#' @include partial.R
 NULL
 
 #' Filter entries from a list.
@@ -6,6 +6,14 @@ NULL
 #' @param x A list.
 #' @param filter A function to filter entries. (default \code{is.null})
 #' @export
+#' @examples
+#' l <- list(a=1, b=NULL, c=NA)
+#' compact(l)
+#' ## $a
+#' ## [1] 1
+#' ## 
+#' ## $c
+#' ## [1] NA
 compact <- function (x, filter = "is.null") {
   filter <- match.fun(filter)
   x[!vapply(x, filter, logical(1), USE.NAMES=FALSE)]

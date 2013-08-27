@@ -1,3 +1,7 @@
+#' @include compose.R
+NULL
+
+
 #' Package installer
 #' 
 #' Wrapper around \code{\link{biocLite}}. In addition to the standard
@@ -207,9 +211,9 @@ open_Rproj <- function (pkg, path = 'all') {
                       "RnwWeave: knitr", "LaTeX: pdfLaTeX")
   
   pkg <- deparse(substitute(pkg))
-  path <- match.arg(path, c('all', 'packages', 'projects', 'devel'))
+  path <- match.arg(path, c('all', 'devel', 'projects', 'packages'))
   if (path == 'all') {
-    path <- normalizePath(c(getOption("packages"), getOption("projects"), getOption("devel")))
+    path <- normalizePath(c(getOption("devel"), getOption("projects"), getOption("packages")))
   } else {
     path <- normalizePath(getOption(path))
   }

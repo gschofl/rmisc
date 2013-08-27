@@ -1,5 +1,6 @@
-#' @include functional.R
+#' @include partial.R
 NULL
+
 
 ## Chain functions
 #' @export

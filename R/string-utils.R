@@ -1,4 +1,5 @@
-#' @include functional.R
+#' @include partial.R
+#' @include compose.R
 NULL
 
 #' Wrap elements
