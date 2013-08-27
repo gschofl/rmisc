@@ -13,7 +13,7 @@
 \description{
   Dreate blank strings with a given number of characters
 }
-\seealso{
-  Examples for \code{\link{regmatches}}
+\examples{
+blanks(10)
 }
 

@@ -1,0 +1,27 @@
+\name{And}
+\alias{And}
+\alias{Or}
+\title{Predicates}
+\usage{
+  And(...)
+
+  Or(...)
+}
+\arguments{
+  \item{\dots}{Predicate functions}
+
+  \item{\dots}{Predicate functions}
+}
+\description{
+  Predicates
+}
+\details{
+  \code{And} returns a function that returns \code{TRUE}
+  when all the arguments, applied to the returned
+  function's arguments, returns \code{TRUE}.
+
+  \code{Or} returns a function that returns \code{TRUE}
+  when any the arguments, applied to the returned
+  function's arguments, returns \code{TRUE}.
+}
+

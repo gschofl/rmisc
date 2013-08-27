@@ -1,3 +1,6 @@
+#' @include functional.R
+NULL
+
 #' Wrap elements
 #'
 #' @param x A vector.
@@ -5,6 +8,8 @@
 #' @return a vector with wrapped strings
 #'
 #' @export
+#' @examples
+#'   wrap(c("abc", "xyz"), "---")
 wrap <- function (x, wrap = '"') {
   assert_that(is.vector(x))
   sprintf('%s%s%s', wrap, x, wrap)
@@ -16,7 +21,10 @@ wrap <- function (x, wrap = '"') {
 #' @param trim A pattern to trim from vector elements
 #' @return A vector with trimmed strings
 #'
-#'@export
+#' @export
+#' @examples
+#'  x <- " abc\n\t" 
+#'  trim(x)
 trim <- function (x, trim = '\\s+') {
   assert_that(is.vector(x))
   gsub(paste0("^", trim, "|", trim, "$"), '', x)
@@ -29,6 +37,8 @@ trim <- function (x, trim = '\\s+') {
 #' @param n A numeric vector (number of times to duplicate) 
 #' @return A character string
 #' @export
+#' @examples
+#'   dup("#", 1:10)
 dup <- function (x, n) {
   assert_that(is.string(x))
   if (any(n < 0))
@@ -43,19 +53,19 @@ dup <- function (x, n) {
 #' @usage blanks(n)
 #' @param n A numeric vector (number of times to duplicate) 
 #' @return A character vector
-#' @seealso Examples for \code{\link{regmatches}}
 #' @export
-blanks <- Curry(dup, x = " ")
+#' @examples
+#'  blanks(10)
+blanks <- Partial(dup, x = " ")
 
 
 #' Pad a string
 #' 
-#' @param x Input character vector
-#' @param n Pad \code{x} to this (minimum) width
-#' @param where Side where the padding is added
-#' @param pad Padding character
-#' @return A character vector
-#'
+#' @param x Input character vector.
+#' @param n Pad \code{x} to this (minimum) width.
+#' @param where Side where the padding is added.
+#' @param pad Padding character.
+#' @return A character vector.
 #' @export
 pad <- function (x, n = 10, where = 'left', pad = ' ') {
   x <- as.character(x)
@@ -72,12 +82,15 @@ pad <- function (x, n = 10, where = 'left', pad = ' ') {
 
 #' unlist(strsplit(x, split, ...))
 #' 
-#' @usage usp(x, split, )
+#' @usage usp(x, split, ...)
 #' @param x Character vector to be split.
 #' @param split The regexp to split on.
-#' @param fixed Arguments passed on to \code{\link{strsplit}}.
+#' @param \dots Arguments passed on to \code{\link{strsplit}}.
 #' @export
-usp <- compose("unlist", "strsplit")
+#' @examples
+#' usp("a.b.c", ".", fixed = TRUE)
+## ## [1] "a" "b" "c"
+usp <- Compose("unlist", "strsplit")
 
 
 #' Split up a string in pieces and return the nth piece.
@@ -89,7 +102,7 @@ usp <- compose("unlist", "strsplit")
 #' we count the pieces.
 #' @param collapse
 #' @param ... Arguments passed on to \code{\link{strsplit}}.
-#' @return A character vector
+#' @return A character vector.
 #' 
 #' @export
 strsplitN <- function (x, split, n, from = "start", collapse = split, ...) {
@@ -106,7 +119,7 @@ strsplitN <- function (x, split, n, from = "start", collapse = split, ...) {
     n <- lapply(rep(0, length(xs)), `+`, n)
     n <- Map(`[<-`, x=n, i=Map(`>`, n, end), value=end)
   }  
-  n <- lapply(n, compose("sort", "unique"))
+  n <- lapply(n, Compose("sort", "unique"))
   mapply(function(x, n) paste0(x[n], collapse = collapse), x = xs, n = n)
 }
 

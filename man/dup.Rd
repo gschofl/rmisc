@@ -15,4 +15,7 @@
 \description{
   Duplicate a character string n times
 }
+\examples{
+dup("#", 1:10)
+}
 

@@ -20,7 +20,7 @@ Available function include:
 * Various string utilities: `wrap()`, `trim()`, `dup()`, `pad()`, `split_path()`
 * `strsplitN()`: Extract the Nth substring from a vector of strings.
 * `strip_ext()` and `replace_ext()` to handle file extensions.
-* Partial function evaluation and function composition: `Curry()`, `compose()`
+* Partial function evaluation and function composition: `Partial()`, `Compose()`
 * 'default' operators: `%||%` and `%|%` (vectorised verison)
 * `linebreak()`: format paragraphs.
 * Apply XPath expressions to XML documents: `xvalue()`, `xname()`, `xattr()`, `xset()`

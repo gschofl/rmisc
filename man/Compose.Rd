@@ -1,0 +1,30 @@
+\name{Compose}
+\alias{Compose}
+\alias{\%.\%}
+\alias{compose}
+\title{Compose (multiple) functions}
+\usage{
+  Compose(...)
+
+  compose(...)
+
+  %.%(fn1, fn2)
+}
+\arguments{
+  \item{\dots}{The functions to be composed.}
+
+  \item{fn1,fn2}{Two functions to compose (infix notaion)}
+}
+\description{
+  Returns a function that applies the last argument to its
+  input, than the penultimate argument and so on.
+}
+\examples{
+x <- c(1,1,2,2,3,3)
+ nunique <- Compose(length, unique)
+ nunique(x) == length(unique(x))
+
+ ## usefull in lapply constructs
+ sapply(mtcars, length \%.\% unique)
+}
+

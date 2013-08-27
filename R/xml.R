@@ -5,7 +5,7 @@ NULL
 xvalue <- function(doc, path, alt = NA_character_, as = 'character',
                    fun = NULL, ...)
 {
-  fun <- compose(fun, xmlValue)
+  fun <- Compose(fun, xmlValue)
   v <- unlist(xpathApply(doc, path, fun, ...)) %||% alt
   set_mode(v, as)
 }
@@ -15,7 +15,7 @@ xvalue <- function(doc, path, alt = NA_character_, as = 'character',
 xname <- function(doc, path, alt = NA_character_, as = 'character',
                   fun = NULL, ...)
 {
-  fun <- compose(fun, xmlName)
+  fun <- Compose(fun, xmlName)
   n <- unlist(xpathApply(doc, path, fun, ...)) %||% alt
   set_mode(n, as)
 }
@@ -25,7 +25,7 @@ xname <- function(doc, path, alt = NA_character_, as = 'character',
 xattr <- function(doc, path, name, alt = NA_character_, as = 'character',
                   fun = NULL, ...)
 {
-  fun <- compose(fun, xmlGetAttr)
+  fun <- Compose(fun, xmlGetAttr)
   a <- unlist(xpathApply(doc, path, fun, name=name, ...)) %||% alt
   set_mode(a, as)
 }

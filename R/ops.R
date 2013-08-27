@@ -1,4 +1,4 @@
-#' @include Curry.R
+#' @include functional.R
 NULL
 
 ## Chain functions
@@ -23,41 +23,11 @@ NULL
 
 
 #' @export
-"%|null|%" <- Curry(`%||%`, filter="is.null")
+"%|null|%" <- Partial(`%||%`, filter="is.null")
 
 
 #' @export
-"%|na|%" <- Curry(`%||%`, filter="is.na")
-
-
-#' Compose  functions
-#'
-#' @param ... multiple functions to compose
-#' @param f,g two functions to compose (infix notaion)
-#' @export
-compose <- function (...) {
-  funs <- lapply(compact(list(...)), match.fun)
-  n <- length(funs)
-  last <- funs[[n]]
-  rest <- funs[-n]
-  
-  function(...) {
-    out <- last(...)
-    for (f in rest) {
-      out <- f(out)
-    }
-    out
-  }
-}
-
-
-#' @rdname compose
-#' @export
-"%.%" <- function(f, g) {
-  f <- match.fun(f)
-  g <- match.fun(g)
-  function(...) f(g(...))
-}
+"%|na|%" <- Partial(`%||%`, filter="is.na")
 
 
 # Pinched from http://code.google.com/p/miscell/source/browse/rvalues/rvalues.r
@@ -84,3 +54,12 @@ compose <- function (...) {
   return(invisible(NULL))
 }
 
+## http://stackoverflow.com/questions/7519790/assign-multiple-new-variables-in-a-single-line-in-r
+#' @export
+vassign <- function(..., values, envir=parent.frame()) {
+  vars <- as.character(substitute(...()))
+  values <- rep(values, length.out=length(vars))
+  for(var in vars) {
+    assign(var, values[[i]], envir)
+  }
+}

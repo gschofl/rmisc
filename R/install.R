@@ -164,7 +164,7 @@ load.all <- function (cache = "./cache", envir=.GlobalEnv, verbose=FALSE) {
   if (all_empty(rdata)) {
     return(invisible())
   }
-  rcon <- lapply(normalizePath(rdata), compose(gzcon, gzfile))
+  rcon <- lapply(normalizePath(rdata), Compose(gzcon, gzfile))
   on.exit(lapply(rcon, close))
   success <- lapply(rcon, function (con) {
     tryCatch(load(con, envir=envir, verbose=verbose), error = function (e) e )

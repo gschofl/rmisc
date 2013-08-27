@@ -15,4 +15,7 @@
 \description{
   Wrap elements
 }
+\examples{
+wrap(c("abc", "xyz"), "---")
+}
 

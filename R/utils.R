@@ -65,31 +65,6 @@ modify_list <- function (a, b, mode=c("replace",  "merge")) {
   a
 }
 
- 
-#' Filter entries from a list.
-#' 
-#' @param x A list.
-#' @param filter A function to filter entries. (default \code{is.null})
-#' @export
-compact <- function (x, filter = "is.null") {
-  filter <- match.fun(filter)
-  x[!vapply(x, filter, logical(1), USE.NAMES=FALSE)]
-}
-
-
-#' Filter NA entries from a list.
-#' 
-#' @param x A vector.
-#' @export
-compactNA <- Curry(compact, filter = "is.na")
-
-
-#' Filter empty entries from a list.
-#' 
-#' @param x A vector.
-#' @export
-compactAll <- Curry(compact, filter = "is_empty")
-
 
 #' Number of unique elements in a vector.
 #' 
@@ -126,16 +101,5 @@ purgeNA <- function (df, cols) {
   df <- df[, names(df) %in% cols]
   df <- df[!Reduce("|", lapply(df, is.na)), ]
   return(df)
-}
-
-
-#' @export
-do_debug <- function(fun) { 
-  fun <- deparse(substitute(fun))
-  tmpfile <- tempfile()
-  dump(fun, file = tmpfile) 
-  source(tmpfile) 
-  do.call('debugonce', args = list(fun), envir = globalenv()) 
-  invisible(NULL) 
 }
 

@@ -15,4 +15,8 @@
 \description{
   Trim elements
 }
+\examples{
+x <- " abc\\n\\t"
+ trim(x)
+}
 

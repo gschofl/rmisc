@@ -21,7 +21,7 @@
   \code{\link{strsplit}}.}
 }
 \value{
-  A character vector
+  A character vector.
 }
 \description{
   Split up a string in pieces and return the nth piece.

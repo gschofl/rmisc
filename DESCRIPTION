@@ -1,5 +1,5 @@
 Package: rmisc
-Version: 0.2.11
+Version: 0.2.12
 Date: 2012-03-12
 Type: Package
 Title: Miscellaneous utility functions
@@ -21,20 +21,21 @@ Imports:
     RSQLite,
     XML
 Collate:
-    'Curry.R'
     'flatten.R'
-    'strip-extension.R'
-    'ops.R'
+    'Collection.R'
+    'RcppExports.R'
     'utils.R'
-    'string-utils.R'
+    'functional.R'
+    'ops.R'
+    'assertions.R'
+    'cache.R'
+    'install.R'
     'linebreak.R'
+    'sqlite.R'
+    'string-utils.R'
+    'strip-extension.R'
     'strmatch.R'
     'system.R'
-    'xml.R'
-    'sqlite.R'
-    'assertions.R'
-    'install.R'
-    'Collection.R'
     'timestamp.R'
-    'RcppExports.R'
-    'cache.R'
+    'xml.R'
+    'compact.R'
