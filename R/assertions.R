@@ -105,22 +105,18 @@ on_failure(has_tables) <- function(call, env) {
 "%has_tables%" <- has_tables
 
 
-#' On a UNIX-like system, test if an external dependency is available
+#' Test if an external executable is available
 #' 
-#' @param cmd The command to test.
+#' Uses \code{\link{Sys.which}} internally, so it should work
+#' on Windows and Unix.alikes.
+#' 
+#' @param cmd The exececutable to test for.
 #' @param msg Additional message if the test fails.
 #' @family tests
 #' @export
 has_command <- function (cmd, msg = "") {
   assert_that(is.string(cmd))
-  if (.Platform$OS.type == "unix") {
-    exec <- paste("which", cmd)
-    cmd %in% basename(suppressWarnings(system(exec, intern=TRUE)))
-  } else {
-    warning("No test for the presence of", cmd,
-            "implemented for a", .Platform$OS.type, "platform")
-    TRUE
-  }
+  unname(Sys.which(cmd) != "")
 }
 on_failure(has_command) <- function(call, env) {
   paste0("Dependency ", sQuote(eval(call$cmd, env)), " is not installed\n",
