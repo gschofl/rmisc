@@ -1,6 +1,30 @@
 #' @include compact.R
 NULL
 
+
+#' Fast Map
+#' 
+#' A thin wrapper around internal \code{\link{mapply}}, which can be
+#' a bit faster than base \code{\link{Map}}.
+#' 
+#' @param fn Function to apply
+#' @param \dots Arguments to \code{fn}; Vectors or lists.
+#' @return A list
+#' @export
+#' @examples
+#' require(microbenchmark)
+#' microbenchmark(
+#' mapply(`*`, 1:100, 101:200),
+#' Map(`*`, 1:100, 101:200),
+#' FMap(`*`, 1:100, 101:200),
+#' (1:100)*(101:200))
+FMap <- function (fn, ...) {
+  fn <- match.fun(fn)
+  dots <- list(...)
+  .Internal(mapply(fn, dots, MoreArgs = NULL))
+}
+
+
 #' Maybe call a function
 #' 
 #' If the argument(s) to a function are missing or \code{NULL},
