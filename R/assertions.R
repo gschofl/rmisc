@@ -69,8 +69,13 @@ on_failure(is.empty) <- function(call, env) {
 #' @examples
 #' are_empty(list(1,NULL,3,NA))
 are_empty <- function (x) {
+  if (is.recursive(x) || length(x) > 1) {
     vapply(x, function (x) is.null(x) || length(x) == 0L,
            FUN.VALUE=logical(1), USE.NAMES=FALSE) | !nzchar(x)
+  }
+  else {
+    is.empty(x)
+  }
 }
 
 #' @rdname is.empty

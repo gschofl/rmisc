@@ -193,7 +193,7 @@ load.all <- function (cache = "./cache", envir=.GlobalEnv, verbose=FALSE) {
 #'  @return Opens RStudio.
 #'  @seealso Inspired by \href{http://stackoverflow.com/questions/18426726/system-open-rstudio-close-connection}{this} question on stackoverflow
 #'  @export  
-open_Rproj <- function (pkg, path = 'all') {
+rproj <- function (pkg, path = 'all') {
   
   open_project <- function(rproj) {
     rstudio <- Sys.which("rstudio")
@@ -210,7 +210,7 @@ open_Rproj <- function (pkg, path = 'all') {
                       "NumSpacesForTab: 2", "Encoding: UTF-8",  "",
                       "RnwWeave: knitr", "LaTeX: pdfLaTeX")
   
-  pkg <- deparse(substitute(pkg))
+  pkg <- trim(deparse(substitute(pkg)), trim="\"")
   path <- match.arg(path, c('all', 'devel', 'projects', 'packages'))
   if (path == 'all') {
     path <- normalizePath(c(getOption("devel"), getOption("projects"), getOption("packages")))

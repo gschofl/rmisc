@@ -24,11 +24,13 @@ compact <- function (x, filter = "is.null") {
 #' 
 #' @param x A vector.
 #' @export
-compactNA <- Partial(compact, filter = "is.na")
-
+compactNA <- Partial(compact,
+                     filter = Sequence(suppressWarnings%.%is.na,
+                                       function(...) ... %||% FALSE)
+                    )
 
 #' Filter empty entries from a list.
 #' 
 #' @param x A vector.
 #' @export
-compactAll <- Partial(compact, filter = "is_empty")
+compactAll <- Partial(compact, filter = "are_empty")

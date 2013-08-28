@@ -1,5 +1,15 @@
 context("Testing Assertions")
 
+test_that("'is.scalar' returns TRUE for objects of length 1", {
+  expect_true(is.scalar(1))
+  expect_true(is.scalar(""))
+  expect_true(is.scalar(list(1)))
+  
+  expect_false(is.scalar(NULL))
+  expect_false(is.scalar(integer(2)))
+  expect_false(is.scalar(integer()))
+})
+
 test_that("'is.empty' returns TRUE on empty vectors of length one", {
   expect_that(is.empty(NULL), is_true())
   expect_that(is.empty(""), is_true())
@@ -27,4 +37,10 @@ test_that("'all_empty' returns TRUE on empty vectors of all lengths", {
   
   expect_that(all_empty(list(NULL, NULL)), is_true())
   expect_that(all_empty(c("","")), is_true())
+})
+
+test_that("'has_command' returns TRUE on executables that exist", {
+  expect_true(has_command("ftp"))
+  expect_false(has_command("does-not-exist"))
+  expect_that(assert_that(has_command("does-not-exist")), throws_error())
 })

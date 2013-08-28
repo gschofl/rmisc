@@ -51,7 +51,7 @@ compose <- Compose
 #' @param \dots The functions to be composed.
 #' @export
 Sequence <- function (...) {
-  funs <- lapply(list(...), match.fun)
+  fns <- lapply(list(...), match.fun)
   function (...) {
     res <- Call(fns[[1]], ...)
     for (fn in fns[-1])

@@ -26,4 +26,19 @@
 \description{
   Split up a string in pieces and return the nth piece.
 }
+\examples{
+str <- c("Lorem, ipsum, dolor", "consectetur, adipisicing, elit")
+strsplitN(str, ", ", 1)
+## [1] "Lorem"
+## [2] "consectetur"
+strsplitN(str, ", ", 1, from="end")
+## [1] "dolor"
+## [2] "elit"
+strsplitN(str, ", ", 1:2)
+## [1] "Lorem, ipsum"
+## [2] "consectetur, adipisicing"
+strsplitN(str, ", ", 1:2, collapse = "--")
+## [1] "Lorem--ipsum"
+## [2] "consectetur--adipisicing"
+}
 

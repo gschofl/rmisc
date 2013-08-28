@@ -1,6 +1,6 @@
 \name{blanks}
 \alias{blanks}
-\title{Dreate blank strings with a given number of characters}
+\title{Create blank strings with a given number of characters}
 \usage{
   blanks(n)
 }
@@ -11,7 +11,7 @@
   A character vector
 }
 \description{
-  Dreate blank strings with a given number of characters
+  Create blank strings with a given number of characters
 }
 \examples{
 blanks(10)

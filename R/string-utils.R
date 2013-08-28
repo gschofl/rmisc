@@ -49,7 +49,7 @@ dup <- function (x, n) {
 }
 
 
-#' Dreate blank strings with a given number of characters
+#' Create blank strings with a given number of characters
 #' 
 #' @usage blanks(n)
 #' @param n A numeric vector (number of times to duplicate) 
@@ -104,8 +104,21 @@ usp <- Compose("unlist", "strsplit")
 #' @param collapse
 #' @param ... Arguments passed on to \code{\link{strsplit}}.
 #' @return A character vector.
-#' 
 #' @export
+#' @examples
+#' str <- c("Lorem, ipsum, dolor", "consectetur, adipisicing, elit")
+#' strsplitN(str, ", ", 1)
+#' ## [1] "Lorem"
+#' ## [2] "consectetur"
+#' strsplitN(str, ", ", 1, from="end")
+#' ## [1] "dolor"
+#' ## [2] "elit" 
+#' strsplitN(str, ", ", 1:2)
+#' ## [1] "Lorem, ipsum"
+#' ## [2] "consectetur, adipisicing"
+#' strsplitN(str, ", ", 1:2, collapse = "--")
+#' ## [1] "Lorem--ipsum"
+#' ## [2] "consectetur--adipisicing"
 strsplitN <- function (x, split, n, from = "start", collapse = split, ...) {
   assert_that(is.vector(x))
   from <- match.arg(from, c("start", "end"))
