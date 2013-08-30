@@ -12,8 +12,8 @@
   \code{<elementClass>List}-Class.
 }
 \description{
-  Create a subclass to \code{\linkS4class{Collection} named
-  \code{<elementClass>List} and return a constructor
+  Create a subclass to \code{\linkS4class{Collection}}
+  named \code{<elementClass>List} and return a constructor
   function.
 }
 \details{

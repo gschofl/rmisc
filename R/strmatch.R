@@ -28,7 +28,7 @@ Match  <-  function (pattern, str, i=NULL, perl=TRUE) {
 #' @param capture if \code{TRUE} capture groups are returned in addition
 #' to the complete match
 #' @param perl if \code{TRUE} perl-compatible regexps are used.
-#' @param global if \code{TRUE} \code{\link{gregexp}} is used for matching
+#' @param global if \code{TRUE} \code{\link{gregexpr}} is used for matching
 #' otherwise \code{regexpr}.
 #' @param ignore.case case sensitive matching
 #' @return a list containing a \code{match} and a \code{capture} component

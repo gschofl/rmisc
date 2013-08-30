@@ -17,7 +17,7 @@
   \item{perl}{if \code{TRUE} perl-compatible regexps are
   used.}
 
-  \item{global}{if \code{TRUE} \code{\link{gregexp}} is
+  \item{global}{if \code{TRUE} \code{\link{gregexpr}} is
   used for matching otherwise \code{regexpr}.}
 
   \item{ignore.case}{case sensitive matching}
