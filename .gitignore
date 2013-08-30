@@ -1,13 +1,13 @@
 .Rproj.user
 .Rhistory
 .RData
-*.Rproj
+scratch.[rR]
+cache/
 data/
 doc/
-inst/
 playground/
-test/
-scratch.r
+*.html
+*.Rmd
 *.so
 *.o
 

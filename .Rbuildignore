@@ -1,4 +1,8 @@
 ^\.Rproj\.user$
 ^.*\.Rproj$
+cache/
+data/
+doc/
 playground/
-scratch.r
+scratch\.[rR]
+^README\.*
