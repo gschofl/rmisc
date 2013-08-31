@@ -1,7 +1,6 @@
 #' @include compose.R
 NULL
 
-
 #' Package installer
 #' 
 #' Wrapper around \code{\link{biocLite}}. In addition to the standard
@@ -236,4 +235,18 @@ rproj <- function (pkg, path = 'all') {
   
   open_project(rproj_loc)
 }
+
+
+#' Install a package with c++11 set.
+#' 
+#' @param code code to exectute
+#' @export
+with_cpp11 <- function (code) {
+  Sys.setenv("PKG_CXXFLAGS"="-std=c++11")
+  on.exit(Sys.setenv("PKG_CXXFLAGS"=""))
+  
+  force(code)
+}
+
+
 
