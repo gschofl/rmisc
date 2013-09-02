@@ -37,7 +37,7 @@ are_scalar <- function(x) {
 #' @export
 #' @examples
 #' all_scalar(list("a", "b", c("c", "d")))
-all_scalar <- function(x) all(are_scalar(x))
+all_scalar <- function (x) all(are_scalar(x))
 on_failure(all_scalar) <- function(call, env) {
   paste0("Not all elements in ", deparse(call$x), " are of length one.")
 }
@@ -57,7 +57,7 @@ on_failure(all_scalar) <- function(call, env) {
 #' is.empty(numeric())
 #' is.empty(list())
 #' is.empty("")
-is.empty <- function(x) {
+is.empty <- function (x) {
   is.null(x) || length(x) == 0L || ( is.scalar(x) && !nzchar(x) )
 }
 on_failure(is.empty) <- function(call, env) {
@@ -83,7 +83,7 @@ are_empty <- function (x) {
 #' @examples
 #' all_empty(NULL)
 #' all_empty(list(NULL, NULL, character()))
-all_empty <- function(x) all(are_empty(x))
+all_empty <- function (x) all(are_empty(x))
 on_failure(all_empty) <- function(call, env) {
   paste0("Not all elements in ", deparse(call$x), " are empty.")
 }
@@ -94,7 +94,7 @@ on_failure(all_empty) <- function(call, env) {
 #' @param con a connection object
 #' @param tables a character vector of table names
 #' @export
-has_tables <- function(con, tbl) {
+has_tables <- function (con, tbl) {
   assert_that(is(con, "SQLiteConnection"))
   all(tbl %in% dbListTables(con))
 }
@@ -136,7 +136,7 @@ on_failure(has_command) <- function(call, env) {
 #' @export
 #' @examples
 #' are_null(list(1,NULL,3))
-are_null <- function(x) {
+are_null <- function (x) {
   assert_that(is.list(x))
   vapply(x, is.null, FUN.VALUE=logical(1), USE.NAMES=FALSE)
 }
@@ -148,7 +148,7 @@ are_null <- function(x) {
 #' @export
 #' @examples
 #' are_true(list(FALSE,TRUE,TRUE))
-are_true <- function(x) {
+are_true <- function (x) {
   assert_that(is.list(x))
   vapply(x, isTRUE, FUN.VALUE=logical(1), USE.NAMES=FALSE)
 }
@@ -160,9 +160,24 @@ are_true <- function(x) {
 #' @export
 #' @examples
 #' are_false(list(FALSE,TRUE,TRUE))
-are_false <- function(x) {
+are_false <- function (x) {
   assert_that(is.list(x))
   vapply(x, function (x) identical(x, FALSE), FUN.VALUE=logical(1), USE.NAMES=FALSE)
+}
+
+
+#' Is an R Packages installed?
+#'
+#' @param pkg Package name as character string.
+#' @export
+#' @examples
+#' is.installed("methods")
+is.installed <- function (pkg) {
+  assert_that(is.string(pkg))
+  is.element(pkg, .packages(all.available=TRUE))
+}
+on_failure(is.installed) <- function (call, env) {
+  paste0("Package ", deparse(call$pkg), " is not installed.")
 }
 
 

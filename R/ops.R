@@ -1,14 +1,6 @@
 #' @include partial.R
 NULL
 
-
-## Chain functions
-#' @export
-"%@%" <- function(x, f) {
-  eval.parent(as.call(append(as.list(substitute(f)), list(x), 1)))
-}
-
-
 #' @export
 "%||%" <- function (a, b, filter="is.empty") {
   filter <- match.fun(filter)
@@ -29,6 +21,13 @@ NULL
 
 #' @export
 "%|na|%" <- Partial(`%||%`, filter="is.na")
+
+
+## Chain functions
+#' @export
+"%@%" <- function(x, f) {
+  eval.parent(as.call(append(as.list(substitute(f)), list(x), 1)))
+}
 
 
 # Pinched from http://code.google.com/p/miscell/source/browse/rvalues/rvalues.r

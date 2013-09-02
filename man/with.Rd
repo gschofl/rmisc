@@ -1,0 +1,27 @@
+\name{with}
+\alias{with}
+\alias{with_cpp11}
+\alias{with_localtime}
+\title{Execute code in an temporarily different environment.}
+\usage{
+  with_cpp11(code)
+
+  with_localtime(new, code)
+}
+\arguments{
+  \item{new}{New value.}
+
+  \item{code}{Code to execute.}
+}
+\description{
+  \itemize{ \item \code{with_cpp11}: temporarily set
+  -std=c++11.  \item \code{with_localtime}: temporarily
+  change locale time.  }
+}
+\examples{
+\dontrun{
+rmisc <- as.package("~/R/Projects/Devel/rmisc")
+with_cpp11(devtools::build(rmisc))
+}
+}
+

@@ -44,3 +44,11 @@ test_that("'has_command' returns TRUE on executables that exist", {
   expect_false(has_command("does-not-exist"))
   expect_that(assert_that(has_command("does-not-exist")), throws_error())
 })
+
+test_that("'is.installed' returns TRUE if a package is installed", {
+  expect_true(is.installed("methods"))
+  expect_false(is.installed(""))
+})
+
+
+

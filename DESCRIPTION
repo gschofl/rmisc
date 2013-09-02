@@ -1,5 +1,5 @@
 Package: rmisc
-Version: 0.2.12
+Version: 0.2.14
 Date: 2012-03-12
 Type: Package
 Title: Miscellaneous utility functions
@@ -39,5 +39,5 @@ Collate:
     'strip-extension.R'
     'strmatch.R'
     'system.R'
-    'timestamp.R'
     'xml.R'
+    'file-compare.R'

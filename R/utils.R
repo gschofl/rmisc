@@ -103,3 +103,40 @@ purgeNA <- function (df, cols) {
   return(df)
 }
 
+
+#' Execute code in an temporarily different environment.
+#'
+#' \itemize{
+#'   \item \code{with_cpp11}: temporarily set -std=c++11.
+#'   \item \code{with_localtime}: temporarily change locale time.
+#'   }
+#'   
+#' @param new New value.
+#' @param code Code to execute.
+#' @name with
+#' @examples
+#' \dontrun{
+#' rmisc <- as.package("~/R/Projects/Devel/rmisc")
+#' with_cpp11(devtools::build(rmisc))
+#' }
+NULL
+
+#' @rdname with
+#' @export
+with_cpp11 <- function (code) {
+  old <- Sys.getenv("PKG_CXXFLAGS", names=TRUE)
+  Sys.setenv("PKG_CXXFLAGS"="-std=c++11")
+  on.exit(do.call("Sys.setenv", as.list(old)))
+  force(code)
+}
+
+
+#' @rdname with
+#' @export
+with_localtime <- function (new, code) {
+  old <- Sys.getlocale("LC_TIME")
+  Sys.setlocale("LC_TIME", new)
+  on.exit(Sys.setlocale("LC_TIME", old))
+  force(code)
+}
+
