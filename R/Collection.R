@@ -6,18 +6,17 @@ setOldClass('list')
 #' 
 #' @seealso
 #' \code{\link{makeCollectionClass}}, \code{\link{collectionConstructor}},
-#' \code{\link{collectionValidator}}, \code{\link{collectionShower}}.
-#' @importFrom IRanges elementType
-#' @importFrom IRanges as.list
+#' \code{\link{collectionValidator}}, \code{\link{collectionShower}}.rt
 #' @name Collection-class
 #' @rdname Collection-class
 #' @exportClass Collection
-new_Collection <- setClass('Collection',
-                           contains = 'list',
-                           slots = c(elementType = 'character',
-                                     shared = 'environment'),
-                           prototype = prototype(elementType = NA_character_,
-                                                 shared = new.env(parent=emptyenv())))
+new_Collection <- setClass(
+  Class='Collection',
+  contains = 'list',
+  slots = c(elementType = 'character', shared = 'environment'),
+  prototype = prototype(elementType = NA_character_,
+                        shared = new.env(parent=emptyenv()))
+)
 
 
 #' Create a Collection Class Definition 
@@ -53,11 +52,22 @@ makeCollectionClass <- function (elementClass) {
 
 
 #' @export
+#' @docType methods
+setGeneric("elementType", function(x, ...) standardGeneric("elementType"))
 setMethod("elementType", "Collection", function (x) x@elementType)
 
 
+setAs("Collection", "list", function (from) from@.Data)
+
+#' @S3method as.list Collection
+as.list.Collection <- function (x, ...) {
+  as(as.character(x), "list")
+}
+
 #' @export
-setMethod("as.list", "Collection", function (x) x@.Data)
+#' @docType methods
+setGeneric("as.list")
+setMethod("as.list", "Collection", as.list.Collection)
 
 
 #' @export
@@ -78,12 +88,14 @@ setMethod("shared", c(x="Collection", i="ANY"), function(x, i) {
 #' @docType methods
 setGeneric('shared<-', function(x, i, value, ...) standardGeneric('shared<-'))
 
+
 setReplaceMethod("shared", c(x="Collection", i="ANY", value="ANY"),
                  function (x, i, value, ...) {
                    assert_that(length(i) == 1L)
                    assign(i, value, x@shared)
                    x
                  })
+
 
 ## Remove an object from a shared environment by setting it NULL
 setReplaceMethod("shared", c(x="Collection", i="ANY", value="NULL"),
@@ -93,11 +105,13 @@ setReplaceMethod("shared", c(x="Collection", i="ANY", value="NULL"),
                    x
                  })
 
+
 #' @export
 setMethod("[", "Collection", function(x, i, j, ..., drop) {
   new(class(x), callNextMethod(), elementType = elementType(x),
       shared = shared(x))
 })
+
 
 #' @export
 setMethod("[[", "Collection", function(x, i, j, ...) {

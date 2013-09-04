@@ -16,7 +16,6 @@ LinkingTo: Rcpp
 Imports:
     assertthat,
     BiocInstaller,
-    IRanges,
     RCurl,
     RSQLite,
     XML
@@ -41,3 +40,4 @@ Collate:
     'system.R'
     'xml.R'
     'file-compare.R'
+    'misc.R'

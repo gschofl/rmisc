@@ -12,6 +12,6 @@
   \code{\link{makeCollectionClass}},
   \code{\link{collectionConstructor}},
   \code{\link{collectionValidator}},
-  \code{\link{collectionShower}}.
+  \code{\link{collectionShower}}.rt
 }
 
