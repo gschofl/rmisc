@@ -160,7 +160,7 @@ collectionValidator <- function (Class) {
     elem_of_class <- vapply(as.list(object), is, elementType, FUN.VALUE=logical(1L))
     if (!all(elem_of_class)) {
       msg <- paste0("All elements in a '", Class ,"' must be of type '",
-                    elemType, "'.")
+                    elementType, "'.")
       errors <- c(errors, msg)
     }
     
