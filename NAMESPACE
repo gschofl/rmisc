@@ -1,4 +1,3 @@
-S3method(as.list,Collection)
 S3method(print,cache)
 export("%.%")
 export("%@%")

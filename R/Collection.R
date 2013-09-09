@@ -57,17 +57,16 @@ setGeneric("elementType", function(x, ...) standardGeneric("elementType"))
 setMethod("elementType", "Collection", function (x) x@elementType)
 
 
-setAs("Collection", "list", function (from) from@.Data)
+setAs("Collection", "list", function(from) from@.Data)
 
-#' @S3method as.list Collection
-as.list.Collection <- function (x, ...) {
-  as(as.character(x), "list")
-}
 
+## in order for lapply et al. to work with Collections it seems that
+## "as.list" must be defined as an S4 method
 #' @export
 #' @docType methods
-setGeneric("as.list")
-setMethod("as.list", "Collection", as.list.Collection)
+setMethod("as.list", "Collection", function(x, ...) {
+  as(x, "list")
+})
 
 
 #' @export
@@ -134,8 +133,7 @@ collectionConstructor <- function (Class) {
     elementType <- elementType(new(Class))
     if (length(listData) == 0L) {
       new(Class, list(new(elementType)), elementType=elementType, shared=shared)
-    }
-    else {
+    } else {
       if (length(listData) == 1L && is.list(listData[[1L]])) 
         listData <- listData[[1L]]
       if (!all(vapply(listData, is, elementType, FUN.VALUE=logical(1L)))) 
@@ -153,21 +151,15 @@ collectionConstructor <- function (Class) {
 #' @export
 collectionValidator <- function (Class) {
   assert_that(is.string(Class))
-
   function (object) {
     errors <- character()
     elementType <- elementType(object)
-    elem_of_class <- vapply(as.list(object), is, elementType, FUN.VALUE=logical(1L))
+    elem_of_class <- vapply(as(object, "list"), is, elementType, FUN.VALUE=logical(1L))
     if (!all(elem_of_class)) {
-      msg <- paste0("All elements in a '", Class ,"' must be of type '",
-                    elementType, "'.")
+      msg <- paste0("All elements in a '", Class ,"' must be of type '", elementType, "'.")
       errors <- c(errors, msg)
     }
-    
-    if (length(errors) == 0L)
-      TRUE
-    else
-      errors
+    if (length(errors) == 0L) TRUE else errors
   }
 }
 
@@ -188,8 +180,7 @@ collectionShower <- function (showFun, numOfElements = 6, linesPerElement = NULL
     index_string <- paste0('[[', index, ']] ')
     if (is.null(lPerEl)) {
       width <- Inf
-    }
-    else {
+    } else {
       indent <- nchar(index_string) + nchar(ellipsis) + 2L*lPerEl + 1L
       width <- lPerEl*getOption("width") - indent
     }
@@ -204,16 +195,14 @@ collectionShower <- function (showFun, numOfElements = 6, linesPerElement = NULL
   ##' before we ellipsize.
   function (x,
             nOfEl = getOption('numOfElements') %||% numOfElements,
-            lPerEl = getOption('linesPerElement') %||% linesPerElement)
-  {
+            lPerEl = getOption('linesPerElement') %||% linesPerElement) {
     data <- as.list(x)
     ll <- length(data)
     cat(sprintf("A %s instance of length %s\n", sQuote(class(x)), ll), sep="")
     
     if (ll == 0L) {
       showme <- ''
-    }
-    else if (ll > 2*nOfEl) {
+    } else if (ll > 2*nOfEl) {
       head_index <- seq_len(nOfEl)
       head <- data[head_index]
       showHead <- showElements(head_index, head, lPerEl)
@@ -221,8 +210,7 @@ collectionShower <- function (showFun, numOfElements = 6, linesPerElement = NULL
       tail <- data[tail_index]
       showTail <- showElements(tail_index, tail, lPerEl)
       showme <- c(showHead, '...', showTail)
-    }
-    else {
+    } else {
       showme <- showElements(seq_along(data), data, lPerEl)
     }
     cat(showme, sep="\n")
