@@ -44,8 +44,7 @@ dup <- function (x, n) {
   assert_that(is.string(x))
   if (any(n < 0))
     n[n < 0] <- 0
-  vapply(Map(rep.int, rep.int(x, length(n)), n, USE.NAMES=FALSE),
-         paste0, collapse="", character(1))
+  vapply(.mapply(rep.int, list(rep.int(x, length(n)), n), NULL), paste0, collapse="", "")
 }
 
 
@@ -79,19 +78,6 @@ pad <- function (x, n = 10, where = 'left', pad = ' ') {
   padding <- dup(pad, lengths)
   paste0(padding[match(left, lengths)], x, padding[match(right, lengths)])
 }
-
-
-#' unlist(strsplit(x, split, ...))
-#' 
-#' @usage usp(x, split, ...)
-#' @param x Character vector to be split.
-#' @param split The regexp to split on.
-#' @param \dots Arguments passed on to \code{\link{strsplit}}.
-#' @export
-#' @examples
-#' usp("a.b.c", ".", fixed = TRUE)
-## ## [1] "a" "b" "c"
-usp <- Compose("unlist", "strsplit")
 
 
 #' Split up a string in pieces and return the nth piece.
@@ -128,13 +114,13 @@ strsplitN <- function (x, split, n, from = "start", collapse = split, ...) {
   if (from == "end") {
     end <- end + 1L
     n <- lapply(end, `-`, n)
-    n <- Map(`[<-`, x=n, i=lapply(n, `<`, 0), value=0L)
+    n <- .mapply(`[<-`, list(x=n, i=lapply(n, `<`, 0), value=0L), NULL)
   } else {
     n <- lapply(rep(0, length(xs)), `+`, n)
-    n <- Map(`[<-`, x=n, i=Map(`>`, n, end), value=end)
+    n <- .mapply(`[<-`, list(x=n, i=Map(`>`, n, end), value=end), NULL)
   }  
   n <- lapply(n, Compose("sort", "unique"))
-  mapply(function(x, n) paste0(x[n], collapse = collapse), x = xs, n = n)
+  unlist(.mapply(function(x, n) paste0(x[n], collapse = collapse), list(x = xs, n = n), NULL))
 }
 
 
@@ -150,6 +136,58 @@ strsplitN <- function (x, split, n, from = "start", collapse = split, ...) {
 split_path <- function (path, n = 1, from = "end", ...) {
   from <- match.arg(from, c("start", "end"))
   strsplitN(x=path, split=.Platform$file.sep, n=n, from=from, ...)
+}
+
+
+#' Strip file extensions
+#'
+#' Strips the extension (or an arbitrary tag) from a file name. 
+#' 
+#' @param file The file name(s).
+#' @param sep specifies the seperator character (default ".").
+#' @param level How many extensions should be stripped.
+#' The default (0) strips all, 1 strips the last one, 2 strips the last two,
+#' and so on.
+#' 
+#' @export
+strip_ext <- stripExt <- function (file, sep="\\.", level=0) {
+  assert_that(!missing(file), is.character(file))
+  if (level == 0L) {
+    # level 0 ditches everything that comes after a dot
+    vapply(file, function(x) usp(x, sep)[1L], character(1),
+           USE.NAMES = FALSE)
+  } else if (level > 0L) {
+    # level 1 removes the very last extension: file.xyz.abc > file.xyz
+    # level 2: file.xyz.abc > file
+    # and so on
+    count <- count_re(file, sep) + 1L - level
+    # to always grab at least the first element after the split
+    # reset zero counts to 1
+    count <- ifelse(count < 1, 1, count)
+    unlist(Map(function(x, lvl) {
+      paste0(usp(x, sep)[ seq_len(lvl) ], collapse = gsub('\\', '', sep, fixed=TRUE))
+    }, x=file, lvl=count, USE.NAMES=FALSE))
+  } else {
+    stop(sprintf("Level %s is invalid. Must be 0, 1, 2, ...", sQuote(level)))
+  }
+}
+
+
+#' Replace file extensions
+#' 
+#' @inheritParams strip_ext
+#' @param replacement replacement extension
+#'
+#' @export
+replace_ext <- replaceExt <- function (file, replacement="", sep="\\.", level=0) {
+  if (nchar(replacement) == 0L)
+    sep=""
+  # strip a leading "." from replacement
+  if (grepl("^\\.", replacement)) {
+    replacement <- usp(replacement, split="^\\.")[2L]
+  }
+  paste(strip_ext(file=file, sep=sep, level=level), replacement,
+        sep=gsub("\\", "", sep, fixed=TRUE))  
 }
 
 
@@ -181,4 +219,17 @@ count_re <- function(x, re, ...) {
   vapply(gregexpr(re, x, ...), function (x) sum(x > 0L), numeric(1L),
   USE.NAMES=FALSE)
 }
+
+
+#' unlist(strsplit(x, split, ...))
+#' 
+#' @usage usp(x, split, ...)
+#' @param x Character vector to be split.
+#' @param split The regexp to split on.
+#' @param \dots Arguments passed on to \code{\link{strsplit}}.
+#' @export
+#' @examples
+#' usp("a.b.c", ".", fixed = TRUE)
+## ## [1] "a" "b" "c"
+usp <- Compose("unlist", "strsplit")
 

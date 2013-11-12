@@ -7,9 +7,11 @@
 \arguments{
   \item{dbName}{Path to an SQLite database.}
 
-  \item{message}{Message if db does not exits}
+  \item{message}{Message to be produced if db does not
+  exist.}
 }
 \description{
   Connect to an existing SQLite database.
 }
+\keyword{internal}
 

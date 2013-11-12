@@ -12,9 +12,9 @@ BEGIN_RCPP
     SEXP __sexp_result;
     {
         Rcpp::RNGScope __rngScope;
-        List L = Rcpp::as<List >(LSEXP);
-        int n_col = Rcpp::as<int >(n_colSEXP);
-        std::vector<std::string> col_classes = Rcpp::as<std::vector<std::string> >(col_classesSEXP);
+        Rcpp::traits::input_parameter< List& >::type L(LSEXP );
+        Rcpp::traits::input_parameter< int >::type n_col(n_colSEXP );
+        Rcpp::traits::input_parameter< std::vector<std::string> >::type col_classes(col_classesSEXP );
         List __result = bind_list(L, n_col, col_classes);
         PROTECT(__sexp_result = Rcpp::wrap(__result));
     }

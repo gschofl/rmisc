@@ -12,4 +12,5 @@
 \description{
   Count rows in a db table
 }
+\keyword{internal}
 

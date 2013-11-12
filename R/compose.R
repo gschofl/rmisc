@@ -28,12 +28,6 @@ Compose <- function (...) {
 }
 
 
-## deprecated
-#' @rdname Compose
-#' @export
-compose <- Compose
-
-
 #' @rdname Compose
 #' @export
 "%.%" <- function(fn1, fn2) {

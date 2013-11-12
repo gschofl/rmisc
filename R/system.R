@@ -37,11 +37,9 @@ SysCall <- function (exec, ..., args = list(), stdin = NULL, stdout = NULL,
                  unix=paste0(trim(sprintf("-%s%s%s", names(args), sep, args)), collapse=" "),
                  gnu=paste0(trim(sprintf("--%s%s%s", names(args), sep, args)), collapse=" "))
   
-  if (show_cmd) {
+  if (show_cmd)
     print(trim(paste(exec, args, stdin, stdout)))
-  } else {
-    return(system(trim(paste(exec, args, stdin, stdout)),
-                  intern = intern, input = input) )
-  }
+  else
+    system(trim(paste(exec, args, stdin, stdout)), intern = intern, input = input)
 }
 

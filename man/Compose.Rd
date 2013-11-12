@@ -1,12 +1,9 @@
 \name{Compose}
 \alias{Compose}
 \alias{\%.\%}
-\alias{compose}
 \title{Compose (multiple) functions}
 \usage{
   Compose(...)
-
-  compose(...)
 
   %.%(fn1, fn2)
 }

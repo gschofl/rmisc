@@ -1,11 +1,8 @@
 \name{Partial}
-\alias{Curry}
 \alias{Partial}
 \title{Partial application (currying)}
 \usage{
   Partial(fn, ..., .env = parent.frame())
-
-  Curry(fn, ..., .env = parent.frame())
 }
 \arguments{
   \item{fn}{Function to apply partially.}

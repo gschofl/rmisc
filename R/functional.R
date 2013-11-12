@@ -21,7 +21,7 @@ NULL
 FMap <- function (fn, ...) {
   fn <- match.fun(fn)
   dots <- list(...)
-  .Internal(mapply(fn, dots, MoreArgs = NULL))
+  .mapply(fn, dots, MoreArgs = NULL)
 }
 
 

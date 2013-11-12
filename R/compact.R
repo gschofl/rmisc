@@ -16,7 +16,16 @@ NULL
 #' ## [1] NA
 compact <- function (x, filter = "is.null") {
   filter <- match.fun(filter)
-  x[!vapply(x, filter, logical(1), USE.NAMES=FALSE)]
+  x[!vapply(x, filter, FALSE, USE.NAMES=FALSE)]
+}
+
+
+#' Filter empty string entries from a list.
+#' 
+#' @param x A vector.
+#' @export
+compactChar <- function(x) {
+  x[vapply(x, nzchar, FALSE, USE.NAMES=FALSE)]
 }
 
 

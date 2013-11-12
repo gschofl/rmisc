@@ -5,9 +5,10 @@
   db_disconnect(...)
 }
 \arguments{
-  \item{...}{connection objects.}
+  \item{...}{Connection objects.}
 }
 \description{
   Disconnect from an SQLite database.
 }
+\keyword{internal}
 

@@ -1,5 +1,5 @@
 Package: rmisc
-Version: 0.2.14
+Version: 0.2.15
 Date: 2012-03-12
 Type: Package
 Title: Miscellaneous utility functions
@@ -33,11 +33,10 @@ Collate:
     'compose.R'
     'install.R'
     'linebreak.R'
-    'sqlite.R'
     'string-utils.R'
-    'strip-extension.R'
     'strmatch.R'
     'system.R'
-    'xml.R'
     'file-compare.R'
     'misc.R'
+    'sqlite-utils.R'
+    'xml-utils.R'

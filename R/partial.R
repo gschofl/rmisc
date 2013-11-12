@@ -15,9 +15,3 @@ Partial <- function(fn, ..., .env = parent.frame()) {
   
   eval(call("function", as.pairlist(args), fcall), .env)
 }
-
-
-## deprecated
-#' @rdname Partial
-#' @export
-Curry <- Partial
