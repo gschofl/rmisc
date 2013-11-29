@@ -15,9 +15,9 @@
 #' @param input Passed on to \code{\link{system}}'s \code{input} argument.
 #' 
 #' @export
-SysCall <- function (exec, ..., args = list(), stdin = NULL, stdout = NULL,
-                     redirection = TRUE, style = c("unix", "gnu"), sep = " ",
-                     show_cmd = FALSE, intern = FALSE, input = NULL) {  
+SysCall <- function(exec, ..., args = list(), stdin = NULL, stdout = NULL,
+                    redirection = TRUE, style = c("unix", "gnu"), sep = " ",
+                    show_cmd = FALSE, intern = FALSE, input = NULL) {  
   assert_that(has_command(exec))
   args <- merge_list(list(...), args)
   style <- match.arg(style)
@@ -37,9 +37,10 @@ SysCall <- function (exec, ..., args = list(), stdin = NULL, stdout = NULL,
                  unix=paste0(trim(sprintf("-%s%s%s", names(args), sep, args)), collapse=" "),
                  gnu=paste0(trim(sprintf("--%s%s%s", names(args), sep, args)), collapse=" "))
   
-  if (show_cmd)
+  if (show_cmd) {
     print(trim(paste(exec, args, stdin, stdout)))
-  else
+  } else {
     system(trim(paste(exec, args, stdin, stdout)), intern = intern, input = input)
+  }
 }
 

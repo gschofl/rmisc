@@ -16,7 +16,7 @@ NULL
 #' or if the size of the remote source differs from the local file.
 #' Otherwise return \code{FALSE}.
 #' @export
-file_compare <- function (file, url, time = TRUE, size = FALSE, .message = TRUE) {
+file_compare <- function(file, url, time = TRUE, size = FALSE, .message = TRUE) {
   assert_that(is.string(url), is.string(file))
   if (!file.exists(file)) {
     return(TRUE)

@@ -1,17 +1,14 @@
 \name{compact}
 \alias{compact}
-\title{Filter entries from a list.}
+\title{Filter \code{NULL} entries from a list.}
 \usage{
-  compact(x, filter = "is.null")
+  compact(x)
 }
 \arguments{
   \item{x}{A list.}
-
-  \item{filter}{A function to filter entries. (default
-  \code{is.null})}
 }
 \description{
-  Filter entries from a list.
+  Filter \code{NULL} entries from a list.
 }
 \examples{
 l <- list(a=1, b=NULL, c=NA)

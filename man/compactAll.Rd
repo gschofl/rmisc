@@ -2,7 +2,7 @@
 \alias{compactAll}
 \title{Filter empty entries from a list.}
 \usage{
-  compactAll(...)
+  compactAll(x)
 }
 \arguments{
   \item{x}{A vector.}

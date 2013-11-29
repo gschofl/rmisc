@@ -1,10 +1,9 @@
 #' @include partial.R
 NULL
 
-#' Filter entries from a list.
+#' Filter \code{NULL} entries from a list.
 #' 
 #' @param x A list.
-#' @param filter A function to filter entries. (default \code{is.null})
 #' @export
 #' @examples
 #' l <- list(a=1, b=NULL, c=NA)
@@ -14,9 +13,8 @@ NULL
 #' ## 
 #' ## $c
 #' ## [1] NA
-compact <- function (x, filter = "is.null") {
-  filter <- match.fun(filter)
-  x[!vapply(x, filter, FALSE, USE.NAMES=FALSE)]
+compact <- function(x) {
+  x[!vapply(x, is.null, FALSE, USE.NAMES=FALSE)]
 }
 
 
@@ -33,13 +31,15 @@ compactChar <- function(x) {
 #' 
 #' @param x A vector.
 #' @export
-compactNA <- Partial(compact,
-                     filter = Sequence(suppressWarnings%.%is.na,
-                                       function(...) ... %||% FALSE)
-                    )
+compactNA <- function(x) {
+  filter <- Sequence(suppressWarnings%.%is.na, function(...) ... %||% FALSE)
+  x[!vapply(x, filter, FALSE, USE.NAMES=FALSE)]
+}
 
 #' Filter empty entries from a list.
 #' 
 #' @param x A vector.
 #' @export
-compactAll <- Partial(compact, filter = "are_empty")
+compactAll <- function(x) {
+  x[!vapply(x, are_empty, FALSE, USE.NAMES=FALSE)]
+}

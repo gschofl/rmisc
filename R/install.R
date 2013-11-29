@@ -1,6 +1,7 @@
 #' @include compose.R
 NULL
 
+
 #' Package installer
 #' 
 #' Wrapper around \code{\link{biocLite}}. In addition to the standard
@@ -13,15 +14,14 @@ NULL
 #' @param ... Further arguments passed on to \code{\link{biocLite}}.
 #' 
 #' @export
-install_packages <- function (pkgs, destdir = '~/R/Packages',
-                              update = FALSE, ...) {
+install_packages <- function(pkgs, destdir = '~/R/Packages',
+                             update = FALSE, ...) {
   assert_that(!missing(pkgs), is.character(pkgs))
   BiocInstaller::biocLite(pkgs, suppressUpdates=TRUE, destdir=destdir, ...)
   
   if (update) {
     update_packages(destdir=destdir)
-  }
-  else {
+  } else {
     destdir <- normalizePath(destdir)
     cwd <- setwd(destdir)
     extract_packages(destdir)
@@ -39,7 +39,7 @@ install_packages <- function (pkgs, destdir = '~/R/Packages',
 #'  @importFrom BiocInstaller biocValid
 #'  @importFrom BiocInstaller biocLite
 #'  @export
-update_packages <- function (destdir = '~/R/Packages') {
+update_packages <- function(destdir = '~/R/Packages') {
   destdir <- normalizePath(destdir)
   cwd <- setwd(destdir)
   extract_packages(destdir)
@@ -62,8 +62,9 @@ update_packages <- function (destdir = '~/R/Packages') {
   setwd(cwd)
 }
 
+
 #' @keywords internal
-extract_packages <- function (destdir) {
+extract_packages <- function(destdir) {
   compressed <- dir(destdir, pattern="gz$")
   if (any(duplicated(strsplitN(compressed, '_', 1)))) {
     stop("Duplicated gzip files in ", destdir,
@@ -94,9 +95,9 @@ extract_packages <- function (destdir) {
 #' \code{ncbi}.
 #'
 #'  @export
-update_github <- function () {
+update_github <- function() {
   assert_that(require(devtools))
-  pkgs <- c("rmisc", "rentrez", "biofiles", "blastr", "ncbi")
+  pkgs <- c("rmisc", "reutils", "biofiles", "blastr", "ncbi", "genoslideR")
   cat("Update packages:\n")
   cat(sprintf("%s) %s", seq_along(pkgs), pkgs), sep="\n")
   
@@ -152,6 +153,7 @@ require.all <- function(...) {
   return(invisible(success))
 }
 
+
 #' Load saved datasets
 #' 
 #' Reload \code{RData} datasets. Wrapper for \code{\link[base]{load}}
@@ -162,7 +164,7 @@ require.all <- function(...) {
 #' @param verbose print item names during loading.
 #' @return A character vector of the names of objects created.
 #' @export
-load.all <- function (cache = "./cache", envir=.GlobalEnv, verbose=FALSE) {
+load.all <- function(cache = "./cache", envir=.GlobalEnv, verbose=FALSE) {
   rdata <- dir(cache, pattern="rda(ta)?$", full.names=TRUE, ignore.case=TRUE)
   if (all_empty(rdata)) {
     return(invisible())
@@ -186,13 +188,13 @@ load.all <- function (cache = "./cache", envir=.GlobalEnv, verbose=FALSE) {
 #' project. The search paths are defined by the custom options \code{packages},
 #'  \code{projects}, and \code{devel}, which I have preset in \code{.Rprofile}.
 #'  
-#'  @param pkg The name of a package (or project directory) given as a Symbol.
-#'  @param path One of 'all', 'packages', 'projects', or 'devel'.
+#' @param pkg The name of a package (or project directory) given as a Symbol.
+#' @param path One of 'all', 'packages', 'projects', or 'devel'.
 #'  
-#'  @return Opens RStudio.
-#'  @seealso Inspired by \href{http://stackoverflow.com/questions/18426726/system-open-rstudio-close-connection}{this} question on stackoverflow
-#'  @export  
-rproj <- function (pkg, path = 'all') {
+#' @return Opens RStudio.
+#' @seealso Inspired by \href{http://stackoverflow.com/questions/18426726/system-open-rstudio-close-connection}{this} question on stackoverflow
+#' @export  
+rproj <- function(pkg, path = 'all') {
   
   open_project <- function(rproj) {
     rstudio <- Sys.which("rstudio")

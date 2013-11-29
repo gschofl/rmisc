@@ -19,26 +19,24 @@
 #' 
 #' @return a character vector
 #' @export
-linebreak <- function (s, width = getOption("width") - 2,
-                       indent = 0, offset = 0, split = " ",
-                       FORCE = FALSE, FULL_FORCE = FALSE)
-{
-  if (!is.character(s)) 
+linebreak <- function(s, width = getOption("width") - 2,
+                      indent = 0, offset = 0, split = " ",
+                      FORCE = FALSE, FULL_FORCE = FALSE) {
+  if (!is.character(s)) {
     s <- as.character(s)
-  
-  if (all_empty(s))
+  }
+  if (all_empty(s)) {
     return( "" )
-  
+  }
   .first_iteration <- TRUE
   # set indent string to "" if a negative value is given
   # this lets us shrink the available width for the first line by that value
   indent_string <- blanks(indent)
   offset_string <- paste0("\n", blanks(offset))
   
-  ans <- Map(function (s, width, offset, indent,
-                       indent_string, split, FORCE,
-                       FULL_FORCE)
-  {
+  ans <- Map(function(s, width, offset, indent,
+                      indent_string, split, FORCE,
+                      FULL_FORCE) {
     # remove leading and trailing blanks
     # convert newlines, tabs, spaces to " "
     # find first position where 'split' applies
@@ -47,18 +45,16 @@ linebreak <- function (s, width = getOption("width") - 2,
     }
     fws <- regexpr(split, s, perl=TRUE)
     
-    if (.first_iteration)
+    if (.first_iteration) {
       string_width <- indent + nchar(s)
-    else
+    } else {
       string_width <- offset + nchar(s)
-    
-    if (string_width > width)
-    {
+    }
+    if (string_width > width) {
       # if not everything fits on one line
       .first_iteration <- FALSE
-      if(FULL_FORCE ||
-           ((fws == -1 || fws >= (width - string_width)) && FORCE))
-      {
+      if (FULL_FORCE ||
+         ((fws == -1 || fws >= (width - string_width)) && FORCE)) {
         # if no whitespace or first word too long and force break
         # cut through the middle of a word
         pat1 <- paste0("^.{", width - offset - indent, "}(?=.+)")
@@ -69,15 +65,11 @@ linebreak <- function (s, width = getOption("width") - 2,
                     linebreak(s=trailing_string, width=width, indent=0,
                               offset=offset, split=split, FORCE=FORCE, 
                               FULL_FORCE=FULL_FORCE))
-      }
-      else if ((fws == -1 || fws >= (width - offset + indent)) && !FORCE)
-      {
+      } else if ((fws == -1 || fws >= (width - offset + indent)) && !FORCE) {
         # if no whitespace or first word too long and NO force break
         # stop right here
         stop("Can't break in the middle of a word. Use the force!")
-      }
-      else
-      {
+      } else {
         # break the line
         s_split <- unlist(strsplit(s, split))
         s_cum <- cumsum(nchar(s_split) + 1)

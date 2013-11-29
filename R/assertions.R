@@ -23,6 +23,7 @@ on_failure(is.scalar) <- function(call, env) {
   paste0(deparse(call$x), " does not have length one.")
 }
 
+
 #' @rdname is.scalar
 #' @export
 #' @examples
@@ -32,6 +33,7 @@ are_scalar <- function(x) {
   assert_that(!is.null(x))
   vapply(x, is.scalar, FUN.VALUE=logical(1), USE.NAMES=FALSE)
 }
+
 
 #' @rdname is.scalar
 #' @export
@@ -64,6 +66,7 @@ on_failure(is.empty) <- function(call, env) {
   paste0(deparse(call$x), " is not empty.")
 }
 
+
 #' @rdname is.empty
 #' @export
 #' @examples
@@ -72,11 +75,11 @@ are_empty <- function(x) {
   if (is.recursive(x) || length(x) > 1) {
     vapply(x, function(x) is.null(x) || length(x) == 0L,
            FUN.VALUE=logical(1), USE.NAMES=FALSE) | !nzchar(x)
-  }
-  else {
+  } else {
     is.empty(x)
   }
 }
+
 
 #' @rdname is.empty
 #' @export
@@ -87,6 +90,7 @@ all_empty <- function(x) all(are_empty(x))
 on_failure(all_empty) <- function(call, env) {
   paste0("Not all elements in ", deparse(call$x), " are empty.")
 }
+
 
 #' Test if an external executable is available
 #' 
@@ -106,6 +110,7 @@ on_failure(has_command) <- function(call, env) {
          eval(call$msg, env))
 }
 
+
 #' Which elements in a list are NULL?
 #'
 #' @param x object to test
@@ -118,6 +123,7 @@ are_null <- function(x) {
   vapply(x, is.null, FUN.VALUE=logical(1), USE.NAMES=FALSE)
 }
 
+
 #' Which elements in a list are TRUE?
 #'
 #' @param x object to test
@@ -129,6 +135,7 @@ are_true <- function(x) {
   vapply(x, isTRUE, FUN.VALUE=logical(1), USE.NAMES=FALSE)
 }
 
+
 #' Which elements in a list are FALSE?
 #'
 #' @param x object to test
@@ -139,6 +146,7 @@ are_false <- function(x) {
   assert_that(is.list(x))
   vapply(x, function(x) identical(x, FALSE), FUN.VALUE=logical(1), USE.NAMES=FALSE)
 }
+
 
 #' Is an R Packages installed?
 #'
@@ -153,6 +161,7 @@ is.installed <- function(pkg) {
 on_failure(is.installed) <- function(call, env) {
   paste0("Package ", deparse(call$pkg), " is not installed.")
 }
+
 
 #' Reverse Value Matching
 #' 

@@ -1,16 +1,17 @@
 Package: rmisc
-Version: 0.2.15
-Date: 2012-03-12
+Version: 0.3.0
+Date: 2013-03-12
 Type: Package
-Title: Miscellaneous utility functions
-Authors@R: person("Gerhard", "Schöfl", role=c("aut","cre"),
-    email="gschofl@yahoo.de")
-Description: A collection conveniance functions and routines used
-    for other packages.
-License: MIT
+Title: A collection conveniance functions.
+Authors@R: c(person("Gerhard", "Schöfl", role = c("aut", "cre"),
+    email = "gschofl@yahoo.de"))
+Author: Gerhard Schöfl
+Maintainer: Gerhard Schöfl <gschofl@yahoo.de>
+Description: A collection conveniance functions.
+License: MIT + file LICENSE
 Encoding: latin1
 Depends:
-    R (>= 2.15.0),
+    R (>= 3.0.0),
     Rcpp (>= 0.10.3)
 LinkingTo: Rcpp
 Imports:
@@ -21,7 +22,6 @@ Imports:
     XML
 Collate:
     'flatten.R'
-    'Collection.R'
     'RcppExports.R'
     'utils.R'
     'partial.R'

@@ -8,10 +8,11 @@ NULL
 #' 
 #' @param dbName Path to an SQLite database.
 #' @param message Message to be produced if db does not exist.
+#' @param create If \code{TRUE}, create the database if it doesn't exist.
 #' @export
 #' @keywords internal
-db_connect <- function(dbName, message = "") {
-  if (!file.exists(dbName))
+db_connect <- function(dbName, message = "", create = FALSE) {
+  if (!file.exists(dbName) && !create)
     stop("Database ", sQuote(basename(dbName)), " does not exist.\n", message, call.=FALSE)
   dbConnect(SQLite(), dbname=dbName)
 }
@@ -41,7 +42,7 @@ db_create <- function(dbName, dbSchema = "", overwrite = FALSE) {
       stop("File ", sQuote(basename(dbName)), " already exists. Use 'db_connect'.")
   }
   message('Creating new database ', sQuote(basename(dbName)))
-  con <- db_connect(dbname = dbName)
+  con <- db_connect(dbName = dbName, create = TRUE)
   sql <- compactChar(trim(strsplit(dbSchema, ";\n")[[1L]]))
   if (length(sql) > 0L) {
     tryCatch(lapply(sql, dbGetQuery, conn = con), error = function(e) {
