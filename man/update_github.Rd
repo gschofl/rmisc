@@ -2,11 +2,11 @@
 \alias{update_github}
 \title{A quick installer for my R packages on GitHub}
 \usage{
-  update_github()
+update_github()
 }
 \description{
-  Prompts for which of the following packages you want to
-  install: \code{rmisc}, \code{Rentrez}, \code{biofiles},
-  \code{blastr}, \code{ncbi}.
+Prompts for which of the following packages you want to
+install: \code{rmisc}, \code{Rentrez}, \code{biofiles},
+\code{blastr}, \code{ncbi}.
 }
 

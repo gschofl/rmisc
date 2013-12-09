@@ -14,14 +14,13 @@ NULL
 #' @param ... Further arguments passed on to \code{\link{biocLite}}.
 #' 
 #' @export
-install_packages <- function(pkgs, destdir = '~/R/Packages',
-                             update = FALSE, ...) {
+install_packages <- function(pkgs, destdir = getOption("rmisc.pkgs"), update = FALSE, ...) {
   assert_that(!missing(pkgs), is.character(pkgs))
   BiocInstaller::biocLite(pkgs, suppressUpdates=TRUE, destdir=destdir, ...)
   
   if (update) {
     update_packages(destdir=destdir)
-  } else {
+  } else if (!is.null(destdir)) {
     destdir <- normalizePath(destdir)
     cwd <- setwd(destdir)
     extract_packages(destdir)
@@ -39,11 +38,12 @@ install_packages <- function(pkgs, destdir = '~/R/Packages',
 #'  @importFrom BiocInstaller biocValid
 #'  @importFrom BiocInstaller biocLite
 #'  @export
-update_packages <- function(destdir = '~/R/Packages') {
-  destdir <- normalizePath(destdir)
-  cwd <- setwd(destdir)
-  extract_packages(destdir)
-  
+update_packages <- function(destdir = getOption("rmisc.pkgs")) {
+  if (!is.null(destdir)) {
+    destdir <- normalizePath(destdir)
+    cwd <- setwd(destdir)
+    extract_packages(destdir)
+  }
   tryCatch(biocValid(), error = function (e) {
     if (grepl("package\\(s\\) out of date", e$message)) {
       message('Updating ', strsplitN(e$message, ' ', 1:2))
@@ -51,8 +51,10 @@ update_packages <- function(destdir = '~/R/Packages') {
         ask <- TRUE
       else
         ask <- FALSE
-      biocLite(destdir='.', ask=ask)
-      extract_packages(destdir)
+      biocLite(destdir=destdir, ask=ask)
+      if (!is.null(destdir)) {
+        extract_packages(destdir)
+      }
     }
     else {
       message("Nothing to update")
@@ -65,6 +67,7 @@ update_packages <- function(destdir = '~/R/Packages') {
 
 #' @keywords internal
 extract_packages <- function(destdir) {
+  assert_that(is.writeable(destdir))
   compressed <- dir(destdir, pattern="gz$")
   if (any(duplicated(strsplitN(compressed, '_', 1)))) {
     stop("Duplicated gzip files in ", destdir,
@@ -110,21 +113,20 @@ update_github <- function() {
           && min(idx) > 0) {
         pkgs <- pkgs[idx]
         break
-      }
-      else {
+      } else {
         message("Please submit 'all', 'quit', or numbers between 1 and ", length(pkgs))
       }
-    }
-    else {
+    } else {
       if (which[1] == 'q') 
         pkgs <- ''
       break
     }
   }
   
-  if (!all_empty(pkgs))
-    #cat(pkgs, sep=", ")
-    install_github(pkgs, 'gschofl')
+  if (!all_empty(pkgs)) {
+    pkgs <- paste0('gschofl/', pkgs)
+    install_github(pkgs)
+  }
 }
 
 
@@ -185,17 +187,18 @@ load.all <- function(cache = "./cache", envir=.GlobalEnv, verbose=FALSE) {
 #' Open an RStudio project from R
 #' 
 #' Quickly open a package (ar any  directory in the search path) as an RStudio
-#' project. The search paths are defined by the custom options \code{packages},
-#'  \code{projects}, and \code{devel}, which I have preset in \code{.Rprofile}.
+#' project. The search paths are defined by the custom options \code{rmisc.pkgs},
+#'  \code{rmisc.proj}, and \code{rmisc.devel}, which I have preset in \code{.Rprofile}.
+#'  If none of these is defined \code{rproj} will fall back to the current working
+#'  directory.
 #'  
 #' @param pkg The name of a package (or project directory) given as a Symbol.
-#' @param path One of 'all', 'packages', 'projects', or 'devel'.
+#' @param path One of 'all', 'pkgs', 'proj', or 'devel'.
 #'  
 #' @return Opens RStudio.
 #' @seealso Inspired by \href{http://stackoverflow.com/questions/18426726/system-open-rstudio-close-connection}{this} question on stackoverflow
 #' @export  
 rproj <- function(pkg, path = 'all') {
-  
   open_project <- function(rproj) {
     rstudio <- Sys.which("rstudio")
     if (rstudio == "") {
@@ -212,14 +215,22 @@ rproj <- function(pkg, path = 'all') {
                       "RnwWeave: knitr", "LaTeX: pdfLaTeX")
   
   pkg <- trim(deparse(substitute(pkg)), trim="\"")
-  path <- match.arg(path, c('all', 'devel', 'projects', 'packages'))
+  path <- match.arg(path, c('all', 'devel', 'proj', 'pkgs'))
+  devel <- getOption('rmisc.devel') %||% '.'
+  proj  <- getOption('rmisc.proj') %||% '.'
+  pkgs  <- getOption('rmisc.pkgs') %||% '.'
+  
   if (path == 'all') {
-    path <- normalizePath(c(getOption("devel"), getOption("projects"), getOption("packages")))
+    path <- normalizePath(unique(c(devel, proj, pkgs)))
   } else {
-    path <- normalizePath(getOption(path))
+    path <- normalizePath(switch(path, devel=devel, proj=proj, pkgs=pkgs))
   }
   
   pkg_path <- grep(pkg, dir(path, full.names=TRUE, ignore.case=TRUE), value=TRUE)
+  
+  while (nunique(basename(pkg_path)) > 1L) {
+    pkg_path <- unique(dirname(pkg_path))
+  }
   
   if (length(pkg_path) > 1) {
     warning("Found ", length(pkg_path), " packages of  name ", sQuote(pkg), ".\n",

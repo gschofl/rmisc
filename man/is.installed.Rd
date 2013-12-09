@@ -2,13 +2,13 @@
 \alias{is.installed}
 \title{Is an R Packages installed?}
 \usage{
-  is.installed(pkg)
+is.installed(pkg)
 }
 \arguments{
   \item{pkg}{Package name as character string.}
 }
 \description{
-  Is an R Packages installed?
+Is an R Packages installed?
 }
 \examples{
 is.installed("methods")

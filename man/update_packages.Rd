@@ -2,14 +2,14 @@
 \alias{update_packages}
 \title{Package updater}
 \usage{
-  update_packages(destdir = "~/R/Packages")
+update_packages(destdir = getOption("rmisc.pkgs"))
 }
 \arguments{
   \item{destdir}{Where the source code goes}
 }
 \description{
-  Check for outdated packages, save the source to
-  \code{destdir}, extract the packages in \code{destdir},
-  and install
+Check for outdated packages, save the source to
+\code{destdir}, extract the packages in \code{destdir}, and
+install
 }
 

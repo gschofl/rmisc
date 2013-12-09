@@ -2,8 +2,7 @@
 \alias{replace_ext}
 \title{Replace file extensions}
 \usage{
-  replace_ext(file, replacement = "", sep = "\\.",
-    level = 0)
+replace_ext(file, replacement = "", sep = "\\\\.", level = 0)
 }
 \arguments{
   \item{replacement}{replacement extension}
@@ -18,6 +17,6 @@
   the last two, and so on.}
 }
 \description{
-  Replace file extensions
+Replace file extensions
 }
 

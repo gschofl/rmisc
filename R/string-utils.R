@@ -223,7 +223,7 @@ count_re <- function(x, re, ...) {
 
 #' unlist(strsplit(x, split, ...))
 #' 
-#' @usage usp(x, split, ...)
+#' @usage usplit(x, split, ...)
 #' @param x Character vector to be split.
 #' @param split The regexp to split on.
 #' @param \dots Arguments passed on to \code{\link{strsplit}}.
@@ -231,5 +231,6 @@ count_re <- function(x, re, ...) {
 #' @examples
 #' usp("a.b.c", ".", fixed = TRUE)
 ## ## [1] "a" "b" "c"
-usp <- Compose("unlist", "strsplit")
+usplit <- Compose("unlist", "strsplit")
+
 

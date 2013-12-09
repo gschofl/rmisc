@@ -1,8 +1,8 @@
-\name{usp}
-\alias{usp}
+\name{usplit}
+\alias{usplit}
 \title{unlist(strsplit(x, split, ...))}
 \usage{
-  usp(x, split, ...)
+usplit(x, split, ...)
 }
 \arguments{
   \item{x}{Character vector to be split.}
@@ -13,7 +13,7 @@
   \code{\link{strsplit}}.}
 }
 \description{
-  unlist(strsplit(x, split, ...))
+unlist(strsplit(x, split, ...))
 }
 \examples{
 usp("a.b.c", ".", fixed = TRUE)

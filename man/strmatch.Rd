@@ -2,8 +2,8 @@
 \alias{strmatch}
 \title{Extract matched group(s) from a string.}
 \usage{
-  strmatch(pattern, str, capture = TRUE, perl = TRUE,
-    global = TRUE, ignore.case = FALSE)
+strmatch(pattern, str, capture = TRUE, perl = TRUE, global = TRUE,
+  ignore.case = FALSE)
 }
 \arguments{
   \item{pattern}{character string containing a regular
@@ -23,11 +23,11 @@
   \item{ignore.case}{case sensitive matching}
 }
 \value{
-  a list containing a \code{match} and a \code{capture}
-  component
+a list containing a \code{match} and a \code{capture}
+component
 }
 \description{
-  Extract matched group(s) from a string.
+Extract matched group(s) from a string.
 }
 \examples{
 ##

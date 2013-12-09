@@ -3,9 +3,9 @@
 \alias{Or}
 \title{Predicates}
 \usage{
-  And(...)
+And(...)
 
-  Or(...)
+Or(...)
 }
 \arguments{
   \item{\dots}{Predicate functions}
@@ -13,15 +13,15 @@
   \item{\dots}{Predicate functions}
 }
 \description{
-  Predicates
+Predicates
 }
 \details{
-  \code{And} returns a function that returns \code{TRUE}
-  when all the arguments, applied to the returned
-  function's arguments, returns \code{TRUE}.
+\code{And} returns a function that returns \code{TRUE} when
+all the arguments, applied to the returned function's
+arguments, returns \code{TRUE}.
 
-  \code{Or} returns a function that returns \code{TRUE}
-  when any the arguments, applied to the returned
-  function's arguments, returns \code{TRUE}.
+\code{Or} returns a function that returns \code{TRUE} when
+any the arguments, applied to the returned function's
+arguments, returns \code{TRUE}.
 }
 

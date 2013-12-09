@@ -4,9 +4,9 @@
 \alias{with_localtime}
 \title{Execute code in an temporarily different environment.}
 \usage{
-  with_cpp11(code)
+with_cpp11(code)
 
-  with_localtime(new, code)
+with_localtime(new, code)
 }
 \arguments{
   \item{new}{New value.}
@@ -14,9 +14,9 @@
   \item{code}{Code to execute.}
 }
 \description{
-  \itemize{ \item \code{with_cpp11}: temporarily set
-  -std=c++11.  \item \code{with_localtime}: temporarily
-  change locale time.  }
+\itemize{ \item \code{with_cpp11}: temporarily set
+-std=c++11.  \item \code{with_localtime}: temporarily
+change locale time.  }
 }
 \examples{
 \dontrun{

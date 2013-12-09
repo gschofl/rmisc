@@ -2,17 +2,17 @@
 \alias{require.all}
 \title{Require one or more packages}
 \usage{
-  require.all(...)
+require.all(...)
 }
 \arguments{
   \item{...}{Package names (as strings).}
 }
 \description{
-  A simple wrapper for \code{\link[base]{require}} that
-  allows loading multiple packages. Issues a warning if a
-  package cannot be loaded.
+A simple wrapper for \code{\link[base]{require}} that
+allows loading multiple packages. Issues a warning if a
+package cannot be loaded.
 }
 \seealso{
-  \code{\link[base]{require}}
+\code{\link[base]{require}}
 }
 

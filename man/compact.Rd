@@ -2,13 +2,13 @@
 \alias{compact}
 \title{Filter \code{NULL} entries from a list.}
 \usage{
-  compact(x)
+compact(x)
 }
 \arguments{
   \item{x}{A list.}
 }
 \description{
-  Filter \code{NULL} entries from a list.
+Filter \code{NULL} entries from a list.
 }
 \examples{
 l <- list(a=1, b=NULL, c=NA)

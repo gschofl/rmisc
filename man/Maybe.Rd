@@ -2,17 +2,17 @@
 \alias{Maybe}
 \title{Maybe call a function}
 \usage{
-  Maybe(fn)
+Maybe(fn)
 }
 \arguments{
   \item{fn}{A function.}
 }
 \value{
-  A function.
+A function.
 }
 \description{
-  If the argument(s) to a function are missing or
-  \code{NULL}, return \code{NULL}; otherwise apply the
-  function.
+If the argument(s) to a function are missing or
+\code{NULL}, return \code{NULL}; otherwise apply the
+function.
 }
 

@@ -2,7 +2,7 @@
 \alias{Call}
 \title{Call a function with arguments provided individually}
 \usage{
-  Call(fn, ...)
+Call(fn, ...)
 }
 \arguments{
   \item{fn}{The function to call.}
@@ -10,7 +10,7 @@
   \item{\dots}{Arguments to function \code{fn}.}
 }
 \description{
-  Call a function with arguments provided individually
+Call a function with arguments provided individually
 }
 \examples{
 funs <- list("mean", "sd", "var")

@@ -2,7 +2,7 @@
 \alias{wrap}
 \title{Wrap elements}
 \usage{
-  wrap(x, wrap = "\"")
+wrap(x, wrap = "\\"")
 }
 \arguments{
   \item{x}{A vector.}
@@ -10,10 +10,10 @@
   \item{wrap}{A string to wrap around vector elements}
 }
 \value{
-  a vector with wrapped strings
+a vector with wrapped strings
 }
 \description{
-  Wrap elements
+Wrap elements
 }
 \examples{
 wrap(c("abc", "xyz"), "---")

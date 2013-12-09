@@ -2,7 +2,7 @@
 \alias{Match}
 \title{Perform a global regular expression match}
 \usage{
-  Match(pattern, str, i = NULL, perl = TRUE)
+Match(pattern, str, i = NULL, perl = TRUE)
 }
 \arguments{
   \item{pattern}{a character string containing a regular
@@ -16,12 +16,12 @@
   used}
 }
 \value{
-  a list containing the matches the matches of the
-  specifies capture group(s)
+a list containing the matches the matches of the specifies
+capture group(s)
 }
 \description{
-  Returns the match, a capture group, or an empty string if
-  the match fails
+Returns the match, a capture group, or an empty string if
+the match fails
 }
 \examples{
 ##

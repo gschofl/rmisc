@@ -2,7 +2,7 @@
 \alias{FMap}
 \title{Fast Map}
 \usage{
-  FMap(fn, ...)
+FMap(fn, ...)
 }
 \arguments{
   \item{fn}{Function to apply}
@@ -10,11 +10,11 @@
   \item{\dots}{Arguments to \code{fn}; Vectors or lists.}
 }
 \value{
-  A list
+A list
 }
 \description{
-  A thin wrapper around internal \code{\link{mapply}},
-  which can be a bit faster than base \code{\link{Map}}.
+A thin wrapper around internal \code{\link{mapply}}, which
+can be a bit faster than base \code{\link{Map}}.
 }
 \examples{
 require(microbenchmark)

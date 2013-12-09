@@ -2,7 +2,7 @@
 \alias{exists_re}
 \title{Check if a pattern occurs in a character vector}
 \usage{
-  exists_re(x, re, ...)
+exists_re(x, re, ...)
 }
 \arguments{
   \item{x}{Character vector.}
@@ -14,7 +14,7 @@
   \code{\link{grep}}.}
 }
 \description{
-  Check if a pattern occurs in a character vector
+Check if a pattern occurs in a character vector
 }
 \examples{
 exists_re(c("foo", "bar", "baz"), "^b")

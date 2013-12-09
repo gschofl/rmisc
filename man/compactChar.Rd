@@ -2,12 +2,12 @@
 \alias{compactChar}
 \title{Filter empty string entries from a list.}
 \usage{
-  compactChar(x)
+compactChar(x)
 }
 \arguments{
   \item{x}{A vector.}
 }
 \description{
-  Filter empty string entries from a list.
+Filter empty string entries from a list.
 }
 

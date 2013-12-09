@@ -2,7 +2,7 @@
 \alias{plotInheritance}
 \title{Plot the class inheritance graph}
 \usage{
-  plotInheritance(classes, subclasses = FALSE, ...)
+plotInheritance(classes, subclasses = FALSE, ...)
 }
 \arguments{
   \item{classes}{A character vector of class names.}
@@ -13,12 +13,12 @@
   \item{\dots}{Further arguments.}
 }
 \value{
-  Plots a directed graph of class inheritance, and returns
-  it invisibly
+Plots a directed graph of class inheritance, and returns it
+invisibly
 }
 \description{
-  This function is taken from the help page for
-  \code{\link[methods]{classesToAM}}.
+This function is taken from the help page for
+\code{\link[methods]{classesToAM}}.
 }
 \examples{
 \dontrun{

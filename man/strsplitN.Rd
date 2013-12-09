@@ -2,8 +2,7 @@
 \alias{strsplitN}
 \title{Split up a string in pieces and return the nth piece.}
 \usage{
-  strsplitN(x, split, n, from = "start", collapse = split,
-    ...)
+strsplitN(x, split, n, from = "start", collapse = split, ...)
 }
 \arguments{
   \item{x}{character vector to be split.}
@@ -21,10 +20,10 @@
   \code{\link{strsplit}}.}
 }
 \value{
-  A character vector.
+A character vector.
 }
 \description{
-  Split up a string in pieces and return the nth piece.
+Split up a string in pieces and return the nth piece.
 }
 \examples{
 str <- c("Lorem, ipsum, dolor", "consectetur, adipisicing, elit")

@@ -26,7 +26,7 @@ linebreak <- function(s, width = getOption("width") - 2,
     s <- as.character(s)
   }
   if (all_empty(s)) {
-    return( "" )
+    return("")
   }
   .first_iteration <- TRUE
   # set indent string to "" if a negative value is given

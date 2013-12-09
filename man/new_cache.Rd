@@ -2,12 +2,12 @@
 \alias{new_cache}
 \title{Register a caching environment}
 \usage{
-  new_cache()
+new_cache()
 }
 \description{
-  Generate a \code{cache} object, with \code{set},
-  \code{get}, \code{exists}, \code{ls}, and \code{rm}
-  methods.
+Generate a \code{cache} object, with \code{set},
+\code{get}, \code{exists}, \code{ls}, and \code{rm}
+methods.
 }
 \examples{
 cache <- new_cache()

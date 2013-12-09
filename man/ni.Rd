@@ -2,7 +2,7 @@
 \alias{\%ni\%}
 \title{Reverse Value Matching}
 \usage{
-  x \%ni\% y
+x \%ni\% y
 }
 \arguments{
   \item{x}{A vector}
@@ -10,6 +10,6 @@
   \item{y}{A vector}
 }
 \description{
-  Complement of \code{\link{\%in\%}}.
+Complement of \code{\link{\%in\%}}.
 }
 

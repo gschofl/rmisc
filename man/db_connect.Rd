@@ -2,7 +2,7 @@
 \alias{db_connect}
 \title{Connect to an existing SQLite database.}
 \usage{
-  db_connect(dbName, message = "", create = FALSE)
+db_connect(dbName, message = "", create = FALSE)
 }
 \arguments{
   \item{dbName}{Path to an SQLite database.}
@@ -14,7 +14,7 @@
   doesn't exist.}
 }
 \description{
-  Connect to an existing SQLite database.
+Connect to an existing SQLite database.
 }
 \keyword{internal}
 

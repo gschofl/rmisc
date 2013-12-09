@@ -2,8 +2,8 @@
 \alias{install_packages}
 \title{Package installer}
 \usage{
-  install_packages(pkgs, destdir = "~/R/Packages",
-    update = FALSE, ...)
+install_packages(pkgs, destdir = getOption("rmisc.pkgs"), update = FALSE,
+  ...)
 }
 \arguments{
   \item{pkgs}{Packages}
@@ -16,9 +16,9 @@
   \code{\link{biocLite}}.}
 }
 \description{
-  Wrapper around \code{\link{biocLite}}. In addition to the
-  standard functionality provided \code{biocLite}, this
-  function also download and untars the source files to
-  \code{destdir}.
+Wrapper around \code{\link{biocLite}}. In addition to the
+standard functionality provided \code{biocLite}, this
+function also download and untars the source files to
+\code{destdir}.
 }
 

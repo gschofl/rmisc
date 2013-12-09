@@ -4,18 +4,18 @@
 \alias{is.empty}
 \title{Is an object empty?}
 \usage{
-  is.empty(x)
+is.empty(x)
 
-  are_empty(x)
+are_empty(x)
 
-  all_empty(x)
+all_empty(x)
 }
 \arguments{
   \item{x}{object to test}
 }
 \description{
-  Which elements in a list are empty? Are all elements in a
-  list of empty?
+Which elements in a list are empty? Are all elements in a
+list of empty?
 }
 \examples{
 is.empty(NULL)
@@ -27,8 +27,8 @@ all_empty(NULL)
 all_empty(list(NULL, NULL, character()))
 }
 \seealso{
-  Other tests: \code{\link{all_scalar}},
-  \code{\link{are_scalar}}, \code{\link{has_command}},
-  \code{\link{is.scalar}}
+Other tests: \code{\link{all_scalar}},
+\code{\link{are_scalar}}, \code{\link{is.scalar}};
+\code{\link{has_command}}
 }
 

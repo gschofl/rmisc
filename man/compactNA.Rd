@@ -2,12 +2,12 @@
 \alias{compactNA}
 \title{Filter NA entries from a list.}
 \usage{
-  compactNA(x)
+compactNA(x)
 }
 \arguments{
   \item{x}{A vector.}
 }
 \description{
-  Filter NA entries from a list.
+Filter NA entries from a list.
 }
 

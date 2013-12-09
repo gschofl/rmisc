@@ -2,7 +2,7 @@
 \alias{count_re}
 \title{Count how often a pattern occurs in a character vector.}
 \usage{
-  count_re(x, re, ...)
+count_re(x, re, ...)
 }
 \arguments{
   \item{x}{Character vector.}
@@ -14,7 +14,7 @@
   \code{\link{gregexpr}}.}
 }
 \description{
-  Count how often a pattern occurs in a character vector.
+Count how often a pattern occurs in a character vector.
 }
 \examples{
 count_re(c("foo", "bar", "baz"), "^b")

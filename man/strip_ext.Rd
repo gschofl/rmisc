@@ -2,7 +2,7 @@
 \alias{strip_ext}
 \title{Strip file extensions}
 \usage{
-  strip_ext(file, sep = "\\.", level = 0)
+strip_ext(file, sep = "\\\\.", level = 0)
 }
 \arguments{
   \item{file}{The file name(s).}
@@ -15,7 +15,7 @@
   the last two, and so on.}
 }
 \description{
-  Strips the extension (or an arbitrary tag) from a file
-  name.
+Strips the extension (or an arbitrary tag) from a file
+name.
 }
 

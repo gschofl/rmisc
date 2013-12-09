@@ -2,7 +2,7 @@
 \alias{split_path}
 \title{Split a file path and return the nth piece(s)}
 \usage{
-  split_path(path, n = 1, from = "end", ...)
+split_path(path, n = 1, from = "end", ...)
 }
 \arguments{
   \item{path}{Vector of file paths.}
@@ -16,6 +16,6 @@
   \code{\link{strsplitN}}.}
 }
 \description{
-  Split a file path and return the nth piece(s)
+Split a file path and return the nth piece(s)
 }
 

@@ -2,7 +2,7 @@
 \alias{pad}
 \title{Pad a string}
 \usage{
-  pad(x, n = 10, where = "left", pad = " ")
+pad(x, n = 10, where = "left", pad = " ")
 }
 \arguments{
   \item{x}{Input character vector.}
@@ -14,9 +14,9 @@
   \item{pad}{Padding character.}
 }
 \value{
-  A character vector.
+A character vector.
 }
 \description{
-  Pad a string
+Pad a string
 }
 

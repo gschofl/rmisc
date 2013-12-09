@@ -2,7 +2,7 @@
 \alias{Failwith}
 \title{Fail with a default value}
 \usage{
-  Failwith(default = NULL, fn, verbose = TRUE)
+Failwith(default = NULL, fn, verbose = TRUE)
 }
 \arguments{
   \item{default}{Default value.}
@@ -12,6 +12,6 @@
   \item{verbose}{Show error message}
 }
 \description{
-  Fail with a default value
+Fail with a default value
 }
 
