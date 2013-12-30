@@ -16,6 +16,6 @@ usplit(x, split, ...)
 unlist(strsplit(x, split, ...))
 }
 \examples{
-usp("a.b.c", ".", fixed = TRUE)
+usplit("a.b.c", ".", fixed = TRUE)
 }
 

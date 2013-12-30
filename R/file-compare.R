@@ -36,7 +36,7 @@ file_compare <- function(file, url, time = TRUE, size = FALSE, .message = TRUE) 
   }
   
   with_localtime("C", {
-    header <- usp(h$value(), "\r\n")
+    header <- usplit(h$value(), "\r\n")
     remote_time <- grep("Last-Modified: ", header, value=TRUE)
     remote_time <- as.POSIXct(strptime(sub("Last-Modified: ", "", remote_time),
                                        format="%a, %d %b %Y %H:%M:%S", tz="GMT"))

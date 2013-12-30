@@ -109,7 +109,7 @@ strsplitN <- function (x, split, n, from = "start", collapse = split, ...) {
   assert_that(is.vector(x))
   from <- match.arg(from, c("start", "end"))
   xs <- strsplit(x, split, ...)
-  end <- vapply(xs, length, integer(1))
+  end <- vapply(xs, length, 0L)
   
   if (from == "end") {
     end <- end + 1L
@@ -154,8 +154,7 @@ strip_ext <- stripExt <- function (file, sep="\\.", level=0) {
   assert_that(!missing(file), is.character(file))
   if (level == 0L) {
     # level 0 ditches everything that comes after a dot
-    vapply(file, function(x) usp(x, sep)[1L], character(1),
-           USE.NAMES = FALSE)
+    vapply(file, function(x) usplit(x, sep)[1L], "", USE.NAMES = FALSE)
   } else if (level > 0L) {
     # level 1 removes the very last extension: file.xyz.abc > file.xyz
     # level 2: file.xyz.abc > file
@@ -165,7 +164,7 @@ strip_ext <- stripExt <- function (file, sep="\\.", level=0) {
     # reset zero counts to 1
     count <- ifelse(count < 1, 1, count)
     unlist(Map(function(x, lvl) {
-      paste0(usp(x, sep)[ seq_len(lvl) ], collapse = gsub('\\', '', sep, fixed=TRUE))
+      paste0(usplit(x, sep)[seq_len(lvl)], collapse=gsub('\\', '', sep, fixed=TRUE))
     }, x=file, lvl=count, USE.NAMES=FALSE))
   } else {
     stop(sprintf("Level %s is invalid. Must be 0, 1, 2, ...", sQuote(level)))
@@ -179,12 +178,12 @@ strip_ext <- stripExt <- function (file, sep="\\.", level=0) {
 #' @param replacement replacement extension
 #'
 #' @export
-replace_ext <- replaceExt <- function (file, replacement="", sep="\\.", level=0) {
+replace_ext <- replaceExt <- function(file, replacement="", sep="\\.", level=0) {
   if (nchar(replacement) == 0L)
     sep=""
   # strip a leading "." from replacement
   if (grepl("^\\.", replacement)) {
-    replacement <- usp(replacement, split="^\\.")[2L]
+    replacement <- usplit(replacement, split="^\\.")[2L]
   }
   paste(strip_ext(file=file, sep=sep, level=level), replacement,
         sep=gsub("\\", "", sep, fixed=TRUE))  
@@ -200,10 +199,11 @@ replace_ext <- replaceExt <- function (file, replacement="", sep="\\.", level=0)
 #' @examples
 #' exists_re(c("foo", "bar", "baz"), "^b")
 exists_re <- function(x, re, ...) {
-  if (length(x) == 1)
+  if (length(x) == 1) {
     grepl(re, x, ...)
-  else
+  } else {
     vapply(x, grepl, pattern = re, ..., FUN.VALUE=logical(1), USE.NAMES=FALSE)
+  }
 }
 
 
@@ -216,8 +216,7 @@ exists_re <- function(x, re, ...) {
 #' @examples
 #' count_re(c("foo", "bar", "baz"), "^b")
 count_re <- function(x, re, ...) {
-  vapply(gregexpr(re, x, ...), function (x) sum(x > 0L), numeric(1L),
-  USE.NAMES=FALSE)
+  vapply(gregexpr(re, x, ...), function(x) sum(x > 0L), 0, USE.NAMES=FALSE)
 }
 
 
@@ -229,7 +228,7 @@ count_re <- function(x, re, ...) {
 #' @param \dots Arguments passed on to \code{\link{strsplit}}.
 #' @export
 #' @examples
-#' usp("a.b.c", ".", fixed = TRUE)
+#' usplit("a.b.c", ".", fixed = TRUE)
 ## ## [1] "a" "b" "c"
 usplit <- Compose("unlist", "strsplit")
 
