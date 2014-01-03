@@ -1,4 +1,4 @@
-#' @include compose.R
+#' @include functional.R
 NULL
 
 

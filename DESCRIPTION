@@ -22,15 +22,13 @@ Imports:
     XML
 Collate:
     'RcppExports.R'
-    'partial.R'
+    'compact.R'
+    'functional.R'
     'ops.R'
     'assertions.R'
     'cache.R'
-    'compact.R'
-    'compose.R'
     'file-compare.R'
     'flatten.R'
-    'functional.R'
     'install.R'
     'linebreak.R'
     'misc.R'

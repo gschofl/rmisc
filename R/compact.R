@@ -1,4 +1,4 @@
-#' @include partial.R
+#' @include assertions.R
 NULL
 
 #' Filter \code{NULL} entries from a list.
@@ -32,9 +32,10 @@ compactChar <- function(x) {
 #' @param x A vector.
 #' @export
 compactNA <- function(x) {
-  filter <- Sequence(suppressWarnings%.%is.na, function(...) ... %||% FALSE)
-  x[!vapply(x, filter, FALSE, USE.NAMES=FALSE)]
+  filterNA <- function(x) suppressWarnings(is.na(x)) %||% FALSE
+  x[!vapply(x, filterNA, FALSE, USE.NAMES=FALSE)]
 }
+
 
 #' Filter empty entries from a list.
 #' 

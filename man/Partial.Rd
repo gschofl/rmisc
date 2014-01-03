@@ -1,6 +1,6 @@
 \name{Partial}
 \alias{Partial}
-\title{Partial application (currying)}
+\title{Partial function application.}
 \usage{
 Partial(fn, ..., .env = parent.frame())
 }
@@ -14,6 +14,6 @@ Partial(fn, ..., .env = parent.frame())
   Defaults to \code{\link{parent.frame}}.}
 }
 \description{
-Partial application (currying)
+Partial function application.
 }
 

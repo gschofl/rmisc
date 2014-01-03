@@ -1,7 +1,7 @@
 \name{Compose}
 \alias{Compose}
 \alias{\%.\%}
-\title{Compose (multiple) functions}
+\title{Compose functions}
 \usage{
 Compose(...)
 

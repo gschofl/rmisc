@@ -1,4 +1,4 @@
-#' @include partial.R
+#' @include functional.R
 NULL
 
 #' @export
