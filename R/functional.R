@@ -14,11 +14,11 @@ NULL
 Partial <- function(fn, ..., .env = parent.frame()) {
   assert_that(is.function(fn))
   fcall <- substitute(fn(...))
-  if (!is.primitive(fn))
+  if (!is.primitive(fn)) {
     fcall <- match.call(fn, fcall)  
+  }
   fcall[[length(fcall) + 1]] <- quote(...)
   args <- list("..." = quote(expr = ))
-  
   eval(call("function", as.pairlist(args), fcall), .env)
 }
 
@@ -38,10 +38,10 @@ Partial <- function(fn, ..., .env = parent.frame()) {
 #'  
 #'  ## usefull in lapply constructs
 #'  sapply(mtcars, length %.% unique)
-Compose <- function (...) {
+Compose <- function(...) {
   fns <- lapply(compact(list(...)), match.fun)
   len <- length(fns)
-  function (...) {
+  function(...) {
     res <- Call(fns[[len]], ...)
     for (fn in rev(fns[-len]))
       res <- fn(res)
@@ -66,11 +66,11 @@ Compose <- function (...) {
 #'
 #' @param \dots The functions to be composed.
 #' @export
-Sequence <- function (...) {
+Sequence <- function(...) {
   fns <- lapply(list(...), match.fun)
-  function (...) {
+  function(...) {
     res <- Call(fns[[1]], ...)
-    for (fn in fns[-1])
+    for(fn in fns[-1])
       res <- fn(res)
     res
   }
@@ -93,7 +93,7 @@ Sequence <- function (...) {
 #' Map(`*`, 1:100, 101:200),
 #' FMap(`*`, 1:100, 101:200),
 #' (1:100)*(101:200))
-FMap <- function (fn, ...) {
+FMap <- function(fn, ...) {
   fn <- match.fun(fn)
   dots <- list(...)
   .mapply(fn, dots, MoreArgs = NULL)
@@ -108,8 +108,8 @@ FMap <- function (fn, ...) {
 #' @param fn A function.
 #' @return A function.
 #' @export
-Maybe <- function (fn) {
-  function (x, ...) {
+Maybe <- function(fn) {
+  function(x, ...) {
     if (missing(x) || is.null(x))
       return(NULL)
     fn(x, ...)
@@ -124,10 +124,11 @@ Maybe <- function (fn) {
 #' @param verbose Show error message
 #' 
 #' @export
-Failwith <- function(default = NULL, fn, verbose = TRUE) {
-  function (...) {
+FailWith <- function(default = NULL, fn, verbose = TRUE) {
+  fn <- match.fun(fn)
+  function(...) {
     out <- default
-    tryCatch(out <- fn(...), error = function (e) {
+    tryCatch(out <- fn(...), error = function(e) {
       if (verbose) {
         message("Error caught: ", sQuote(e$message))
       } else {
@@ -135,6 +136,37 @@ Failwith <- function(default = NULL, fn, verbose = TRUE) {
       }
     })
     out
+  }
+}
+
+
+#' Delay function call
+#' 
+#' @param delay delay in seconds.
+#' @param fn function to call
+#' @export
+DelayBy <- function(delay, fn) {
+  fn <- match.fun(fn)
+  function(...) {
+    Sys.sleep(delay)
+    fn(...)
+  }
+}
+
+#' Print a dot ever nth function call
+#' 
+#' @param n when to print a dot
+#' @param fn function call
+#' @export
+DotEvery <- function(n, fn) {
+  i <- 1
+  fn <- match.fun(fn)
+  function(...) {
+    if (i %% n == 0) {
+      cat('.')
+    }
+    i <<- i + 1
+    fn(...)
   }
 }
 

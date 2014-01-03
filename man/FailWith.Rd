@@ -1,8 +1,8 @@
-\name{Failwith}
-\alias{Failwith}
+\name{FailWith}
+\alias{FailWith}
 \title{Fail with a default value}
 \usage{
-Failwith(default = NULL, fn, verbose = TRUE)
+FailWith(default = NULL, fn, verbose = TRUE)
 }
 \arguments{
   \item{default}{Default value.}
