@@ -14,9 +14,8 @@ NULL
 Partial <- function(fn, ..., .env = parent.frame()) {
   assert_that(is.function(fn))
   fcall <- substitute(fn(...))
-  if (!is.primitive(fn)) {
+  if (!is.primitive(fn))
     fcall <- match.call(fn, fcall)  
-  }
   fcall[[length(fcall) + 1]] <- quote(...)
   args <- list("..." = quote(expr = ))
   eval(call("function", as.pairlist(args), fcall), .env)
@@ -124,7 +123,7 @@ Maybe <- function(fn) {
 #' @param verbose Show error message
 #' 
 #' @export
-FailWith <- function(default = NULL, fn, verbose = TRUE) {
+Fail_with <- function(default = NULL, fn, verbose = TRUE) {
   fn <- match.fun(fn)
   function(...) {
     out <- default
@@ -145,7 +144,7 @@ FailWith <- function(default = NULL, fn, verbose = TRUE) {
 #' @param delay delay in seconds.
 #' @param fn function to call
 #' @export
-DelayBy <- function(delay, fn) {
+Delay_by <- function(delay, fn) {
   fn <- match.fun(fn)
   function(...) {
     Sys.sleep(delay)
@@ -158,7 +157,7 @@ DelayBy <- function(delay, fn) {
 #' @param n when to print a dot
 #' @param fn function call
 #' @export
-DotEvery <- function(n, fn) {
+Dot_every <- function(n, fn) {
   i <- 1
   fn <- match.fun(fn)
   function(...) {
@@ -167,6 +166,30 @@ DotEvery <- function(n, fn) {
     }
     i <<- i + 1
     fn(...)
+  }
+}
+
+
+#' Log a time stamp and a message to file everytime a function is run
+#' 
+#' @param path path to log file
+#' @param message logging message
+#' @param fn function
+#' @export
+Log_to <- function(path, message="", fn) {
+  fn <- match.fun(fn)
+  now <- function(accuracy = 4) {
+    paste0("-- ", format(Sys.time(), paste0("%M:%OS", accuracy)), " -- ")
+  }
+  if (missing(path) || is.null(path)) {
+    function(...)
+      fn(...)
+  } else {
+    assert_that(file.exists(path))
+    function(...) {
+      cat(now(), message, sep="", file=path, append=TRUE)
+      fn(...)
+    }
   }
 }
 

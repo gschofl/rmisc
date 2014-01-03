@@ -1,8 +1,8 @@
-\name{DelayBy}
-\alias{DelayBy}
+\name{Delay_by}
+\alias{Delay_by}
 \title{Delay function call}
 \usage{
-DelayBy(delay, fn)
+Delay_by(delay, fn)
 }
 \arguments{
   \item{delay}{delay in seconds.}
