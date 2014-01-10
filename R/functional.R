@@ -51,10 +51,10 @@ Compose <- function(...) {
 
 #' @rdname Compose
 #' @export
-"%.%" <- function(fn1, fn2) {
-  fn1 <- match.fun(fn1)
-  fn2 <- match.fun(fn2)
-  function(...) fn1(fn2(...))
+"%.%" <- function(g, f) {
+  g <- match.fun(g)
+  f <- match.fun(f)
+  function(...) g(f(...))
 }
 
 

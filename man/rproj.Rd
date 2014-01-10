@@ -18,7 +18,7 @@ Quickly open a package (ar any directory in the search
 path) as an RStudio project. The search paths are defined
 by the custom options \code{rmisc.pkgs}, \code{rmisc.proj},
 and \code{rmisc.devel}, which I have preset in
-\code{.Rprofile}.  If none of these is defined \code{rproj}
+\code{.Rprofile}. If none of these is defined \code{rproj}
 will fall back to the current working directory.
 }
 \seealso{

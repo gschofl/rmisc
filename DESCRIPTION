@@ -20,6 +20,8 @@ Imports:
     RCurl,
     RSQLite,
     XML
+Suggests:
+    ProjectTemplate
 Collate:
     'RcppExports.R'
     'compact.R'
@@ -32,6 +34,7 @@ Collate:
     'install.R'
     'linebreak.R'
     'misc.R'
+    'project.R'
     'sqlite-utils.R'
     'string-utils.R'
     'strmatch.R'

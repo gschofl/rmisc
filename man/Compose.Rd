@@ -5,7 +5,7 @@
 \usage{
 Compose(...)
 
-fn1 \%.\% fn2
+g \%.\% f
 }
 \arguments{
   \item{\dots}{The functions to be composed.}
