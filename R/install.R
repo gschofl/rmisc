@@ -1,6 +1,10 @@
 #' @include functional.R
 NULL
 
+bioc <- function() {
+  source("http://bioconductor.org/biocLite.R")
+  biocLite(pkgs = "BiocInstaller", suppressUpdates = TRUE, suppressAutoUpdate = TRUE)
+}
 
 #' Package installer
 #' 
@@ -16,6 +20,7 @@ NULL
 #' @export
 install_packages <- function(pkgs, destdir = getOption("rmisc.pkgs"), update = FALSE, ...) {
   assert_that(!missing(pkgs), is.character(pkgs))
+  if (!require("BiocInstaller", character.only = TRUE)) bioc()
   BiocInstaller::biocLite(pkgs, suppressUpdates=TRUE, destdir=destdir, ...)
   
   if (update) {

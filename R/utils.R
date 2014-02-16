@@ -1,3 +1,4 @@
+#' @import Rcpp
 #' @useDynLib rmisc
 NULL
 
@@ -11,13 +12,13 @@ NULL
 #' Do not use factors: they will be converted to their internal integer
 #' representations.
 #' 
-#' @param x A list of data frames.
+#' @param L A list of data frames.
 #' @return A data frame.
 #' @export
-rBind <- function (x) {
+rBind <- function(L) {
   n_col <- length(x[[1L]])
   col_classes <- vapply(x[[1L]], class, character(1L), USE.NAMES=FALSE)
-  res <- .Call("rmisc_bind_list", x, n_col, col_classes, PACKAGE = "rmisc")
+  res <- .Call('rmisc_bind_list', PACKAGE = 'rmisc', L, n_col, col_classes)
   attr(res, "row.names")  <- seq_len(length(res[[1L]]))
   res
 }
@@ -123,7 +124,7 @@ NULL
 
 #' @rdname with
 #' @export
-with_cpp11 <- function (code) {
+with_cpp11 <- function(code) {
   old <- Sys.getenv("PKG_CXXFLAGS", names=TRUE)
   Sys.setenv("PKG_CXXFLAGS"="-std=c++11")
   on.exit(do.call("Sys.setenv", as.list(old)))
@@ -133,7 +134,7 @@ with_cpp11 <- function (code) {
 
 #' @rdname with
 #' @export
-with_localtime <- function (new, code) {
+with_localtime <- function(new, code) {
   old <- Sys.getlocale("LC_TIME")
   Sys.setlocale("LC_TIME", new)
   on.exit(Sys.setlocale("LC_TIME", old))
