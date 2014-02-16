@@ -40,8 +40,6 @@ install_packages <- function(pkgs, destdir = getOption("rmisc.pkgs"), update = F
 #' extract the packages in \code{destdir}, and install
 #' 
 #'  @param destdir Where the source code goes
-#'  @importFrom BiocInstaller biocValid
-#'  @importFrom BiocInstaller biocLite
 #'  @export
 update_packages <- function(destdir = getOption("rmisc.pkgs")) {
   if (!is.null(destdir)) {
