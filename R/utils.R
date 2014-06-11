@@ -1,29 +1,3 @@
-#' @import Rcpp
-#' @useDynLib rmisc
-NULL
-
-#' Bind a list of data frames
-#' 
-#' Bind a list of data.frames by row. Equivalent to \code{do.call( "rbind", x)},
-#' but faster. This function performs \bold{no} checking whatsoever! Each
-#' component of the list must be a \code{data.frame} with the same number of
-#' columns and with all columns of equivalent class.
-#' 
-#' Do not use factors: they will be converted to their internal integer
-#' representations.
-#' 
-#' @param L A list of data frames.
-#' @return A data frame.
-#' @export
-rBind <- function(L) {
-  n_col <- length(x[[1L]])
-  col_classes <- vapply(x[[1L]], class, character(1L), USE.NAMES=FALSE)
-  res <- .Call('rmisc_bind_list', PACKAGE = 'rmisc', L, n_col, col_classes)
-  attr(res, "row.names")  <- seq_len(length(res[[1L]]))
-  res
-}
-
-
 #' @export
 merge_list <- function (x, y, ...) {
   if (length(x) == 0) return(y)
@@ -82,6 +56,7 @@ nunique <- function(x, ...) {
   }
 }
 
+
 #' Purge rows containing NAs from a data frame
 #' 
 #' returns the supplied colums without rows containing NAs as a data frames
@@ -121,6 +96,7 @@ purgeNA <- function (df, cols) {
 #' with_cpp11(devtools::build(rmisc))
 #' }
 NULL
+
 
 #' @rdname with
 #' @export

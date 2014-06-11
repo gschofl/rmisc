@@ -50,7 +50,7 @@ new_cache <- function () {
   )
 }
 
-#' @S3method print cache
+#' @export
 print.cache <- function (object) {
   lo <- length(object$ls())
   showme <- sprintf("A datacache containing %s object%s.",
